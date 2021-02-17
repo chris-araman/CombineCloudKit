@@ -1,5 +1,11 @@
+# macOS
 .DS_Store
-/.build
+
+# Swift Package Manager
+/.build/
 /Packages
 /*.xcodeproj
 xcuserdata/
+
+# Xcode
+/build/
