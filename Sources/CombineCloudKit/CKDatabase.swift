@@ -75,7 +75,6 @@ extension CKDatabase {
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
-        // TODO: Might this send a second failure completion? What happens if it does?
         subject.send(completion: .failure(error!))
         return
       }
@@ -110,7 +109,6 @@ extension CKDatabase {
     }
     operation.fetchRecordsCompletionBlock = { _, error in
       guard error == nil else {
-        // TODO: Might this send a second failure completion? What happens if it does?
         subject.send(completion: .failure(error!))
         return
       }
