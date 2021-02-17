@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: sudo xcode-select --switch /Applications/Xcode_12.4.app
+    - name: Build
+      run: xcrun swift build  --verbose
+    - name: Test with Address Sanitizer
+      run: xcrun swift test --verbose --sanitize=address
+    - name: Test with Thread Sanitizer
+      run: xcrun swift test --verbose --sanitize=thread
+    - name: Test with Undefined Behavior Sanitizer
+      run: xcrun swift test --verbose --sanitize=undefined
+
