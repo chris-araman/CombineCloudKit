@@ -1,6 +1,5 @@
-import XCTest
-
 import CombineCloudKitTests
+import XCTest
 
 var tests = [XCTestCaseEntry]()
 tests += CombineCloudKitTests.allTests()
