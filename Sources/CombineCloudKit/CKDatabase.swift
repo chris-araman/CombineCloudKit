@@ -161,8 +161,8 @@ extension CKDatabase {
     _ cursor: CKQueryOperation.Cursor?,
     _ error: Error?
   ) {
-    if let error = error {
-      subject.send(completion: .failure(error))
+    guard error == nil else {
+      subject.send(completion: .failure(error!))
       return
     }
 
