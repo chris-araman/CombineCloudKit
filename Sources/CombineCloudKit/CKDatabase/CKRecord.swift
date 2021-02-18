@@ -46,7 +46,7 @@ extension CKDatabase {
     records: [CKRecord],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord, Error> {
-    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).0
+    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).1
   }
 
   public func delete(
@@ -85,7 +85,7 @@ extension CKDatabase {
     recordIDs: [CKRecord.ID],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic).1
+    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic).2
   }
 
   public func modify(
@@ -93,15 +93,20 @@ extension CKDatabase {
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true
   ) -> (
+    AnyPublisher<(CKRecord, Double), Error>,
     AnyPublisher<CKRecord, Error>,
     AnyPublisher<CKRecord.ID, Error>
   ) {
+    let savedRecordProgressSubject = PassthroughSubject<(CKRecord, Double), Error>()
     let savedRecordSubject = PassthroughSubject<CKRecord, Error>()
     let deletedRecordIDSubject = PassthroughSubject<CKRecord.ID, Error>()
     let operation = CKModifyRecordsOperation(
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
     operation.isAtomic = isAtomic
+    operation.perRecordProgressBlock = { record, progress in
+      savedRecordProgressSubject.send((record, progress))
+    }
     operation.perRecordCompletionBlock = { record, error in
       guard error == nil else {
         savedRecordSubject.send(completion: .failure(error!))
@@ -112,6 +117,7 @@ extension CKDatabase {
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
+        savedRecordProgressSubject.send(completion: .failure(error!))
         savedRecordSubject.send(completion: .failure(error!))
         deletedRecordIDSubject.send(completion: .failure(error!))
         return
@@ -123,6 +129,7 @@ extension CKDatabase {
         }
       }
 
+      savedRecordProgressSubject.send(completion: .finished)
       savedRecordSubject.send(completion: .finished)
       deletedRecordIDSubject.send(completion: .finished)
     }
@@ -130,6 +137,7 @@ extension CKDatabase {
     add(operation)
 
     return (
+      savedRecordProgressSubject.eraseToAnyPublisher(),
       savedRecordSubject.eraseToAnyPublisher(),
       deletedRecordIDSubject.eraseToAnyPublisher()
     )
@@ -168,29 +176,42 @@ extension CKDatabase {
   public func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
-    let subject = PassthroughSubject<CKRecord, Error>()
+  ) -> (
+    AnyPublisher<(CKRecord.ID, Double), Error>,
+    AnyPublisher<CKRecord, Error>
+  ) {
+    let progressSubject = PassthroughSubject<(CKRecord.ID, Double), Error>()
+    let recordSubject = PassthroughSubject<CKRecord, Error>()
     let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
     operation.desiredKeys = desiredKeys
+    operation.perRecordProgressBlock = { recordID, progress in
+      progressSubject.send((recordID, progress))
+    }
     operation.perRecordCompletionBlock = { record, _, error in
       guard let record = record, error == nil else {
-        subject.send(completion: .failure(error!))
+        progressSubject.send(completion: .failure(error!))
+        recordSubject.send(completion: .failure(error!))
         return
       }
 
-      subject.send(record)
+      recordSubject.send(record)
     }
     operation.fetchRecordsCompletionBlock = { _, error in
       guard error == nil else {
-        subject.send(completion: .failure(error!))
+        progressSubject.send(completion: .failure(error!))
+        recordSubject.send(completion: .failure(error!))
         return
       }
 
-      subject.send(completion: .finished)
+      progressSubject.send(completion: .finished)
+      recordSubject.send(completion: .finished)
     }
     add(operation)
 
-    return subject.eraseToAnyPublisher()
+    return (
+      progressSubject.eraseToAnyPublisher(),
+      recordSubject.eraseToAnyPublisher()
+    )
   }
 
   public func fetchCurrentUserRecord(
