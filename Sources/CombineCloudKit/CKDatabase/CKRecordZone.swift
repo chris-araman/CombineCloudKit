@@ -17,7 +17,8 @@ extension CKDatabase {
     Future { promise in
       if withHighPriority {
         let operation = CKModifyRecordZonesOperation(
-          recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil)
+          recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil
+        )
         operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
           guard let savedRecordZone = savedRecordZones?.first, error == nil else {
             promise(.failure(error!))
@@ -46,7 +47,8 @@ extension CKDatabase {
   ) -> Future<[CKRecordZone], Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: recordZones, recordZoneIDsToDelete: nil)
+        recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
+      )
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
         guard let savedRecordZones = savedRecordZones, error == nil else {
           promise(.failure(error!))
@@ -67,7 +69,8 @@ extension CKDatabase {
     Future { promise in
       if withHighPriority {
         let operation = CKModifyRecordZonesOperation(
-          recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID])
+          recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID]
+        )
         operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
           guard let deletedRecordZoneID = deletedRecordZoneIDs?.first, error == nil else {
             promise(.failure(error!))
@@ -96,7 +99,8 @@ extension CKDatabase {
   ) -> Future<[CKRecordZone.ID], Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs)
+        recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
+      )
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
         guard let deletedRecordZoneIDs = deletedRecordZoneIDs, error == nil else {
           promise(.failure(error!))

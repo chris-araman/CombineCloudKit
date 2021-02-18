@@ -24,7 +24,7 @@ extension CKDatabase {
             promise(.failure(error!))
             return
           }
-          
+
           promise(.success(record))
         }
 
@@ -63,7 +63,7 @@ extension CKDatabase {
             promise(.failure(error!))
             return
           }
-          
+
           promise(.success(recordID))
         }
 

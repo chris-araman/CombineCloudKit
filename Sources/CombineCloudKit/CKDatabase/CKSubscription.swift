@@ -25,7 +25,7 @@ extension CKDatabase {
             promise(.failure(error!))
             return
           }
-          
+
           promise(.success(subscription))
         }
 
@@ -56,7 +56,7 @@ extension CKDatabase {
           promise(.failure(error!))
           return
         }
-        
+
         promise(.success(subscriptions))
       }
 
@@ -79,7 +79,7 @@ extension CKDatabase {
             promise(.failure(error!))
             return
           }
-          
+
           promise(.success(subscriptionID))
         }
 
@@ -110,7 +110,7 @@ extension CKDatabase {
           promise(.failure(error!))
           return
         }
-        
+
         promise(.success(subscriptionIDs))
       }
 
@@ -127,7 +127,8 @@ extension CKDatabase {
         subscriptionsToSave: subscriptionsToSave,
         subscriptionIDsToDelete: subscriptionIDsToDelete
       )
-      operation.modifySubscriptionsCompletionBlock = { savedSubscriptions, deletedSubscriptionIDs, error in
+      operation.modifySubscriptionsCompletionBlock = {
+        savedSubscriptions, deletedSubscriptionIDs, error in
         guard error == nil else {
           promise(.failure(error!))
           return
@@ -163,7 +164,7 @@ extension CKDatabase {
             promise(.failure(error!))
             return
           }
-          
+
           promise(.success(subscription))
         }
       }
@@ -195,7 +196,7 @@ extension CKDatabase {
           promise(.failure(error!))
           return
         }
-        
+
         promise(.success(subscriptions))
       }
     }
