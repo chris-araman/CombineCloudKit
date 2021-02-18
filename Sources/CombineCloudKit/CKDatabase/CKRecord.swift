@@ -46,9 +46,7 @@ extension CKDatabase {
     records: [CKRecord],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord, Error> {
-    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic)
-      .map { record, _ in record! }
-      .eraseToAnyPublisher()
+    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).0
   }
 
   public func delete(
@@ -87,46 +85,54 @@ extension CKDatabase {
     recordIDs: [CKRecord.ID],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic)
-      .map { _, recordID in recordID! }
-      .eraseToAnyPublisher()
+    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic).1
   }
 
   public func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true
-  ) -> AnyPublisher<(CKRecord?, CKRecord.ID?), Error> {
-    let subject = PassthroughSubject<(CKRecord?, CKRecord.ID?), Error>()
+  ) -> (
+    AnyPublisher<CKRecord, Error>,
+    AnyPublisher<CKRecord.ID, Error>
+  ) {
+    let savedRecordSubject = PassthroughSubject<CKRecord, Error>()
+    let deletedRecordIDSubject = PassthroughSubject<CKRecord.ID, Error>()
     let operation = CKModifyRecordsOperation(
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
     operation.isAtomic = isAtomic
     operation.perRecordCompletionBlock = { record, error in
       guard error == nil else {
-        subject.send(completion: .failure(error!))
+        savedRecordSubject.send(completion: .failure(error!))
         return
       }
 
-      subject.send((record, nil))
+      savedRecordSubject.send(record)
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
-        subject.send(completion: .failure(error!))
+        savedRecordSubject.send(completion: .failure(error!))
+        deletedRecordIDSubject.send(completion: .failure(error!))
         return
       }
 
       if let deletedRecordIDs = deletedRecordIDs {
         for recordID in deletedRecordIDs {
-          subject.send((nil, recordID))
+          deletedRecordIDSubject.send(recordID)
         }
       }
 
-      subject.send(completion: .finished)
+      savedRecordSubject.send(completion: .finished)
+      deletedRecordIDSubject.send(completion: .finished)
     }
 
     add(operation)
-    return subject.eraseToAnyPublisher()
+
+    return (
+      savedRecordSubject.eraseToAnyPublisher(),
+      deletedRecordIDSubject.eraseToAnyPublisher()
+    )
   }
 
   public func fetch(
