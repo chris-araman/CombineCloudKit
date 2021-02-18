@@ -46,7 +46,7 @@ extension CKDatabase {
     records: [CKRecord],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord, Error> {
-    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).1
+    modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).saved
   }
 
   public func delete(
@@ -85,61 +85,63 @@ extension CKDatabase {
     recordIDs: [CKRecord.ID],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic).2
+    modify(recordsToSave: nil, recordIDsToDelete: recordIDs, atomically: isAtomic).deleted
+  }
+
+  public struct CCKModifyRecordPublishers {
+    let progress: AnyPublisher<(CKRecord, Double), Error>
+    let saved: AnyPublisher<CKRecord, Error>
+    let deleted: AnyPublisher<CKRecord.ID, Error>
   }
 
   public func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true
-  ) -> (
-    AnyPublisher<(CKRecord, Double), Error>,
-    AnyPublisher<CKRecord, Error>,
-    AnyPublisher<CKRecord.ID, Error>
-  ) {
-    let savedRecordProgressSubject = PassthroughSubject<(CKRecord, Double), Error>()
-    let savedRecordSubject = PassthroughSubject<CKRecord, Error>()
-    let deletedRecordIDSubject = PassthroughSubject<CKRecord.ID, Error>()
+  ) -> CCKModifyRecordPublishers {
+    let progressSubject = PassthroughSubject<(CKRecord, Double), Error>()
+    let savedSubject = PassthroughSubject<CKRecord, Error>()
+    let deletedSubject = PassthroughSubject<CKRecord.ID, Error>()
     let operation = CKModifyRecordsOperation(
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
     operation.isAtomic = isAtomic
     operation.perRecordProgressBlock = { record, progress in
-      savedRecordProgressSubject.send((record, progress))
+      progressSubject.send((record, progress))
     }
     operation.perRecordCompletionBlock = { record, error in
       guard error == nil else {
-        savedRecordSubject.send(completion: .failure(error!))
+        savedSubject.send(completion: .failure(error!))
         return
       }
 
-      savedRecordSubject.send(record)
+      savedSubject.send(record)
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
-        savedRecordProgressSubject.send(completion: .failure(error!))
-        savedRecordSubject.send(completion: .failure(error!))
-        deletedRecordIDSubject.send(completion: .failure(error!))
+        progressSubject.send(completion: .failure(error!))
+        savedSubject.send(completion: .failure(error!))
+        deletedSubject.send(completion: .failure(error!))
         return
       }
 
       if let deletedRecordIDs = deletedRecordIDs {
         for recordID in deletedRecordIDs {
-          deletedRecordIDSubject.send(recordID)
+          deletedSubject.send(recordID)
         }
       }
 
-      savedRecordProgressSubject.send(completion: .finished)
-      savedRecordSubject.send(completion: .finished)
-      deletedRecordIDSubject.send(completion: .finished)
+      progressSubject.send(completion: .finished)
+      savedSubject.send(completion: .finished)
+      deletedSubject.send(completion: .finished)
     }
 
     add(operation)
 
-    return (
-      savedRecordProgressSubject.eraseToAnyPublisher(),
-      savedRecordSubject.eraseToAnyPublisher(),
-      deletedRecordIDSubject.eraseToAnyPublisher()
+    return CCKModifyRecordPublishers(
+      progress: progressSubject.eraseToAnyPublisher(),
+      saved: savedSubject.eraseToAnyPublisher(),
+      deleted: deletedSubject.eraseToAnyPublisher()
     )
   }
 
@@ -173,15 +175,17 @@ extension CKDatabase {
     }
   }
 
+  public struct CCKFetchRecordPublishers {
+    let progress: AnyPublisher<(CKRecord.ID, Double), Error>
+    let fetched: AnyPublisher<CKRecord, Error>
+  }
+
   public func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil
-  ) -> (
-    AnyPublisher<(CKRecord.ID, Double), Error>,
-    AnyPublisher<CKRecord, Error>
-  ) {
+  ) -> CCKFetchRecordPublishers {
     let progressSubject = PassthroughSubject<(CKRecord.ID, Double), Error>()
-    let recordSubject = PassthroughSubject<CKRecord, Error>()
+    let fetchedSubject = PassthroughSubject<CKRecord, Error>()
     let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
     operation.desiredKeys = desiredKeys
     operation.perRecordProgressBlock = { recordID, progress in
@@ -190,27 +194,27 @@ extension CKDatabase {
     operation.perRecordCompletionBlock = { record, _, error in
       guard let record = record, error == nil else {
         progressSubject.send(completion: .failure(error!))
-        recordSubject.send(completion: .failure(error!))
+        fetchedSubject.send(completion: .failure(error!))
         return
       }
 
-      recordSubject.send(record)
+      fetchedSubject.send(record)
     }
     operation.fetchRecordsCompletionBlock = { _, error in
       guard error == nil else {
         progressSubject.send(completion: .failure(error!))
-        recordSubject.send(completion: .failure(error!))
+        fetchedSubject.send(completion: .failure(error!))
         return
       }
 
       progressSubject.send(completion: .finished)
-      recordSubject.send(completion: .finished)
+      fetchedSubject.send(completion: .finished)
     }
     add(operation)
 
-    return (
-      progressSubject.eraseToAnyPublisher(),
-      recordSubject.eraseToAnyPublisher()
+    return CCKFetchRecordPublishers(
+      progress: progressSubject.eraseToAnyPublisher(),
+      fetched: fetchedSubject.eraseToAnyPublisher()
     )
   }
 
