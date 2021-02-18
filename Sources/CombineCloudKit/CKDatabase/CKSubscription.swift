@@ -127,14 +127,13 @@ extension CKDatabase {
         subscriptionsToSave: subscriptionsToSave,
         subscriptionIDsToDelete: subscriptionIDsToDelete
       )
-      operation.modifySubscriptionsCompletionBlock = {
-        savedSubscriptions, deletedSubscriptionIDs, error in
+      operation.modifySubscriptionsCompletionBlock = { saved, deleted, error in
         guard error == nil else {
           promise(.failure(error!))
           return
         }
 
-        promise(.success((savedSubscriptions, deletedSubscriptionIDs)))
+        promise(.success((saved, deleted)))
       }
 
       self.add(operation)

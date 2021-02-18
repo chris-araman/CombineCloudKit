@@ -122,14 +122,13 @@ extension CKDatabase {
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete
       )
-      operation.modifyRecordZonesCompletionBlock = {
-        savedRecordZones, deletedRecordZoneIDs, error in
+      operation.modifyRecordZonesCompletionBlock = { saved, deleted, error in
         guard error == nil else {
           promise(.failure(error!))
           return
         }
 
-        promise(.success((savedRecordZones, deletedRecordZoneIDs)))
+        promise(.success((saved, deleted)))
       }
 
       self.add(operation)
