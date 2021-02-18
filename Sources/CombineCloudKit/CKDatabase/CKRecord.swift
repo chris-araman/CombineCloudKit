@@ -1,5 +1,5 @@
 //
-//  CKDatabase.swift
+//  CKRecord.swift
 //  CombineCloudKit
 //
 //  Created by Chris Araman on 2/16/21.
@@ -9,8 +9,8 @@
 import CloudKit
 import Combine
 
-public extension CKDatabase {
-  func save(record: CKRecord) -> Future<CKRecord, Error> {
+extension CKDatabase {
+  public func save(record: CKRecord) -> Future<CKRecord, Error> {
     Future { promise in
       self.save(record) { record, error in
         guard let record = record, error == nil else {
@@ -23,7 +23,7 @@ public extension CKDatabase {
     }
   }
 
-  func save(
+  public func save(
     records: [CKRecord],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord, Error> {
@@ -32,7 +32,7 @@ public extension CKDatabase {
       .eraseToAnyPublisher()
   }
 
-  func delete(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
+  public func delete(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
     Future { promise in
       self.delete(withRecordID: recordID) { recordID, error in
         guard let recordID = recordID, error == nil else {
@@ -45,7 +45,7 @@ public extension CKDatabase {
     }
   }
 
-  func delete(
+  public func delete(
     recordIDs: [CKRecord.ID],
     atomically isAtomic: Bool = true
   ) -> AnyPublisher<CKRecord.ID, Error> {
@@ -54,7 +54,7 @@ public extension CKDatabase {
       .eraseToAnyPublisher()
   }
 
-  func modify(
+  public func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true
@@ -92,7 +92,7 @@ public extension CKDatabase {
     return subject.eraseToAnyPublisher()
   }
 
-  func fetch(
+  public func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil
   ) -> AnyPublisher<CKRecord, Error> {
@@ -120,7 +120,9 @@ public extension CKDatabase {
     return subject.eraseToAnyPublisher()
   }
 
-  func fetchCurrentUserRecord(desiredKeys: [CKRecord.FieldKey]? = nil) -> Future<CKRecord, Error> {
+  public func fetchCurrentUserRecord(desiredKeys: [CKRecord.FieldKey]? = nil) -> Future<
+    CKRecord, Error
+  > {
     Future { promise in
       let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
       operation.desiredKeys = desiredKeys
@@ -137,7 +139,7 @@ public extension CKDatabase {
     }
   }
 
-  func query(
+  public func query(
     ofType recordType: CKRecord.RecordType,
     where predicate: NSPredicate = NSPredicate(value: true),
     desiredKeys: [CKRecord.FieldKey]? = nil
