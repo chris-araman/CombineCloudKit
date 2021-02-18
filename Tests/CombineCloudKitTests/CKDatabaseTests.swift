@@ -13,7 +13,8 @@ final class CKDatabaseTests: XCTestCase {
     subject.send(completion: .failure(CKError(.internalError)))
     switch try wait(for: recorder.completion, timeout: 1) {
     case .failure(let error):
-      guard let error = error as? CKError, error.errorCode == CKError.operationCancelled.rawValue else {
+      guard let error = error as? CKError, error.errorCode == CKError.operationCancelled.rawValue
+      else {
         XCTFail("Recorder did not receive CKError.operationCancelled.")
         return
       }

@@ -9,7 +9,7 @@
 import CloudKit
 import Combine
 
-extension CKDatabase {
+public extension CKDatabase {
   func save(record: CKRecord) -> Future<CKRecord, Error> {
     Future { promise in
       self.save(record) { record, error in
