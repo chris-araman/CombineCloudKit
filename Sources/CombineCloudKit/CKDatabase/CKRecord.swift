@@ -10,15 +10,34 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func save(record: CKRecord) -> Future<CKRecord, Error> {
+  public func save(
+    record: CKRecord,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecord, Error> {
     Future { promise in
-      self.save(record) { record, error in
-        guard let record = record, error == nil else {
-          promise(.failure(error!))
-          return
+      if withHighPriority {
+        let operation = CKModifyRecordsOperation(
+          recordsToSave: [record], recordIDsToDelete: nil
+        )
+        operation.modifyRecordsCompletionBlock = { records, _, error in
+          guard let record = records?.first, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+          
+          promise(.success(record))
         }
 
-        promise(.success(record))
+        self.add(operation)
+      } else {
+        self.save(record) { record, error in
+          guard let record = record, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(record))
+        }
       }
     }
   }
@@ -32,15 +51,34 @@ extension CKDatabase {
       .eraseToAnyPublisher()
   }
 
-  public func delete(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
+  public func delete(
+    recordID: CKRecord.ID,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecord.ID, Error> {
     Future { promise in
-      self.delete(withRecordID: recordID) { recordID, error in
-        guard let recordID = recordID, error == nil else {
-          promise(.failure(error!))
-          return
+      if withHighPriority {
+        let operation = CKModifyRecordsOperation(
+          recordsToSave: nil, recordIDsToDelete: [recordID]
+        )
+        operation.modifyRecordsCompletionBlock = { _, recordIDs, error in
+          guard let recordID = recordIDs?.first, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+          
+          promise(.success(recordID))
         }
 
-        promise(.success(recordID))
+        self.add(operation)
+      } else {
+        self.delete(withRecordID: recordID) { recordID, error in
+          guard let recordID = recordID, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(recordID))
+        }
       }
     }
   }
@@ -64,7 +102,6 @@ extension CKDatabase {
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
     operation.isAtomic = isAtomic
-    operation.savePolicy = .changedKeys
     operation.perRecordCompletionBlock = { record, error in
       guard error == nil else {
         subject.send(completion: .failure(error!))
@@ -90,6 +127,36 @@ extension CKDatabase {
 
     add(operation)
     return subject.eraseToAnyPublisher()
+  }
+
+  public func fetch(
+    withRecordID recordID: CKRecord.ID,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecord, Error> {
+    Future { promise in
+      if withHighPriority {
+        let operation = CKFetchRecordsOperation(recordIDs: [recordID])
+        operation.fetchRecordsCompletionBlock = { records, error in
+          guard let record = records?.first?.value, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(record))
+        }
+
+        self.add(operation)
+      } else {
+        self.fetch(withRecordID: recordID) { record, error in
+          guard let record = record, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(record))
+        }
+      }
+    }
   }
 
   public func fetch(
@@ -120,9 +187,9 @@ extension CKDatabase {
     return subject.eraseToAnyPublisher()
   }
 
-  public func fetchCurrentUserRecord(desiredKeys: [CKRecord.FieldKey]? = nil) -> Future<
-    CKRecord, Error
-  > {
+  public func fetchCurrentUserRecord(
+    desiredKeys: [CKRecord.FieldKey]? = nil
+  ) -> Future<CKRecord, Error> {
     Future { promise in
       let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
       operation.desiredKeys = desiredKeys

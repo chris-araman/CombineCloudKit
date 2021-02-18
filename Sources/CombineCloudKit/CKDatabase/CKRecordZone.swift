@@ -10,15 +10,33 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func save(recordZone: CKRecordZone) -> Future<CKRecordZone, Error> {
+  public func save(
+    recordZone: CKRecordZone,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecordZone, Error> {
     Future { promise in
-      self.save(recordZone) { recordZone, error in
-        guard let recordZone = recordZone, error == nil else {
-          promise(.failure(error!))
-          return
+      if withHighPriority {
+        let operation = CKModifyRecordZonesOperation(
+          recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil)
+        operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
+          guard let savedRecordZone = savedRecordZones?.first, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(savedRecordZone))
         }
 
-        promise(.success(recordZone))
+        self.add(operation)
+      } else {
+        self.save(recordZone) { recordZone, error in
+          guard let recordZone = recordZone, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(recordZone))
+        }
       }
     }
   }
@@ -30,27 +48,45 @@ extension CKDatabase {
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: recordZones, recordZoneIDsToDelete: nil)
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
-        guard error == nil else {
+        guard let savedRecordZones = savedRecordZones, error == nil else {
           promise(.failure(error!))
           return
         }
 
-        promise(.success(savedRecordZones!))
+        promise(.success(savedRecordZones))
       }
 
       self.add(operation)
     }
   }
 
-  public func delete(recordZoneID: CKRecordZone.ID) -> Future<CKRecordZone.ID, Error> {
+  public func delete(
+    recordZoneID: CKRecordZone.ID,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecordZone.ID, Error> {
     Future { promise in
-      self.delete(withRecordZoneID: recordZoneID) { recordZoneID, error in
-        guard let recordZoneID = recordZoneID, error == nil else {
-          promise(.failure(error!))
-          return
+      if withHighPriority {
+        let operation = CKModifyRecordZonesOperation(
+          recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID])
+        operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
+          guard let deletedRecordZoneID = deletedRecordZoneIDs?.first, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(deletedRecordZoneID))
         }
 
-        promise(.success(recordZoneID))
+        self.add(operation)
+      } else {
+        self.delete(withRecordZoneID: recordZoneID) { recordZoneID, error in
+          guard let recordZoneID = recordZoneID, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(recordZoneID))
+        }
       }
     }
   }
@@ -62,12 +98,12 @@ extension CKDatabase {
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs)
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
-        guard error == nil else {
+        guard let deletedRecordZoneIDs = deletedRecordZoneIDs, error == nil else {
           promise(.failure(error!))
           return
         }
 
-        promise(.success(deletedRecordZoneIDs!))
+        promise(.success(deletedRecordZoneIDs))
       }
 
       self.add(operation)
@@ -96,71 +132,71 @@ extension CKDatabase {
     }
   }
 
-  public func fetch(withRecordID recordID: CKRecord.ID) -> Future<CKRecord, Error> {
+  public func fetch(
+    withRecordZoneID recordZoneID: CKRecordZone.ID,
+    withHighPriority: Bool = true
+  ) -> Future<CKRecordZone, Error> {
     Future { promise in
-      self.fetch(withRecordID: recordID) { record, error in
-        guard let record = record, error == nil else {
-          promise(.failure(error!))
-          return
+      if withHighPriority {
+        let operation = CKFetchRecordZonesOperation(recordZoneIDs: [recordZoneID])
+        operation.fetchRecordZonesCompletionBlock = { recordZones, error in
+          guard let recordZone = recordZones?.first?.value, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(recordZone))
         }
 
-        promise(.success(record))
+        self.add(operation)
+      } else {
+        self.fetch(withRecordZoneID: recordZoneID) { recordZone, error in
+          guard let recordZone = recordZone, error == nil else {
+            promise(.failure(error!))
+            return
+          }
+
+          promise(.success(recordZone))
+        }
       }
     }
   }
 
-  public func fetch(withRecordZoneID recordZoneID: CKRecordZone.ID) -> Future<CKRecordZone, Error> {
-    Future { promise in
-      self.fetch(withRecordZoneID: recordZoneID) { recordZone, error in
-        guard let recordZone = recordZone, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordZone))
-      }
-    }
-  }
-
-  public func fetch(recordZoneIDs: [CKRecordZone.ID]) -> Future<
-    [CKRecordZone.ID: CKRecordZone], Error
-  > {
+  public func fetch(
+    recordZoneIDs: [CKRecordZone.ID]
+  ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
     Future { promise in
       let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
-      operation.fetchRecordZonesCompletionBlock = { zones, error in
-        guard let zones = zones, error == nil else {
+      operation.fetchRecordZonesCompletionBlock = { recordZones, error in
+        guard let recordZones = recordZones, error == nil else {
           promise(.failure(error!))
           return
         }
 
-        promise(.success(zones))
+        promise(.success(recordZones))
       }
 
       self.add(operation)
     }
   }
 
-  public func fetchAllRecordZones(withHighPriority: Bool = true) -> Future<
-    [CKRecordZone.ID: CKRecordZone], Error
-  > {
+  public func fetchAllRecordZones(
+    withHighPriority: Bool = true
+  ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
     Future { promise in
       if withHighPriority {
         let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
-        operation.fetchRecordZonesCompletionBlock = { zones, error in
-          guard let zones = zones, error == nil else {
+        operation.fetchRecordZonesCompletionBlock = { recordZones, error in
+          guard let recordZones = recordZones, error == nil else {
             promise(.failure(error!))
             return
           }
 
-          promise(.success(zones))
+          promise(.success(recordZones))
         }
 
         self.add(operation)
       } else {
-        // https://developer.apple.com/documentation/cloudkit/ckdatabase/1449112-fetchallrecordzones
-        // "The system executes the fetch with a low priority. Use this method when you don’t
-        // require the record zones immediately. To fetch record zones with a higher priority,
-        // use an instance of CKFetchRecordZonesOperation instead."
         self.fetchAllRecordZones { zones, error in
           guard let zones = zones, error == nil else {
             promise(.failure(error!))
