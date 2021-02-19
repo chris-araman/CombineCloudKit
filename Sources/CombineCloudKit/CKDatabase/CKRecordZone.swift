@@ -13,7 +13,7 @@ extension CKDatabase {
   public final func saveAtBackgroundPriority(
     recordZone: CKRecordZone
   ) -> AnyPublisher<CKRecordZone, Error> {
-    publisherFrom(save, recordZone)
+    publisherFrom(method: save, with: recordZone)
   }
 
   public final func save(
@@ -27,35 +27,20 @@ extension CKDatabase {
     recordZones: [CKRecordZone],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
     )
-    if configuration != nil {
-      operation.configuration = configuration
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration) { completion in
+      operation.modifyRecordZonesCompletionBlock = completion
     }
-    operation.modifyRecordZonesCompletionBlock = { recordZones, _, error in
-      guard let recordZones = recordZones, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for recordZone in recordZones {
-        subject.send(recordZone)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return subject.propagateCancellationTo(operation)
   }
 
   public final func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    publisherFrom(delete, recordZoneID)
+    publisherFrom(method: delete, with: recordZoneID)
   }
 
   public final func delete(
@@ -69,29 +54,14 @@ extension CKDatabase {
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    let subject = PassthroughSubject<CKRecordZone.ID, Error>()
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
     )
-    if configuration != nil {
-      operation.configuration = configuration
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration) { completion in
+      operation.modifyRecordZonesCompletionBlock = completion
     }
-    operation.modifyRecordZonesCompletionBlock = { _, recordZoneIDs, error in
-      guard let recordZoneIDs = recordZoneIDs, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for recordZoneID in recordZoneIDs {
-        subject.send(recordZoneID)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return subject.propagateCancellationTo(operation)
   }
 
   public struct CCKModifyRecordZonePublishers {
@@ -146,7 +116,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone, Error> {
-    publisherFrom(fetch, recordZoneID)
+    publisherFrom(method: fetch, with: recordZoneID)
   }
 
   public final func fetch(
@@ -160,27 +130,12 @@ extension CKDatabase {
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
-    if configuration != nil {
-      operation.configuration = configuration
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration) { completion in
+      operation.fetchRecordZonesCompletionBlock = completion
     }
-    operation.fetchRecordZonesCompletionBlock = { recordZones, error in
-      guard let recordZones = recordZones, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for recordZone in recordZones.values {
-        subject.send(recordZone)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return subject.propagateCancellationTo(operation)
   }
 
   public final func fetchAllRecordZonesAtBackgroundPriority()
@@ -206,26 +161,11 @@ extension CKDatabase {
   public final func fetchAllRecordZones(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
-    if configuration != nil {
-      operation.configuration = configuration
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration) { completion in
+      operation.fetchRecordZonesCompletionBlock = completion
     }
-    operation.fetchRecordZonesCompletionBlock = { recordZones, error in
-      guard let recordZones = recordZones, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for recordZone in recordZones.values {
-        subject.send(recordZone)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return subject.propagateCancellationTo(operation)
   }
 }

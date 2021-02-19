@@ -9,9 +9,9 @@
 import CloudKit
 import Combine
 
-internal func publisherFrom<T>(
-  _ method: @escaping (@escaping (T, Error?) -> Void) -> Void
-) -> AnyPublisher<T, Error> {
+internal func publisherFrom<Output>(
+  method: @escaping (@escaping (Output, Error?) -> Void) -> Void
+) -> AnyPublisher<Output, Error> {
   Future { promise in
     method { item, error in
       guard error == nil else {
@@ -24,18 +24,18 @@ internal func publisherFrom<T>(
   }.eraseToAnyPublisher()
 }
 
-internal func publisherFrom<T, U>(
-  _ method: @escaping (T, @escaping (U?, Error?) -> Void) -> Void,
-  _ item: T
-) -> AnyPublisher<U, Error> {
+internal func publisherFrom<Input, Output>(
+  method: @escaping (Input, @escaping (Output?, Error?) -> Void) -> Void,
+  with input: Input
+) -> AnyPublisher<Output, Error> {
   Future { promise in
-    method(item) { item, error in
-      guard let item = item, error == nil else {
+    method(input) { output, error in
+      guard let output = output, error == nil else {
         promise(.failure(error!))
         return
       }
 
-      promise(.success(item))
+      promise(.success(output))
     }
   }.eraseToAnyPublisher()
 }

@@ -11,7 +11,7 @@ import Combine
 
 extension CKDatabase {
   public final func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
-    publisherFrom(save, record)
+    publisherFrom(method: save, with: record)
   }
 
   public final func save(
@@ -35,10 +35,9 @@ extension CKDatabase {
     return publishers.saved.propagateCancellationTo(operation)
   }
 
-  public final func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> AnyPublisher<
-    CKRecord.ID, Error
-  > {
-    publisherFrom(delete, recordID)
+  public final func deleteAtBackgroundPriority(recordID: CKRecord.ID)
+    -> AnyPublisher<CKRecord.ID, Error> {
+    publisherFrom(method: delete, with: recordID)
   }
 
   public final func delete(
@@ -148,7 +147,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
   ) -> AnyPublisher<CKRecord, Error> {
-    publisherFrom(fetch, recordID)
+    publisherFrom(method: fetch, with: recordID)
   }
 
   public struct CCKFetchRecordPublishers {
@@ -210,23 +209,11 @@ extension CKDatabase {
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
     let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
-    if configuration != nil {
-      operation.configuration = configuration
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration) { completion in
+      operation.fetchRecordsCompletionBlock = completion
     }
-
-    return Future { promise in
-      operation.desiredKeys = desiredKeys
-      operation.fetchRecordsCompletionBlock = { records, error in
-        guard let record = records?.first?.value, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(record))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
   }
 
   public final func perform(

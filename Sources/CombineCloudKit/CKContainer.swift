@@ -11,6 +11,6 @@ import Combine
 
 extension CKContainer {
   public final func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
-    publisherFrom(accountStatus)
+    publisherFrom(method: accountStatus)
   }
 }
