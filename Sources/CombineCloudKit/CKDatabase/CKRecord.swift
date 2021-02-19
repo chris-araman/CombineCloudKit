@@ -45,9 +45,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func save(
@@ -55,12 +53,13 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    modify(
+    let (publishers, operation) = modifyWithoutCancellation(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration
-    ).saved
+    )
+    return publishers.saved.propagateCancellationTo(operation)
   }
 
   public func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
@@ -98,9 +97,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func delete(
@@ -108,12 +105,13 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    modify(
+    let (publishers, operation) = modifyWithoutCancellation(
       recordsToSave: nil,
       recordIDsToDelete: recordIDs,
       atomically: isAtomic,
       withConfiguration: configuration
-    ).deleted
+    )
+    return publishers.deleted.propagateCancellationTo(operation)
   }
 
   public struct CCKModifyRecordPublishers {
@@ -128,6 +126,25 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> CCKModifyRecordPublishers {
+    let (publishers, operation) = modifyWithoutCancellation(
+      recordsToSave: recordsToSave,
+      recordIDsToDelete: recordIDsToDelete,
+      atomically: isAtomic,
+      withConfiguration: configuration
+    )
+    return CCKModifyRecordPublishers(
+      progress: publishers.progress.propagateCancellationTo(operation),
+      saved: publishers.saved.propagateCancellationTo(operation),
+      deleted: publishers.deleted.propagateCancellationTo(operation)
+    )
+  }
+
+  private func modifyWithoutCancellation(
+    recordsToSave: [CKRecord]? = nil,
+    recordIDsToDelete: [CKRecord.ID]? = nil,
+    atomically isAtomic: Bool = true,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> (CCKModifyRecordPublishers, CKModifyRecordsOperation) {
     let progressSubject = PassthroughSubject<(CKRecord, Double), Error>()
     let savedSubject = PassthroughSubject<CKRecord, Error>()
     let deletedSubject = PassthroughSubject<CKRecord.ID, Error>()
@@ -170,10 +187,13 @@ extension CKDatabase {
 
     add(operation)
 
-    return CCKModifyRecordPublishers(
-      progress: progressSubject.eraseToAnyPublisher(),
-      saved: savedSubject.eraseToAnyPublisher(),
-      deleted: deletedSubject.eraseToAnyPublisher()
+    return (
+      CCKModifyRecordPublishers(
+        progress: progressSubject.propagateCancellationTo(operation),
+        saved: savedSubject.propagateCancellationTo(operation),
+        deleted: deletedSubject.propagateCancellationTo(operation)
+      ),
+      operation
     )
   }
 
@@ -212,9 +232,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public struct CCKFetchRecordPublishers {
@@ -259,8 +277,8 @@ extension CKDatabase {
     add(operation)
 
     return CCKFetchRecordPublishers(
-      progress: progressSubject.eraseToAnyPublisher(),
-      fetched: fetchedSubject.eraseToAnyPublisher()
+      progress: progressSubject.propagateCancellationTo(operation),
+      fetched: fetchedSubject.propagateCancellationTo(operation)
     )
   }
 
@@ -285,9 +303,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func perform(
@@ -360,6 +376,8 @@ extension CKDatabase {
     var operation = CKQueryOperation(query: query)
     continueQuery()
 
+    // We don't use propagateCancellationTo(operation) here because
+    // the operation we need to cancel may change.
     return subject.handleEvents(receiveCancel: {
       operation.cancel()
     }).eraseToAnyPublisher()

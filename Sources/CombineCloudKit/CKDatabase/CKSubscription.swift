@@ -48,9 +48,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func save(
@@ -76,9 +74,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func deleteAtBackgroundPriority(
@@ -119,9 +115,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func delete(
@@ -147,11 +141,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
-  
+
   public struct CCKModifySubscriptionPublishers {
     let saved: AnyPublisher<CKSubscription, Error>
     let deleted: AnyPublisher<CKSubscription.ID, Error>
@@ -177,7 +169,7 @@ extension CKDatabase {
         deletedSubject.send(completion: .failure(error!))
         return
       }
-      
+
       if let saved = saved {
         for subscription in saved {
           savedSubject.send(subscription)
@@ -194,11 +186,11 @@ extension CKDatabase {
       deletedSubject.send(completion: .finished)
     }
 
-    self.add(operation)
-    
+    add(operation)
+
     return CCKModifySubscriptionPublishers(
-      saved: savedSubject.handleEvents(receiveCancel: { operation.cancel() }).eraseToAnyPublisher(),
-      deleted: deletedSubject.handleEvents(receiveCancel: { operation.cancel() }).eraseToAnyPublisher()
+      saved: savedSubject.propagateCancellationTo(operation),
+      deleted: deletedSubject.propagateCancellationTo(operation)
     )
   }
 
@@ -237,9 +229,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func fetch(
@@ -262,9 +252,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func fetchAllSubscriptionsAtBackgroundPriority()
@@ -307,8 +295,6 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 }

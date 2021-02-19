@@ -47,9 +47,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func save(
@@ -74,9 +72,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func deleteAtBackgroundPriority(
@@ -116,9 +112,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func delete(
@@ -143,9 +137,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func modify(
@@ -171,9 +163,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func fetchAtBackgroundPriority(
@@ -211,9 +201,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func fetch(
@@ -236,9 +224,7 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 
   public func fetchAllRecordZonesAtBackgroundPriority()
@@ -281,8 +267,6 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+    }.propagateCancellationTo(operation)
   }
 }
