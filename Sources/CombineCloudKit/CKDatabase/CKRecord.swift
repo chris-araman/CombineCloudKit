@@ -11,16 +11,7 @@ import Combine
 
 extension CKDatabase {
   public final func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
-    Future { promise in
-      self.save(record) { record, error in
-        guard let record = record, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(record))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(save, record)
   }
 
   public final func save(
@@ -47,16 +38,7 @@ extension CKDatabase {
   public final func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> AnyPublisher<
     CKRecord.ID, Error
   > {
-    Future { promise in
-      self.delete(withRecordID: recordID) { recordID, error in
-        guard let recordID = recordID, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordID))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(delete, recordID)
   }
 
   public final func delete(
@@ -166,16 +148,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
   ) -> AnyPublisher<CKRecord, Error> {
-    Future { promise in
-      self.fetch(withRecordID: recordID) { record, error in
-        guard let record = record, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(record))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(fetch, recordID)
   }
 
   public struct CCKFetchRecordPublishers {

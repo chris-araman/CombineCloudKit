@@ -11,15 +11,6 @@ import Combine
 
 extension CKContainer {
   public final func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
-    Future { promise in
-      self.accountStatus { status, error in
-        guard error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(status))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(accountStatus)
   }
 }

@@ -13,16 +13,7 @@ extension CKDatabase {
   public final func saveAtBackgroundPriority(
     subscription: CKSubscription
   ) -> AnyPublisher<CKSubscription, Error> {
-    Future { promise in
-      self.save(subscription) { subscription, error in
-        guard let subscription = subscription, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(subscription))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(save, subscription)
   }
 
   public final func save(
@@ -65,16 +56,7 @@ extension CKDatabase {
   public final func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription.ID, Error> {
-    Future { promise in
-      self.delete(withSubscriptionID: subscriptionID) { subscriptionID, error in
-        guard let subscriptionID = subscriptionID, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(subscriptionID))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(delete, subscriptionID)
   }
 
   public final func delete(
@@ -167,16 +149,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription, Error> {
-    Future { promise in
-      self.fetch(withSubscriptionID: subscriptionID) { subscription, error in
-        guard let subscription = subscription, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(subscription))
-      }
-    }.eraseToAnyPublisher()
+    publisherFrom(fetch, subscriptionID)
   }
 
   public final func fetch(
