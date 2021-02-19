@@ -296,48 +296,34 @@ extension CKDatabase {
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
+    func onQueryCompletion(cursor: CKQueryOperation.Cursor?, error: Error?) {
+      guard error == nil else {
+        subject.send(completion: .failure(error!))
+        return
+      }
+
+      guard let cursor = cursor else {
+        // We've fetched all the results.
+        subject.send(completion: .finished)
+        return
+      }
+
+      // Fetch the next page of results.
+      configureAndAdd(CKQueryOperation(cursor: cursor))
+    }
+
+    func configureAndAdd(_ operation: CKQueryOperation) {
+      if configuration != nil {
+        operation.configuration = configuration
+      }
+      operation.desiredKeys = desiredKeys
+      operation.recordFetchedBlock = subject.send
+      operation.queryCompletionBlock = onQueryCompletion
+      add(operation)
+    }
+
     let subject = PassthroughSubject<CKRecord, Error>()
-    let operation = CKQueryOperation(query: CKQuery(recordType: recordType, predicate: predicate))
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-    operation.desiredKeys = desiredKeys
-    operation.recordFetchedBlock = subject.send
-    operation.queryCompletionBlock = { cursor, error in
-      self.onQueryCompletion(subject, configuration, cursor, error)
-    }
-
-    add(operation)
+    configureAndAdd(CKQueryOperation(query: CKQuery(recordType: recordType, predicate: predicate)))
     return subject.eraseToAnyPublisher()
-  }
-
-  private func onQueryCompletion(
-    _ subject: PassthroughSubject<CKRecord, Error>,
-    _ configuration: CKOperation.Configuration?,
-    _ cursor: CKQueryOperation.Cursor?,
-    _ error: Error?
-  ) {
-    guard error == nil else {
-      subject.send(completion: .failure(error!))
-      return
-    }
-
-    guard let cursor = cursor else {
-      // We've fetched all the results.
-      subject.send(completion: .finished)
-      return
-    }
-
-    // Fetch the next page of results.
-    let operation = CKQueryOperation(cursor: cursor)
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-    operation.recordFetchedBlock = subject.send
-    operation.queryCompletionBlock = { cursor, error in
-      self.onQueryCompletion(subject, configuration, cursor, error)
-    }
-
-    add(operation)
   }
 }
