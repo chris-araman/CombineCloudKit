@@ -290,9 +290,10 @@ extension CKDatabase {
     }).eraseToAnyPublisher()
   }
 
-  public func query(
+  public func perform(
     ofType recordType: CKRecord.RecordType,
     where predicate: NSPredicate = NSPredicate(value: true),
+    orderBy sortDescriptors: [NSSortDescriptor]? = nil,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
@@ -323,7 +324,9 @@ extension CKDatabase {
     }
 
     let subject = PassthroughSubject<CKRecord, Error>()
-    configureAndAdd(CKQueryOperation(query: CKQuery(recordType: recordType, predicate: predicate)))
+    let query = CKQuery(recordType: recordType, predicate: predicate)
+    query.sortDescriptors = sortDescriptors
+    configureAndAdd(CKQueryOperation(query: query))
     return subject.eraseToAnyPublisher()
   }
 }
