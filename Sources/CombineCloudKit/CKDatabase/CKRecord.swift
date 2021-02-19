@@ -294,6 +294,7 @@ extension CKDatabase {
     ofType recordType: CKRecord.RecordType,
     where predicate: NSPredicate = NSPredicate(value: true),
     orderBy sortDescriptors: [NSSortDescriptor]? = nil,
+    inZoneWith zoneID: CKRecordZone.ID? = nil,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
@@ -301,15 +302,33 @@ extension CKDatabase {
     query.sortDescriptors = sortDescriptors
     return perform(
       query: query,
+      inZoneWith: zoneID,
       desiredKeys: desiredKeys,
-      withConfiguration: configuration)
+      withConfiguration: configuration
+    )
   }
 
   public func perform(
     query: CKQuery,
+    inZoneWith zoneID: CKRecordZone.ID? = nil,
     desiredKeys: [CKRecord.FieldKey]? = nil,
+    resultsLimit: Int = CKQueryOperation.maximumResults,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
+    func onRecordFetched(record: CKRecord) {
+      if demand <= 0 {
+        // Ignore any remaining results.
+        return
+      }
+
+      if demand != CKQueryOperation.maximumResults {
+        // Reduce demand.
+        demand -= 1
+      }
+
+      subject.send(record)
+    }
+
     func onQueryCompletion(cursor: CKQueryOperation.Cursor?, error: Error?) {
       guard error == nil else {
         subject.send(completion: .failure(error!))
@@ -331,13 +350,17 @@ extension CKDatabase {
         operation.configuration = configuration
       }
       operation.desiredKeys = desiredKeys
-      operation.recordFetchedBlock = subject.send
+      operation.resultsLimit = demand
+      operation.zoneID = zoneID
+      operation.recordFetchedBlock = onRecordFetched
       operation.queryCompletionBlock = onQueryCompletion
       add(operation)
     }
 
+    var demand = resultsLimit
     let subject = PassthroughSubject<CKRecord, Error>()
-    configureAndAdd(CKQueryOperation(query: query))
+    let operation = CKQueryOperation(query: query)
+    configureAndAdd(operation)
     return subject.eraseToAnyPublisher()
   }
 }
