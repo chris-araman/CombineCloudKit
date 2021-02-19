@@ -151,12 +151,19 @@ extension CKDatabase {
       operation.cancel()
     }).eraseToAnyPublisher()
   }
+  
+  public struct CCKModifySubscriptionPublishers {
+    let saved: AnyPublisher<CKSubscription, Error>
+    let deleted: AnyPublisher<CKSubscription.ID, Error>
+  }
 
   public func modify(
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<([CKSubscription]?, [CKSubscription.ID]?), Error> {
+  ) -> CCKModifySubscriptionPublishers {
+    let savedSubject = PassthroughSubject<CKSubscription, Error>()
+    let deletedSubject = PassthroughSubject<CKSubscription.ID, Error>()
     let operation = CKModifySubscriptionsOperation(
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
@@ -164,21 +171,35 @@ extension CKDatabase {
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.modifySubscriptionsCompletionBlock = { saved, deleted, error in
-        guard error == nil else {
-          promise(.failure(error!))
-          return
+    operation.modifySubscriptionsCompletionBlock = { saved, deleted, error in
+      guard error == nil else {
+        savedSubject.send(completion: .failure(error!))
+        deletedSubject.send(completion: .failure(error!))
+        return
+      }
+      
+      if let saved = saved {
+        for subscription in saved {
+          savedSubject.send(subscription)
         }
-
-        promise(.success((saved, deleted)))
       }
 
-      self.add(operation)
-    }.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
+      if let deleted = deleted {
+        for subscription in deleted {
+          deletedSubject.send(subscription)
+        }
+      }
+
+      savedSubject.send(completion: .finished)
+      deletedSubject.send(completion: .finished)
+    }
+
+    self.add(operation)
+    
+    return CCKModifySubscriptionPublishers(
+      saved: savedSubject.handleEvents(receiveCancel: { operation.cancel() }).eraseToAnyPublisher(),
+      deleted: deletedSubject.handleEvents(receiveCancel: { operation.cancel() }).eraseToAnyPublisher()
+    )
   }
 
   public func fetchAtBackgroundPriority(
