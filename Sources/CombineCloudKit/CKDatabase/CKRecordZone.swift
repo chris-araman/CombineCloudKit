@@ -74,42 +74,15 @@ extension CKDatabase {
     recordZoneIDsToDelete: [CKRecordZone.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> CCKModifyRecordZonePublishers {
-    let savedSubject = PassthroughSubject<CKRecordZone, Error>()
-    let deletedSubject = PassthroughSubject<CKRecordZone.ID, Error>()
     let operation = CKModifyRecordZonesOperation(
-      recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete
+      recordZonesToSave: recordZonesToSave,
+      recordZoneIDsToDelete: recordZoneIDsToDelete
     )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-    operation.modifyRecordZonesCompletionBlock = { saved, deleted, error in
-      guard error == nil else {
-        savedSubject.send(completion: .failure(error!))
-        deletedSubject.send(completion: .failure(error!))
-        return
-      }
-
-      if let saved = saved {
-        for record in saved {
-          savedSubject.send(record)
-        }
-      }
-
-      if let deleted = deleted {
-        for recordID in deleted {
-          deletedSubject.send(recordID)
-        }
-      }
-
-      savedSubject.send(completion: .finished)
-      deletedSubject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return CCKModifyRecordZonePublishers(
-      saved: savedSubject.propagateCancellationTo(operation),
-      deleted: deletedSubject.propagateCancellationTo(operation)
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration,
+      setCompletion: { completion in operation.modifyRecordZonesCompletionBlock = completion },
+      initPublishers: CCKModifyRecordZonePublishers.init
     )
   }
 

@@ -75,43 +75,15 @@ extension CKDatabase {
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> CCKModifySubscriptionPublishers {
-    let savedSubject = PassthroughSubject<CKSubscription, Error>()
-    let deletedSubject = PassthroughSubject<CKSubscription.ID, Error>()
     let operation = CKModifySubscriptionsOperation(
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
     )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-    operation.modifySubscriptionsCompletionBlock = { saved, deleted, error in
-      guard error == nil else {
-        savedSubject.send(completion: .failure(error!))
-        deletedSubject.send(completion: .failure(error!))
-        return
-      }
-
-      if let saved = saved {
-        for subscription in saved {
-          savedSubject.send(subscription)
-        }
-      }
-
-      if let deleted = deleted {
-        for subscription in deleted {
-          deletedSubject.send(subscription)
-        }
-      }
-
-      savedSubject.send(completion: .finished)
-      deletedSubject.send(completion: .finished)
-    }
-
-    add(operation)
-
-    return CCKModifySubscriptionPublishers(
-      saved: savedSubject.propagateCancellationTo(operation),
-      deleted: deletedSubject.propagateCancellationTo(operation)
+    return publisherFromOperation(
+      operation,
+      withConfiguration: configuration,
+      setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion },
+      initPublishers: CCKModifySubscriptionPublishers.init
     )
   }
 
