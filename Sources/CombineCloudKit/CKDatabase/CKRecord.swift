@@ -297,6 +297,19 @@ extension CKDatabase {
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
+    let query = CKQuery(recordType: recordType, predicate: predicate)
+    query.sortDescriptors = sortDescriptors
+    return perform(
+      query: query,
+      desiredKeys: desiredKeys,
+      withConfiguration: configuration)
+  }
+
+  public func perform(
+    query: CKQuery,
+    desiredKeys: [CKRecord.FieldKey]? = nil,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<CKRecord, Error> {
     func onQueryCompletion(cursor: CKQueryOperation.Cursor?, error: Error?) {
       guard error == nil else {
         subject.send(completion: .failure(error!))
@@ -324,8 +337,6 @@ extension CKDatabase {
     }
 
     let subject = PassthroughSubject<CKRecord, Error>()
-    let query = CKQuery(recordType: recordType, predicate: predicate)
-    query.sortDescriptors = sortDescriptors
     configureAndAdd(CKQueryOperation(query: query))
     return subject.eraseToAnyPublisher()
   }
