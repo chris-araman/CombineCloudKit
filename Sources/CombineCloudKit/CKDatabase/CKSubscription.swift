@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func saveAtBackgroundPriority(
+  public final func saveAtBackgroundPriority(
     subscription: CKSubscription
   ) -> AnyPublisher<CKSubscription, Error> {
     Future { promise in
@@ -25,14 +25,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func save(
+  public final func save(
     subscription: CKSubscription,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
     save(subscriptions: [subscription], withConfiguration: configuration)
   }
 
-  public func save(
+  public final func save(
     subscriptions: [CKSubscription],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
@@ -62,7 +62,7 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  public func deleteAtBackgroundPriority(
+  public final func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription.ID, Error> {
     Future { promise in
@@ -77,14 +77,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func delete(
+  public final func delete(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription.ID, Error> {
     delete(subscriptionIDs: [subscriptionID], withConfiguration: configuration)
   }
 
-  public func delete(
+  public final func delete(
     subscriptionIDs: [CKSubscription.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription.ID, Error> {
@@ -119,7 +119,7 @@ extension CKDatabase {
     let deleted: AnyPublisher<CKSubscription.ID, Error>
   }
 
-  public func modify(
+  public final func modify(
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -164,7 +164,7 @@ extension CKDatabase {
     )
   }
 
-  public func fetchAtBackgroundPriority(
+  public final func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription, Error> {
     Future { promise in
@@ -179,14 +179,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func fetch(
+  public final func fetch(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
     fetch(subscriptionIDs: [subscriptionID], withConfiguration: configuration)
   }
 
-  public func fetch(
+  public final func fetch(
     subscriptionIDs: [CKSubscription.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
@@ -213,7 +213,9 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  public func fetchAllSubscriptionsAtBackgroundPriority() -> AnyPublisher<CKSubscription, Error> {
+  public final func fetchAllSubscriptionsAtBackgroundPriority()
+    -> AnyPublisher<CKSubscription, Error>
+  {
     let subject = PassthroughSubject<CKSubscription, Error>()
 
     fetchAllSubscriptions { subscriptions, error in
@@ -232,7 +234,7 @@ extension CKDatabase {
     return subject.eraseToAnyPublisher()
   }
 
-  public func fetchAllSubscriptions(
+  public final func fetchAllSubscriptions(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
     let subject = PassthroughSubject<CKSubscription, Error>()

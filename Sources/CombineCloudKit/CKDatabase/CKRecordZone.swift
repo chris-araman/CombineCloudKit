@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func saveAtBackgroundPriority(
+  public final func saveAtBackgroundPriority(
     recordZone: CKRecordZone
   ) -> AnyPublisher<CKRecordZone, Error> {
     Future { promise in
@@ -25,14 +25,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func save(
+  public final func save(
     recordZone: CKRecordZone,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
     save(recordZones: [recordZone], withConfiguration: configuration)
   }
 
-  public func save(
+  public final func save(
     recordZones: [CKRecordZone],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
@@ -61,7 +61,7 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  public func deleteAtBackgroundPriority(
+  public final func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
     Future { promise in
@@ -76,14 +76,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func delete(
+  public final func delete(
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
     delete(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
   }
 
-  public func delete(
+  public final func delete(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
@@ -117,7 +117,7 @@ extension CKDatabase {
     let deleted: AnyPublisher<CKRecordZone.ID, Error>
   }
 
-  public func modify(
+  public final func modify(
     recordZonesToSave: [CKRecordZone]? = nil,
     recordZoneIDsToDelete: [CKRecordZone.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -161,7 +161,7 @@ extension CKDatabase {
     )
   }
 
-  public func fetchAtBackgroundPriority(
+  public final func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone, Error> {
     Future { promise in
@@ -176,14 +176,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func fetch(
+  public final func fetch(
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
     fetch(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
   }
 
-  public func fetch(
+  public final func fetch(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
@@ -210,7 +210,7 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  public func fetchAllRecordZonesAtBackgroundPriority()
+  public final func fetchAllRecordZonesAtBackgroundPriority()
     -> AnyPublisher<CKRecordZone, Error>
   {
     let subject = PassthroughSubject<CKRecordZone, Error>()
@@ -230,7 +230,7 @@ extension CKDatabase {
     return subject.eraseToAnyPublisher()
   }
 
-  public func fetchAllRecordZones(
+  public final func fetchAllRecordZones(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
     let subject = PassthroughSubject<CKRecordZone, Error>()

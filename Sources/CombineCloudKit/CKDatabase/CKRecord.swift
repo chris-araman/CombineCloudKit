@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
+  public final func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
     Future { promise in
       self.save(record) { record, error in
         guard let record = record, error == nil else {
@@ -23,14 +23,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func save(
+  public final func save(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
     save(records: [record], withConfiguration: configuration)
   }
 
-  public func save(
+  public final func save(
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -44,8 +44,9 @@ extension CKDatabase {
     return publishers.saved.propagateCancellationTo(operation)
   }
 
-  public func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> AnyPublisher<CKRecord.ID, Error>
-  {
+  public final func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> AnyPublisher<
+    CKRecord.ID, Error
+  > {
     Future { promise in
       self.delete(withRecordID: recordID) { recordID, error in
         guard let recordID = recordID, error == nil else {
@@ -58,14 +59,14 @@ extension CKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  public func delete(
+  public final func delete(
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord.ID, Error> {
     delete(recordIDs: [recordID], withConfiguration: configuration)
   }
 
-  public func delete(
+  public final func delete(
     recordIDs: [CKRecord.ID],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -85,7 +86,7 @@ extension CKDatabase {
     let deleted: AnyPublisher<CKRecord.ID, Error>
   }
 
-  public func modify(
+  public final func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
@@ -104,7 +105,7 @@ extension CKDatabase {
     )
   }
 
-  private func modifyWithoutCancellation(
+  private final func modifyWithoutCancellation(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
@@ -162,7 +163,7 @@ extension CKDatabase {
     )
   }
 
-  public func fetchAtBackgroundPriority(
+  public final func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
   ) -> AnyPublisher<CKRecord, Error> {
     Future { promise in
@@ -182,14 +183,14 @@ extension CKDatabase {
     let fetched: AnyPublisher<CKRecord, Error>
   }
 
-  public func fetch(
+  public final func fetch(
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> CCKFetchRecordPublishers {
     fetch(recordIDs: [recordID], withConfiguration: configuration)
   }
 
-  public func fetch(
+  public final func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -231,7 +232,7 @@ extension CKDatabase {
     )
   }
 
-  public func fetchCurrentUserRecord(
+  public final func fetchCurrentUserRecord(
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
@@ -255,7 +256,7 @@ extension CKDatabase {
     }.propagateCancellationTo(operation)
   }
 
-  public func perform(
+  public final func perform(
     ofType recordType: CKRecord.RecordType,
     where predicate: NSPredicate = NSPredicate(value: true),
     orderBy sortDescriptors: [NSSortDescriptor]? = nil,
@@ -273,7 +274,7 @@ extension CKDatabase {
     )
   }
 
-  public func perform(
+  public final func perform(
     query: CKQuery,
     inZoneWith zoneID: CKRecordZone.ID? = nil,
     desiredKeys: [CKRecord.FieldKey]? = nil,
