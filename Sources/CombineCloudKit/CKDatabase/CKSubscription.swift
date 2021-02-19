@@ -10,36 +10,39 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func save(
-    subscription: CKSubscription,
-    withHighPriority: Bool = true
+  public func saveAtBackgroundPriority(
+    subscription: CKSubscription
   ) -> Future<CKSubscription, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKModifySubscriptionsOperation(
-          subscriptionsToSave: [subscription],
-          subscriptionIDsToDelete: nil
-        )
-        operation.modifySubscriptionsCompletionBlock = { subscriptions, _, error in
-          guard let subscription = subscriptions?.first, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subscription))
+      self.save(subscription) { subscription, error in
+        guard let subscription = subscription, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.save(subscription) { subscription, error in
-          guard let subscription = subscription, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subscription))
-        }
+        promise(.success(subscription))
       }
+    }
+  }
+
+  public func save(
+    subscription: CKSubscription
+  ) -> Future<CKSubscription, Error> {
+    Future { promise in
+      let operation = CKModifySubscriptionsOperation(
+        subscriptionsToSave: [subscription],
+        subscriptionIDsToDelete: nil
+      )
+      operation.modifySubscriptionsCompletionBlock = { subscriptions, _, error in
+        guard let subscription = subscriptions?.first, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(subscription))
+      }
+
+      self.add(operation)
     }
   }
 
@@ -64,36 +67,39 @@ extension CKDatabase {
     }
   }
 
-  public func delete(
-    subscriptionID: CKSubscription.ID,
-    withHighPriority: Bool = true
+  public func deleteAtBackgroundPriority(
+    subscriptionID: CKSubscription.ID
   ) -> Future<CKSubscription.ID, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKModifySubscriptionsOperation(
-          subscriptionsToSave: nil,
-          subscriptionIDsToDelete: [subscriptionID]
-        )
-        operation.modifySubscriptionsCompletionBlock = { _, subscriptionIDs, error in
-          guard let subscriptionID = subscriptionIDs?.first, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subscriptionID))
+      self.delete(withSubscriptionID: subscriptionID) { subscriptionID, error in
+        guard let subscriptionID = subscriptionID, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.delete(withSubscriptionID: subscriptionID) { subscriptionID, error in
-          guard let subscriptionID = subscriptionID, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subscriptionID))
-        }
+        promise(.success(subscriptionID))
       }
+    }
+  }
+
+  public func delete(
+    subscriptionID: CKSubscription.ID
+  ) -> Future<CKSubscription.ID, Error> {
+    Future { promise in
+      let operation = CKModifySubscriptionsOperation(
+        subscriptionsToSave: nil,
+        subscriptionIDsToDelete: [subscriptionID]
+      )
+      operation.modifySubscriptionsCompletionBlock = { _, subscriptionIDs, error in
+        guard let subscriptionID = subscriptionIDs?.first, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(subscriptionID))
+      }
+
+      self.add(operation)
     }
   }
 
@@ -140,33 +146,36 @@ extension CKDatabase {
     }
   }
 
-  public func fetch(
-    withSubscriptionID subscriptionID: CKSubscription.ID,
-    withHighPriority: Bool = true
+  public func fetchAtBackgroundPriority(
+    withSubscriptionID subscriptionID: CKSubscription.ID
   ) -> Future<CKSubscription, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKFetchSubscriptionsOperation(subscriptionIDs: [subscriptionID])
-        operation.fetchSubscriptionCompletionBlock = { subsciptions, error in
-          guard let subsciption = subsciptions?.first?.value, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subsciption))
+      self.fetch(withSubscriptionID: subscriptionID) { subscription, error in
+        guard let subscription = subscription, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.fetch(withSubscriptionID: subscriptionID) { subscription, error in
-          guard let subscription = subscription, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(subscription))
-        }
+        promise(.success(subscription))
       }
+    }
+  }
+
+  public func fetch(
+    withSubscriptionID subscriptionID: CKSubscription.ID
+  ) -> Future<CKSubscription, Error> {
+    Future { promise in
+      let operation = CKFetchSubscriptionsOperation(subscriptionIDs: [subscriptionID])
+      operation.fetchSubscriptionCompletionBlock = { subsciptions, error in
+        guard let subsciption = subsciptions?.first?.value, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(subsciption))
+      }
+
+      self.add(operation)
     }
   }
 
@@ -188,7 +197,8 @@ extension CKDatabase {
     }
   }
 
-  public func fetchAllSubscriptions() -> Future<[CKSubscription], Error> {
+  public func fetchAllSubscriptionsAtBackgroundPriority()
+    -> Future<[CKSubscription.ID: CKSubscription], Error> {
     Future { promise in
       self.fetchAllSubscriptions { subscriptions, error in
         guard let subscriptions = subscriptions, error == nil else {
@@ -196,8 +206,30 @@ extension CKDatabase {
           return
         }
 
+        var idsToSubscriptions = [CKSubscription.ID: CKSubscription]()
+        idsToSubscriptions.reserveCapacity(subscriptions.count)
+        for subscription in subscriptions {
+          idsToSubscriptions[subscription.subscriptionID] = subscription
+        }
+
+        promise(.success(idsToSubscriptions))
+      }
+    }
+  }
+
+  public func fetchAllSubscriptions() -> Future<[CKSubscription.ID: CKSubscription], Error> {
+    Future { promise in
+      let operation = CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
+      operation.fetchSubscriptionCompletionBlock = { subscriptions, error in
+        guard let subscriptions = subscriptions, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
         promise(.success(subscriptions))
       }
+
+      self.add(operation)
     }
   }
 }

@@ -10,35 +10,34 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func save(
-    record: CKRecord,
-    withHighPriority: Bool = true
-  ) -> Future<CKRecord, Error> {
+  public func saveAtBackgroundPriority(record: CKRecord) -> Future<CKRecord, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKModifyRecordsOperation(
-          recordsToSave: [record], recordIDsToDelete: nil
-        )
-        operation.modifyRecordsCompletionBlock = { records, _, error in
-          guard let record = records?.first, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(record))
+      self.save(record) { record, error in
+        guard let record = record, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.save(record) { record, error in
-          guard let record = record, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(record))
-        }
+        promise(.success(record))
       }
+    }
+  }
+
+  public func save(record: CKRecord) -> Future<CKRecord, Error> {
+    Future { promise in
+      let operation = CKModifyRecordsOperation(
+        recordsToSave: [record], recordIDsToDelete: nil
+      )
+      operation.modifyRecordsCompletionBlock = { records, _, error in
+        guard let record = records?.first, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(record))
+      }
+
+      self.add(operation)
     }
   }
 
@@ -49,35 +48,34 @@ extension CKDatabase {
     modify(recordsToSave: records, recordIDsToDelete: nil, atomically: isAtomic).saved
   }
 
-  public func delete(
-    recordID: CKRecord.ID,
-    withHighPriority: Bool = true
-  ) -> Future<CKRecord.ID, Error> {
+  public func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKModifyRecordsOperation(
-          recordsToSave: nil, recordIDsToDelete: [recordID]
-        )
-        operation.modifyRecordsCompletionBlock = { _, recordIDs, error in
-          guard let recordID = recordIDs?.first, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(recordID))
+      self.delete(withRecordID: recordID) { recordID, error in
+        guard let recordID = recordID, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.delete(withRecordID: recordID) { recordID, error in
-          guard let recordID = recordID, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(recordID))
-        }
+        promise(.success(recordID))
       }
+    }
+  }
+
+  public func delete(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
+    Future { promise in
+      let operation = CKModifyRecordsOperation(
+        recordsToSave: nil, recordIDsToDelete: [recordID]
+      )
+      operation.modifyRecordsCompletionBlock = { _, recordIDs, error in
+        guard let recordID = recordIDs?.first, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(recordID))
+      }
+
+      self.add(operation)
     }
   }
 
@@ -145,33 +143,36 @@ extension CKDatabase {
     )
   }
 
-  public func fetch(
-    withRecordID recordID: CKRecord.ID,
-    withHighPriority: Bool = true
+  public func fetchAtBackgroundPriority(
+    withRecordID recordID: CKRecord.ID
   ) -> Future<CKRecord, Error> {
     Future { promise in
-      if withHighPriority {
-        let operation = CKFetchRecordsOperation(recordIDs: [recordID])
-        operation.fetchRecordsCompletionBlock = { records, error in
-          guard let record = records?.first?.value, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(record))
+      self.fetch(withRecordID: recordID) { record, error in
+        guard let record = record, error == nil else {
+          promise(.failure(error!))
+          return
         }
 
-        self.add(operation)
-      } else {
-        self.fetch(withRecordID: recordID) { record, error in
-          guard let record = record, error == nil else {
-            promise(.failure(error!))
-            return
-          }
-
-          promise(.success(record))
-        }
+        promise(.success(record))
       }
+    }
+  }
+
+  public func fetch(
+    withRecordID recordID: CKRecord.ID
+  ) -> Future<CKRecord, Error> {
+    Future { promise in
+      let operation = CKFetchRecordsOperation(recordIDs: [recordID])
+      operation.fetchRecordsCompletionBlock = { records, error in
+        guard let record = records?.first?.value, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(record))
+      }
+
+      self.add(operation)
     }
   }
 
