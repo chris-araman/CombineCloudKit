@@ -111,7 +111,7 @@ extension CKDatabase {
 
     return subject.propagateCancellationTo(operation)
   }
-  
+
   public struct CCKModifyRecordZonePublishers {
     let saved: AnyPublisher<CKRecordZone, Error>
     let deleted: AnyPublisher<CKRecordZone.ID, Error>
@@ -136,7 +136,7 @@ extension CKDatabase {
         deletedSubject.send(completion: .failure(error!))
         return
       }
-      
+
       if let saved = saved {
         for record in saved {
           savedSubject.send(record)
@@ -154,7 +154,7 @@ extension CKDatabase {
     }
 
     add(operation)
-    
+
     return CCKModifyRecordZonePublishers(
       saved: savedSubject.propagateCancellationTo(operation),
       deleted: deletedSubject.propagateCancellationTo(operation)
@@ -211,45 +211,48 @@ extension CKDatabase {
   }
 
   public func fetchAllRecordZonesAtBackgroundPriority()
-    -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error>
+    -> AnyPublisher<CKRecordZone, Error>
   {
-    Future { promise in
-      self.fetchAllRecordZones { zones, error in
-        guard let zones = zones, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        var idsToZones = [CKRecordZone.ID: CKRecordZone]()
-        idsToZones.reserveCapacity(zones.count)
-        for zone in zones {
-          idsToZones[zone.zoneID] = zone
-        }
-
-        promise(.success(idsToZones))
+    let subject = PassthroughSubject<CKRecordZone, Error>()
+    fetchAllRecordZones { recordZones, error in
+      guard let recordZones = recordZones, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
-    }.eraseToAnyPublisher()
+
+      for recordZone in recordZones {
+        subject.send(recordZone)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    return subject.eraseToAnyPublisher()
   }
 
   public func fetchAllRecordZones(
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error> {
+  ) -> AnyPublisher<CKRecordZone, Error> {
+    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.fetchRecordZonesCompletionBlock = { recordZones, error in
-        guard let recordZones = recordZones, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordZones))
+    operation.fetchRecordZonesCompletionBlock = { recordZones, error in
+      guard let recordZones = recordZones, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
 
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+      for recordZone in recordZones.values {
+        subject.send(recordZone)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    add(operation)
+
+    return subject.propagateCancellationTo(operation)
   }
 }

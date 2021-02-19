@@ -213,46 +213,48 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  public func fetchAllSubscriptionsAtBackgroundPriority()
-    -> AnyPublisher<[CKSubscription.ID: CKSubscription], Error>
-  {
-    Future { promise in
-      self.fetchAllSubscriptions { subscriptions, error in
-        guard let subscriptions = subscriptions, error == nil else {
-          promise(.failure(error!))
-          return
-        }
+  public func fetchAllSubscriptionsAtBackgroundPriority() -> AnyPublisher<CKSubscription, Error> {
+    let subject = PassthroughSubject<CKSubscription, Error>()
 
-        var idsToSubscriptions = [CKSubscription.ID: CKSubscription]()
-        idsToSubscriptions.reserveCapacity(subscriptions.count)
-        for subscription in subscriptions {
-          idsToSubscriptions[subscription.subscriptionID] = subscription
-        }
-
-        promise(.success(idsToSubscriptions))
+    fetchAllSubscriptions { subscriptions, error in
+      guard let subscriptions = subscriptions, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
-    }.eraseToAnyPublisher()
+
+      for subscription in subscriptions {
+        subject.send(subscription)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    return subject.eraseToAnyPublisher()
   }
 
   public func fetchAllSubscriptions(
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<[CKSubscription.ID: CKSubscription], Error> {
+  ) -> AnyPublisher<CKSubscription, Error> {
+    let subject = PassthroughSubject<CKSubscription, Error>()
     let operation = CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.fetchSubscriptionCompletionBlock = { subscriptions, error in
-        guard let subscriptions = subscriptions, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(subscriptions))
+    operation.fetchSubscriptionCompletionBlock = { subscriptions, error in
+      guard let subscriptions = subscriptions, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
 
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+      for subscription in subscriptions.values {
+        subject.send(subscription)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    add(operation)
+
+    return subject.propagateCancellationTo(operation)
   }
 }
