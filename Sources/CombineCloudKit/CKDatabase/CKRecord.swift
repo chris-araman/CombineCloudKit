@@ -26,14 +26,15 @@ extension CKDatabase {
   public func save(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecord, Error> {
-    Future { promise in
-      let operation = CKModifyRecordsOperation(
-        recordsToSave: [record], recordIDsToDelete: nil
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecord, Error> {
+    let operation = CKModifyRecordsOperation(
+      recordsToSave: [record], recordIDsToDelete: nil
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordsCompletionBlock = { records, _, error in
         guard let record = records?.first, error == nil else {
           promise(.failure(error!))
@@ -44,7 +45,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func save(
@@ -76,14 +79,15 @@ extension CKDatabase {
   public func delete(
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecord.ID, Error> {
-    Future { promise in
-      let operation = CKModifyRecordsOperation(
-        recordsToSave: nil, recordIDsToDelete: [recordID]
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecord.ID, Error> {
+    let operation = CKModifyRecordsOperation(
+      recordsToSave: nil, recordIDsToDelete: [recordID]
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordsCompletionBlock = { _, recordIDs, error in
         guard let recordID = recordIDs?.first, error == nil else {
           promise(.failure(error!))
@@ -94,7 +98,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func delete(
@@ -189,12 +195,13 @@ extension CKDatabase {
   public func fetch(
     withRecordID recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecord, Error> {
-    Future { promise in
-      let operation = CKFetchRecordsOperation(recordIDs: [recordID])
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecord, Error> {
+    let operation = CKFetchRecordsOperation(recordIDs: [recordID])
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.fetchRecordsCompletionBlock = { records, error in
         guard let record = records?.first?.value, error == nil else {
           promise(.failure(error!))
@@ -205,7 +212,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public struct CCKFetchRecordPublishers {
@@ -258,12 +267,13 @@ extension CKDatabase {
   public func fetchCurrentUserRecord(
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecord, Error> {
-    Future { promise in
-      let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecord, Error> {
+    let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.desiredKeys = desiredKeys
       operation.fetchRecordsCompletionBlock = { records, error in
         guard let record = records?.first?.value, error == nil else {
@@ -275,7 +285,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func query(

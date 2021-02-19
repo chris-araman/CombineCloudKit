@@ -28,14 +28,15 @@ extension CKDatabase {
   public func save(
     recordZone: CKRecordZone,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecordZone, Error> {
-    Future { promise in
-      let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecordZone, Error> {
+    let operation = CKModifyRecordZonesOperation(
+      recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
         guard let savedRecordZone = savedRecordZones?.first, error == nil else {
           promise(.failure(error!))
@@ -46,20 +47,23 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func save(
     recordZones: [CKRecordZone],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<[CKRecordZone], Error> {
-    Future { promise in
-      let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<[CKRecordZone], Error> {
+    let operation = CKModifyRecordZonesOperation(
+      recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
         guard let savedRecordZones = savedRecordZones, error == nil else {
           promise(.failure(error!))
@@ -70,7 +74,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func deleteAtBackgroundPriority(
@@ -91,14 +97,15 @@ extension CKDatabase {
   public func delete(
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecordZone.ID, Error> {
-    Future { promise in
-      let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID]
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecordZone.ID, Error> {
+    let operation = CKModifyRecordZonesOperation(
+      recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID]
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
         guard let deletedRecordZoneID = deletedRecordZoneIDs?.first, error == nil else {
           promise(.failure(error!))
@@ -109,20 +116,23 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func delete(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<[CKRecordZone.ID], Error> {
-    Future { promise in
-      let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<[CKRecordZone.ID], Error> {
+    let operation = CKModifyRecordZonesOperation(
+      recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
         guard let deletedRecordZoneIDs = deletedRecordZoneIDs, error == nil else {
           promise(.failure(error!))
@@ -133,21 +143,24 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func modify(
     recordZonesToSave: [CKRecordZone]? = nil,
     recordZoneIDsToDelete: [CKRecordZone.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<([CKRecordZone]?, [CKRecordZone.ID]?), Error> {
-    Future { promise in
-      let operation = CKModifyRecordZonesOperation(
-        recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete
-      )
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<([CKRecordZone]?, [CKRecordZone.ID]?), Error> {
+    let operation = CKModifyRecordZonesOperation(
+      recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete
+    )
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.modifyRecordZonesCompletionBlock = { saved, deleted, error in
         guard error == nil else {
           promise(.failure(error!))
@@ -158,7 +171,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func fetchAtBackgroundPriority(
@@ -179,12 +194,13 @@ extension CKDatabase {
   public func fetch(
     withRecordZoneID recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<CKRecordZone, Error> {
-    Future { promise in
-      let operation = CKFetchRecordZonesOperation(recordZoneIDs: [recordZoneID])
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<CKRecordZone, Error> {
+    let operation = CKFetchRecordZonesOperation(recordZoneIDs: [recordZoneID])
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZone = recordZones?.first?.value, error == nil else {
           promise(.failure(error!))
@@ -195,18 +211,21 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func fetch(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
-    Future { promise in
-      let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error> {
+    let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZones = recordZones, error == nil else {
           promise(.failure(error!))
@@ -217,7 +236,9 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 
   public func fetchAllRecordZonesAtBackgroundPriority()
@@ -243,12 +264,13 @@ extension CKDatabase {
 
   public func fetchAllRecordZones(
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
-    Future { promise in
-      let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
-      if configuration != nil {
-        operation.configuration = configuration
-      }
+  ) -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error> {
+    let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
+    if configuration != nil {
+      operation.configuration = configuration
+    }
+
+    return Future { promise in
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZones = recordZones, error == nil else {
           promise(.failure(error!))
@@ -259,6 +281,8 @@ extension CKDatabase {
       }
 
       self.add(operation)
-    }
+    }.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 }
