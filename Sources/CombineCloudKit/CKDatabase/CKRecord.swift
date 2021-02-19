@@ -27,25 +27,7 @@ extension CKDatabase {
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    let operation = CKModifyRecordsOperation(
-      recordsToSave: [record], recordIDsToDelete: nil
-    )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.modifyRecordsCompletionBlock = { records, _, error in
-        guard let record = records?.first, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(record))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+    save(records: [record], withConfiguration: configuration)
   }
 
   public func save(
@@ -79,25 +61,7 @@ extension CKDatabase {
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    let operation = CKModifyRecordsOperation(
-      recordsToSave: nil, recordIDsToDelete: [recordID]
-    )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.modifyRecordsCompletionBlock = { _, recordIDs, error in
-        guard let recordID = recordIDs?.first, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordID))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+    delete(recordIDs: [recordID], withConfiguration: configuration)
   }
 
   public func delete(
@@ -212,32 +176,16 @@ extension CKDatabase {
     }
   }
 
-  public func fetch(
-    withRecordID recordID: CKRecord.ID,
-    withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
-    let operation = CKFetchRecordsOperation(recordIDs: [recordID])
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.fetchRecordsCompletionBlock = { records, error in
-        guard let record = records?.first?.value, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(record))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
-  }
-
   public struct CCKFetchRecordPublishers {
     let progress: AnyPublisher<(CKRecord.ID, Double), Error>
     let fetched: AnyPublisher<CKRecord, Error>
+  }
+
+  public func fetch(
+    recordID: CKRecord.ID,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> CCKFetchRecordPublishers {
+    fetch(recordIDs: [recordID], withConfiguration: configuration)
   }
 
   public func fetch(

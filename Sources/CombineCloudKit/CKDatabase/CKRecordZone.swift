@@ -29,50 +29,36 @@ extension CKDatabase {
     recordZone: CKRecordZone,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    let operation = CKModifyRecordZonesOperation(
-      recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil
-    )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
-        guard let savedRecordZone = savedRecordZones?.first, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(savedRecordZone))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+    save(recordZones: [recordZone], withConfiguration: configuration)
   }
 
   public func save(
     recordZones: [CKRecordZone],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<[CKRecordZone], Error> {
+  ) -> AnyPublisher<CKRecordZone, Error> {
+    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
     )
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
-        guard let savedRecordZones = savedRecordZones, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(savedRecordZones))
+    operation.modifyRecordZonesCompletionBlock = { recordZones, _, error in
+      guard let recordZones = recordZones, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
 
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+      for recordZone in recordZones {
+        subject.send(recordZone)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    add(operation)
+
+    return subject.propagateCancellationTo(operation)
   }
 
   public func deleteAtBackgroundPriority(
@@ -94,50 +80,36 @@ extension CKDatabase {
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    let operation = CKModifyRecordZonesOperation(
-      recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID]
-    )
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
-        guard let deletedRecordZoneID = deletedRecordZoneIDs?.first, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(deletedRecordZoneID))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+    delete(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
   }
 
   public func delete(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<[CKRecordZone.ID], Error> {
+  ) -> AnyPublisher<CKRecordZone.ID, Error> {
+    let subject = PassthroughSubject<CKRecordZone.ID, Error>()
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
     )
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
-        guard let deletedRecordZoneIDs = deletedRecordZoneIDs, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(deletedRecordZoneIDs))
+    operation.modifyRecordZonesCompletionBlock = { _, recordZoneIDs, error in
+      guard let recordZoneIDs = recordZoneIDs, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
 
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+      for recordZoneID in recordZoneIDs {
+        subject.send(recordZoneID)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    add(operation)
+
+    return subject.propagateCancellationTo(operation)
   }
 
   public func modify(
@@ -182,49 +154,37 @@ extension CKDatabase {
   }
 
   public func fetch(
-    withRecordZoneID recordZoneID: CKRecordZone.ID,
+    recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    let operation = CKFetchRecordZonesOperation(recordZoneIDs: [recordZoneID])
-    if configuration != nil {
-      operation.configuration = configuration
-    }
-
-    return Future { promise in
-      operation.fetchRecordZonesCompletionBlock = { recordZones, error in
-        guard let recordZone = recordZones?.first?.value, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordZone))
-      }
-
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+    fetch(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
   }
 
   public func fetch(
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error> {
+  ) -> AnyPublisher<CKRecordZone, Error> {
+    let subject = PassthroughSubject<CKRecordZone, Error>()
     let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
     if configuration != nil {
       operation.configuration = configuration
     }
-
-    return Future { promise in
-      operation.fetchRecordZonesCompletionBlock = { recordZones, error in
-        guard let recordZones = recordZones, error == nil else {
-          promise(.failure(error!))
-          return
-        }
-
-        promise(.success(recordZones))
+    operation.fetchRecordZonesCompletionBlock = { recordZones, error in
+      guard let recordZones = recordZones, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
       }
 
-      self.add(operation)
-    }.propagateCancellationTo(operation)
+      for recordZone in recordZones.values {
+        subject.send(recordZone)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    add(operation)
+
+    return subject.propagateCancellationTo(operation)
   }
 
   public func fetchAllRecordZonesAtBackgroundPriority()
