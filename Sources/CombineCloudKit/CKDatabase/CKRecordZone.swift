@@ -12,7 +12,7 @@ import Combine
 extension CKDatabase {
   public func saveAtBackgroundPriority(
     recordZone: CKRecordZone
-  ) -> Future<CKRecordZone, Error> {
+  ) -> AnyPublisher<CKRecordZone, Error> {
     Future { promise in
       self.save(recordZone) { recordZone, error in
         guard let recordZone = recordZone, error == nil else {
@@ -22,7 +22,7 @@ extension CKDatabase {
 
         promise(.success(recordZone))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func save(
@@ -63,7 +63,7 @@ extension CKDatabase {
 
   public func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
-  ) -> Future<CKRecordZone.ID, Error> {
+  ) -> AnyPublisher<CKRecordZone.ID, Error> {
     Future { promise in
       self.delete(withRecordZoneID: recordZoneID) { recordZoneID, error in
         guard let recordZoneID = recordZoneID, error == nil else {
@@ -73,7 +73,7 @@ extension CKDatabase {
 
         promise(.success(recordZoneID))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func delete(
@@ -140,7 +140,7 @@ extension CKDatabase {
 
   public func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID
-  ) -> Future<CKRecordZone, Error> {
+  ) -> AnyPublisher<CKRecordZone, Error> {
     Future { promise in
       self.fetch(withRecordZoneID: recordZoneID) { recordZone, error in
         guard let recordZone = recordZone, error == nil else {
@@ -150,7 +150,7 @@ extension CKDatabase {
 
         promise(.success(recordZone))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func fetch(
@@ -188,7 +188,7 @@ extension CKDatabase {
   }
 
   public func fetchAllRecordZonesAtBackgroundPriority()
-    -> Future<[CKRecordZone.ID: CKRecordZone], Error>
+    -> AnyPublisher<[CKRecordZone.ID: CKRecordZone], Error>
   {
     Future { promise in
       self.fetchAllRecordZones { zones, error in
@@ -205,7 +205,7 @@ extension CKDatabase {
 
         promise(.success(idsToZones))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func fetchAllRecordZones(

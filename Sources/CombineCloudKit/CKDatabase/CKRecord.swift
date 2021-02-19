@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  public func saveAtBackgroundPriority(record: CKRecord) -> Future<CKRecord, Error> {
+  public func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
     Future { promise in
       self.save(record) { record, error in
         guard let record = record, error == nil else {
@@ -20,7 +20,7 @@ extension CKDatabase {
 
         promise(.success(record))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func save(
@@ -44,7 +44,8 @@ extension CKDatabase {
     return publishers.saved.propagateCancellationTo(operation)
   }
 
-  public func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> Future<CKRecord.ID, Error> {
+  public func deleteAtBackgroundPriority(recordID: CKRecord.ID) -> AnyPublisher<CKRecord.ID, Error>
+  {
     Future { promise in
       self.delete(withRecordID: recordID) { recordID, error in
         guard let recordID = recordID, error == nil else {
@@ -54,7 +55,7 @@ extension CKDatabase {
 
         promise(.success(recordID))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func delete(
@@ -163,7 +164,7 @@ extension CKDatabase {
 
   public func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
-  ) -> Future<CKRecord, Error> {
+  ) -> AnyPublisher<CKRecord, Error> {
     Future { promise in
       self.fetch(withRecordID: recordID) { record, error in
         guard let record = record, error == nil else {
@@ -173,7 +174,7 @@ extension CKDatabase {
 
         promise(.success(record))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public struct CCKFetchRecordPublishers {

@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension CKContainer {
-  public func accountStatus() -> Future<CKAccountStatus, Error> {
+  public func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
     Future { promise in
       self.accountStatus { status, error in
         guard error == nil else {
@@ -20,6 +20,6 @@ extension CKContainer {
 
         promise(.success(status))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }

@@ -12,7 +12,7 @@ import Combine
 extension CKDatabase {
   public func saveAtBackgroundPriority(
     subscription: CKSubscription
-  ) -> Future<CKSubscription, Error> {
+  ) -> AnyPublisher<CKSubscription, Error> {
     Future { promise in
       self.save(subscription) { subscription, error in
         guard let subscription = subscription, error == nil else {
@@ -22,7 +22,7 @@ extension CKDatabase {
 
         promise(.success(subscription))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func save(
@@ -64,7 +64,7 @@ extension CKDatabase {
 
   public func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
-  ) -> Future<CKSubscription.ID, Error> {
+  ) -> AnyPublisher<CKSubscription.ID, Error> {
     Future { promise in
       self.delete(withSubscriptionID: subscriptionID) { subscriptionID, error in
         guard let subscriptionID = subscriptionID, error == nil else {
@@ -74,7 +74,7 @@ extension CKDatabase {
 
         promise(.success(subscriptionID))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func delete(
@@ -166,7 +166,7 @@ extension CKDatabase {
 
   public func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
-  ) -> Future<CKSubscription, Error> {
+  ) -> AnyPublisher<CKSubscription, Error> {
     Future { promise in
       self.fetch(withSubscriptionID: subscriptionID) { subscription, error in
         guard let subscription = subscription, error == nil else {
@@ -176,7 +176,7 @@ extension CKDatabase {
 
         promise(.success(subscription))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func fetch(
@@ -214,7 +214,7 @@ extension CKDatabase {
   }
 
   public func fetchAllSubscriptionsAtBackgroundPriority()
-    -> Future<[CKSubscription.ID: CKSubscription], Error>
+    -> AnyPublisher<[CKSubscription.ID: CKSubscription], Error>
   {
     Future { promise in
       self.fetchAllSubscriptions { subscriptions, error in
@@ -231,7 +231,7 @@ extension CKDatabase {
 
         promise(.success(idsToSubscriptions))
       }
-    }
+    }.eraseToAnyPublisher()
   }
 
   public func fetchAllSubscriptions(
