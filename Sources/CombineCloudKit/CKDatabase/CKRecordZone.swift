@@ -25,11 +25,17 @@ extension CKDatabase {
     }
   }
 
-  public func save(recordZone: CKRecordZone) -> Future<CKRecordZone, Error> {
+  public func save(
+    recordZone: CKRecordZone,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> Future<CKRecordZone, Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: [recordZone], recordZoneIDsToDelete: nil
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
         guard let savedRecordZone = savedRecordZones?.first, error == nil else {
           promise(.failure(error!))
@@ -44,12 +50,16 @@ extension CKDatabase {
   }
 
   public func save(
-    recordZones: [CKRecordZone]
+    recordZones: [CKRecordZone],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKRecordZone], Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifyRecordZonesCompletionBlock = { savedRecordZones, _, error in
         guard let savedRecordZones = savedRecordZones, error == nil else {
           promise(.failure(error!))
@@ -78,11 +88,17 @@ extension CKDatabase {
     }
   }
 
-  public func delete(recordZoneID: CKRecordZone.ID) -> Future<CKRecordZone.ID, Error> {
+  public func delete(
+    recordZoneID: CKRecordZone.ID,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> Future<CKRecordZone.ID, Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: nil, recordZoneIDsToDelete: [recordZoneID]
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
         guard let deletedRecordZoneID = deletedRecordZoneIDs?.first, error == nil else {
           promise(.failure(error!))
@@ -97,12 +113,16 @@ extension CKDatabase {
   }
 
   public func delete(
-    recordZoneIDs: [CKRecordZone.ID]
+    recordZoneIDs: [CKRecordZone.ID],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKRecordZone.ID], Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifyRecordZonesCompletionBlock = { _, deletedRecordZoneIDs, error in
         guard let deletedRecordZoneIDs = deletedRecordZoneIDs, error == nil else {
           promise(.failure(error!))
@@ -118,12 +138,16 @@ extension CKDatabase {
 
   public func modify(
     recordZonesToSave: [CKRecordZone]? = nil,
-    recordZoneIDsToDelete: [CKRecordZone.ID]? = nil
+    recordZoneIDsToDelete: [CKRecordZone.ID]? = nil,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<([CKRecordZone]?, [CKRecordZone.ID]?), Error> {
     Future { promise in
       let operation = CKModifyRecordZonesOperation(
         recordZonesToSave: recordZonesToSave, recordZoneIDsToDelete: recordZoneIDsToDelete
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifyRecordZonesCompletionBlock = { saved, deleted, error in
         guard error == nil else {
           promise(.failure(error!))
@@ -153,10 +177,14 @@ extension CKDatabase {
   }
 
   public func fetch(
-    withRecordZoneID recordZoneID: CKRecordZone.ID
+    withRecordZoneID recordZoneID: CKRecordZone.ID,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<CKRecordZone, Error> {
     Future { promise in
       let operation = CKFetchRecordZonesOperation(recordZoneIDs: [recordZoneID])
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZone = recordZones?.first?.value, error == nil else {
           promise(.failure(error!))
@@ -171,10 +199,14 @@ extension CKDatabase {
   }
 
   public func fetch(
-    recordZoneIDs: [CKRecordZone.ID]
+    recordZoneIDs: [CKRecordZone.ID],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
     Future { promise in
       let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZones = recordZones, error == nil else {
           promise(.failure(error!))
@@ -209,9 +241,14 @@ extension CKDatabase {
     }
   }
 
-  public func fetchAllRecordZones() -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
+  public func fetchAllRecordZones(
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> Future<[CKRecordZone.ID: CKRecordZone], Error> {
     Future { promise in
       let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchRecordZonesCompletionBlock = { recordZones, error in
         guard let recordZones = recordZones, error == nil else {
           promise(.failure(error!))

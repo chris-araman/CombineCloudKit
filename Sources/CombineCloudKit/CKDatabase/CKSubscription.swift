@@ -26,13 +26,17 @@ extension CKDatabase {
   }
 
   public func save(
-    subscription: CKSubscription
+    subscription: CKSubscription,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<CKSubscription, Error> {
     Future { promise in
       let operation = CKModifySubscriptionsOperation(
         subscriptionsToSave: [subscription],
         subscriptionIDsToDelete: nil
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifySubscriptionsCompletionBlock = { subscriptions, _, error in
         guard let subscription = subscriptions?.first, error == nil else {
           promise(.failure(error!))
@@ -47,13 +51,17 @@ extension CKDatabase {
   }
 
   public func save(
-    subscriptions: [CKSubscription]
+    subscriptions: [CKSubscription],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKSubscription], Error> {
     Future { promise in
       let operation = CKModifySubscriptionsOperation(
         subscriptionsToSave: subscriptions,
         subscriptionIDsToDelete: nil
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifySubscriptionsCompletionBlock = { subscriptions, _, error in
         guard let subscriptions = subscriptions, error == nil else {
           promise(.failure(error!))
@@ -83,13 +91,17 @@ extension CKDatabase {
   }
 
   public func delete(
-    subscriptionID: CKSubscription.ID
+    subscriptionID: CKSubscription.ID,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<CKSubscription.ID, Error> {
     Future { promise in
       let operation = CKModifySubscriptionsOperation(
         subscriptionsToSave: nil,
         subscriptionIDsToDelete: [subscriptionID]
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifySubscriptionsCompletionBlock = { _, subscriptionIDs, error in
         guard let subscriptionID = subscriptionIDs?.first, error == nil else {
           promise(.failure(error!))
@@ -104,13 +116,17 @@ extension CKDatabase {
   }
 
   public func delete(
-    subscriptionIDs: [CKSubscription.ID]
+    subscriptionIDs: [CKSubscription.ID],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKSubscription.ID], Error> {
     Future { promise in
       let operation = CKModifySubscriptionsOperation(
         subscriptionsToSave: nil,
         subscriptionIDsToDelete: subscriptionIDs
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifySubscriptionsCompletionBlock = { _, subscriptionIDs, error in
         guard let subscriptionIDs = subscriptionIDs, error == nil else {
           promise(.failure(error!))
@@ -126,13 +142,17 @@ extension CKDatabase {
 
   public func modify(
     subscriptionsToSave: [CKSubscription]? = nil,
-    subscriptionIDsToDelete: [CKSubscription.ID]? = nil
+    subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<([CKSubscription]?, [CKSubscription.ID]?), Error> {
     Future { promise in
       let operation = CKModifySubscriptionsOperation(
         subscriptionsToSave: subscriptionsToSave,
         subscriptionIDsToDelete: subscriptionIDsToDelete
       )
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.modifySubscriptionsCompletionBlock = { saved, deleted, error in
         guard error == nil else {
           promise(.failure(error!))
@@ -162,10 +182,14 @@ extension CKDatabase {
   }
 
   public func fetch(
-    withSubscriptionID subscriptionID: CKSubscription.ID
+    withSubscriptionID subscriptionID: CKSubscription.ID,
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<CKSubscription, Error> {
     Future { promise in
       let operation = CKFetchSubscriptionsOperation(subscriptionIDs: [subscriptionID])
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchSubscriptionCompletionBlock = { subsciptions, error in
         guard let subsciption = subsciptions?.first?.value, error == nil else {
           promise(.failure(error!))
@@ -180,10 +204,14 @@ extension CKDatabase {
   }
 
   public func fetch(
-    subscriptionIDs: [CKSubscription.ID]
+    subscriptionIDs: [CKSubscription.ID],
+    withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> Future<[CKSubscription.ID: CKSubscription], Error> {
     Future { promise in
       let operation = CKFetchSubscriptionsOperation(subscriptionIDs: subscriptionIDs)
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchSubscriptionCompletionBlock = { subscriptions, error in
         guard let subscriptions = subscriptions, error == nil else {
           promise(.failure(error!))
@@ -198,7 +226,8 @@ extension CKDatabase {
   }
 
   public func fetchAllSubscriptionsAtBackgroundPriority()
-    -> Future<[CKSubscription.ID: CKSubscription], Error> {
+    -> Future<[CKSubscription.ID: CKSubscription], Error>
+  {
     Future { promise in
       self.fetchAllSubscriptions { subscriptions, error in
         guard let subscriptions = subscriptions, error == nil else {
@@ -217,9 +246,14 @@ extension CKDatabase {
     }
   }
 
-  public func fetchAllSubscriptions() -> Future<[CKSubscription.ID: CKSubscription], Error> {
+  public func fetchAllSubscriptions(
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> Future<[CKSubscription.ID: CKSubscription], Error> {
     Future { promise in
       let operation = CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
+      if configuration != nil {
+        operation.configuration = configuration
+      }
       operation.fetchSubscriptionCompletionBlock = { subscriptions, error in
         guard let subscriptions = subscriptions, error == nil else {
           promise(.failure(error!))
