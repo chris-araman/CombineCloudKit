@@ -315,52 +315,53 @@ extension CKDatabase {
     resultsLimit: Int = CKQueryOperation.maximumResults,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    func onRecordFetched(record: CKRecord) {
-      if demand <= 0 {
-        // Ignore any remaining results.
-        return
-      }
-
-      if demand != CKQueryOperation.maximumResults {
-        // Reduce demand.
-        demand -= 1
-      }
-
-      subject.send(record)
-    }
-
-    func onQueryCompletion(cursor: CKQueryOperation.Cursor?, error: Error?) {
-      guard error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      guard let cursor = cursor else {
-        // We've fetched all the results.
-        subject.send(completion: .finished)
-        return
-      }
-
-      // Fetch the next page of results.
-      configureAndAdd(CKQueryOperation(cursor: cursor))
-    }
-
-    func configureAndAdd(_ operation: CKQueryOperation) {
+    func continueQuery() {
       if configuration != nil {
         operation.configuration = configuration
       }
       operation.desiredKeys = desiredKeys
       operation.resultsLimit = demand
       operation.zoneID = zoneID
-      operation.recordFetchedBlock = onRecordFetched
-      operation.queryCompletionBlock = onQueryCompletion
+      operation.recordFetchedBlock = { record in
+        if demand <= 0 {
+          // Ignore any remaining results.
+          return
+        }
+
+        if demand != CKQueryOperation.maximumResults {
+          // Reduce demand.
+          demand -= 1
+        }
+
+        subject.send(record)
+      }
+      operation.queryCompletionBlock = { cursor, error in
+        guard error == nil else {
+          subject.send(completion: .failure(error!))
+          return
+        }
+
+        guard let cursor = cursor else {
+          // We've fetched all the results.
+          subject.send(completion: .finished)
+          return
+        }
+
+        // Fetch the next page of results.
+        operation = CKQueryOperation(cursor: cursor)
+        continueQuery()
+      }
+
       add(operation)
     }
 
-    var demand = resultsLimit
     let subject = PassthroughSubject<CKRecord, Error>()
-    let operation = CKQueryOperation(query: query)
-    configureAndAdd(operation)
-    return subject.eraseToAnyPublisher()
+    var demand = resultsLimit
+    var operation = CKQueryOperation(query: query)
+    continueQuery()
+
+    return subject.handleEvents(receiveCancel: {
+      operation.cancel()
+    }).eraseToAnyPublisher()
   }
 }
