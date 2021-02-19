@@ -141,21 +141,7 @@ extension CKDatabase {
   public final func fetchAllRecordZonesAtBackgroundPriority()
     -> AnyPublisher<CKRecordZone, Error>
   {
-    let subject = PassthroughSubject<CKRecordZone, Error>()
-    fetchAllRecordZones { recordZones, error in
-      guard let recordZones = recordZones, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for recordZone in recordZones {
-        subject.send(recordZone)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    return subject.eraseToAnyPublisher()
+    publisherFrom(method: fetchAllRecordZones)
   }
 
   public final func fetchAllRecordZones(

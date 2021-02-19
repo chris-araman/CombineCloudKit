@@ -24,6 +24,27 @@ internal func publisherFrom<Output>(
   }.eraseToAnyPublisher()
 }
 
+internal func publisherFrom<Output>(
+  method: @escaping (@escaping ([Output]?, Error?) -> Void) -> Void
+) -> AnyPublisher<Output, Error> {
+  let subject = PassthroughSubject<Output, Error>()
+
+  method { outputs, error in
+    guard let outputs = outputs, error == nil else {
+      subject.send(completion: .failure(error!))
+      return
+    }
+
+    for output in outputs {
+      subject.send(output)
+    }
+
+    subject.send(completion: .finished)
+  }
+
+  return subject.eraseToAnyPublisher()
+}
+
 internal func publisherFrom<Input, Output>(
   method: @escaping (Input, @escaping (Output?, Error?) -> Void) -> Void,
   with input: Input

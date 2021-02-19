@@ -143,22 +143,7 @@ extension CKDatabase {
   public final func fetchAllSubscriptionsAtBackgroundPriority()
     -> AnyPublisher<CKSubscription, Error>
   {
-    let subject = PassthroughSubject<CKSubscription, Error>()
-
-    fetchAllSubscriptions { subscriptions, error in
-      guard let subscriptions = subscriptions, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for subscription in subscriptions {
-        subject.send(subscription)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    return subject.eraseToAnyPublisher()
+    publisherFrom(method: fetchAllSubscriptions)
   }
 
   public final func fetchAllSubscriptions(
