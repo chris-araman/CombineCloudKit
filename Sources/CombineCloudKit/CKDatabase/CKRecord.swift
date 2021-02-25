@@ -11,7 +11,7 @@ import Combine
 
 extension CKDatabase {
   public final func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
-    publisherFrom(method: save, with: record)
+    publisherFrom(save, with: record)
   }
 
   public final func save(
@@ -36,8 +36,9 @@ extension CKDatabase {
   }
 
   public final func deleteAtBackgroundPriority(recordID: CKRecord.ID)
-    -> AnyPublisher<CKRecord.ID, Error> {
-    publisherFrom(method: delete, with: recordID)
+    -> AnyPublisher<CKRecord.ID, Error>
+  {
+    publisherFrom(delete, with: recordID)
   }
 
   public final func delete(
@@ -147,7 +148,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
   ) -> AnyPublisher<CKRecord, Error> {
-    publisherFrom(method: fetch, with: recordID)
+    publisherFrom(fetch, with: recordID)
   }
 
   public struct CCKFetchRecordPublishers {
@@ -205,13 +206,11 @@ extension CKDatabase {
   }
 
   public final func fetchCurrentUserRecord(
-    desiredKeys: [CKRecord.FieldKey]? = nil,
+    desiredKeys _: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
     let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.fetchRecordsCompletionBlock = completion
     }
   }

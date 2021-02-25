@@ -13,7 +13,7 @@ extension CKDatabase {
   public final func saveAtBackgroundPriority(
     recordZone: CKRecordZone
   ) -> AnyPublisher<CKRecordZone, Error> {
-    publisherFrom(method: save, with: recordZone)
+    publisherFrom(save, with: recordZone)
   }
 
   public final func save(
@@ -30,9 +30,7 @@ extension CKDatabase {
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: recordZones, recordZoneIDsToDelete: nil
     )
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.modifyRecordZonesCompletionBlock = completion
     }
   }
@@ -40,7 +38,7 @@ extension CKDatabase {
   public final func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    publisherFrom(method: delete, with: recordZoneID)
+    publisherFrom(delete, with: recordZoneID)
   }
 
   public final func delete(
@@ -57,9 +55,7 @@ extension CKDatabase {
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
     )
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.modifyRecordZonesCompletionBlock = completion
     }
   }
@@ -78,9 +74,9 @@ extension CKDatabase {
       recordZonesToSave: recordZonesToSave,
       recordZoneIDsToDelete: recordZoneIDsToDelete
     )
-    return publisherFromOperation(
+    return publisherFrom(
       operation,
-      withConfiguration: configuration,
+      configuration,
       setCompletion: { completion in operation.modifyRecordZonesCompletionBlock = completion },
       initPublishers: CCKModifyRecordZonePublishers.init
     )
@@ -89,7 +85,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID
   ) -> AnyPublisher<CKRecordZone, Error> {
-    publisherFrom(method: fetch, with: recordZoneID)
+    publisherFrom(fetch, with: recordZoneID)
   }
 
   public final func fetch(
@@ -104,9 +100,7 @@ extension CKDatabase {
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
     let operation = CKFetchRecordZonesOperation(recordZoneIDs: recordZoneIDs)
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.fetchRecordZonesCompletionBlock = completion
     }
   }
@@ -114,16 +108,14 @@ extension CKDatabase {
   public final func fetchAllRecordZonesAtBackgroundPriority()
     -> AnyPublisher<CKRecordZone, Error>
   {
-    publisherFrom(method: fetchAllRecordZones)
+    publisherFrom(fetchAllRecordZones)
   }
 
   public final func fetchAllRecordZones(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
     let operation = CKFetchRecordZonesOperation.fetchAllRecordZonesOperation()
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.fetchRecordZonesCompletionBlock = completion
     }
   }

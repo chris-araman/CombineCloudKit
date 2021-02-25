@@ -10,9 +10,46 @@ import CloudKit
 import Combine
 
 extension CKDatabase {
-  func publisherFromOperation<Output, Ignored>(
+  func publisherFrom<Output>(
+    _ method: @escaping (@escaping ([Output]?, Error?) -> Void) -> Void
+  ) -> AnyPublisher<Output, Error> {
+    let subject = PassthroughSubject<Output, Error>()
+
+    method { outputs, error in
+      guard let outputs = outputs, error == nil else {
+        subject.send(completion: .failure(error!))
+        return
+      }
+
+      for output in outputs {
+        subject.send(output)
+      }
+
+      subject.send(completion: .finished)
+    }
+
+    return subject.eraseToAnyPublisher()
+  }
+
+  func publisherFrom<Input, Output>(
+    _ method: @escaping (Input, @escaping (Output?, Error?) -> Void) -> Void,
+    with input: Input
+  ) -> AnyPublisher<Output, Error> {
+    Future { promise in
+      method(input) { output, error in
+        guard let output = output, error == nil else {
+          promise(.failure(error!))
+          return
+        }
+
+        promise(.success(output))
+      }
+    }.eraseToAnyPublisher()
+  }
+
+  func publisherFrom<Output, Ignored>(
     _ operation: CKDatabaseOperation,
-    withConfiguration configuration: CKOperation.Configuration? = nil,
+    _ configuration: CKOperation.Configuration? = nil,
     _ setCompletion: (@escaping ([Ignored: Output]?, Error?) -> Void) -> Void
   ) -> AnyPublisher<Output, Error> {
     let subject = PassthroughSubject<Output, Error>()
@@ -37,9 +74,9 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  func publisherFromOperation<Output, Ignored>(
+  func publisherFrom<Output, Ignored>(
     _ operation: CKDatabaseOperation,
-    withConfiguration configuration: CKOperation.Configuration? = nil,
+    _ configuration: CKOperation.Configuration? = nil,
     _ setCompletion: (@escaping ([Output]?, Ignored, Error?) -> Void) -> Void
   ) -> AnyPublisher<Output, Error> {
     let subject = PassthroughSubject<Output, Error>()
@@ -64,9 +101,9 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  func publisherFromOperation<Output, Ignored>(
+  func publisherFrom<Output, Ignored>(
     _ operation: CKDatabaseOperation,
-    withConfiguration configuration: CKOperation.Configuration? = nil,
+    _ configuration: CKOperation.Configuration? = nil,
     _ setCompletion: (@escaping (Ignored, [Output]?, Error?) -> Void) -> Void
   ) -> AnyPublisher<Output, Error> {
     let subject = PassthroughSubject<Output, Error>()
@@ -90,10 +127,10 @@ extension CKDatabase {
 
     return subject.propagateCancellationTo(operation)
   }
-  
-  func publisherFromOperation<Output, OutputID, Publishers>(
+
+  func publisherFrom<Output, OutputID, Publishers>(
     _ operation: CKDatabaseOperation,
-    withConfiguration configuration: CKOperation.Configuration? = nil,
+    _ configuration: CKOperation.Configuration? = nil,
     setCompletion: (@escaping ([Output]?, [OutputID]?, Error?) -> Void) -> Void,
     initPublishers: (AnyPublisher<Output, Error>, AnyPublisher<OutputID, Error>) -> Publishers
   ) -> Publishers {

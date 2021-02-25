@@ -13,7 +13,7 @@ extension CKDatabase {
   public final func saveAtBackgroundPriority(
     subscription: CKSubscription
   ) -> AnyPublisher<CKSubscription, Error> {
-    publisherFrom(method: save, with: subscription)
+    publisherFrom(save, with: subscription)
   }
 
   public final func save(
@@ -29,10 +29,9 @@ extension CKDatabase {
   ) -> AnyPublisher<CKSubscription, Error> {
     let operation = CKModifySubscriptionsOperation(
       subscriptionsToSave: subscriptions,
-      subscriptionIDsToDelete: nil)
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+      subscriptionIDsToDelete: nil
+    )
+    return publisherFrom(operation, configuration) { completion in
       operation.modifySubscriptionsCompletionBlock = completion
     }
   }
@@ -40,7 +39,7 @@ extension CKDatabase {
   public final func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription.ID, Error> {
-    publisherFrom(method: delete, with: subscriptionID)
+    publisherFrom(delete, with: subscriptionID)
   }
 
   public final func delete(
@@ -58,9 +57,7 @@ extension CKDatabase {
       subscriptionsToSave: nil,
       subscriptionIDsToDelete: subscriptionIDs
     )
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.modifySubscriptionsCompletionBlock = completion
     }
   }
@@ -79,9 +76,9 @@ extension CKDatabase {
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
     )
-    return publisherFromOperation(
+    return publisherFrom(
       operation,
-      withConfiguration: configuration,
+      configuration,
       setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion },
       initPublishers: CCKModifySubscriptionPublishers.init
     )
@@ -90,7 +87,7 @@ extension CKDatabase {
   public final func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription, Error> {
-    publisherFrom(method: fetch, with: subscriptionID)
+    publisherFrom(fetch, with: subscriptionID)
   }
 
   public final func fetch(
@@ -105,9 +102,7 @@ extension CKDatabase {
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
     let operation = CKFetchSubscriptionsOperation(subscriptionIDs: subscriptionIDs)
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.fetchSubscriptionCompletionBlock = completion
     }
   }
@@ -115,16 +110,14 @@ extension CKDatabase {
   public final func fetchAllSubscriptionsAtBackgroundPriority()
     -> AnyPublisher<CKSubscription, Error>
   {
-    publisherFrom(method: fetchAllSubscriptions)
+    publisherFrom(fetchAllSubscriptions)
   }
 
   public final func fetchAllSubscriptions(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
     let operation = CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
-    return publisherFromOperation(
-      operation,
-      withConfiguration: configuration) { completion in
+    return publisherFrom(operation, configuration) { completion in
       operation.fetchSubscriptionCompletionBlock = completion
     }
   }
