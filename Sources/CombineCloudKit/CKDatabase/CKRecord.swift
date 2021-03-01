@@ -197,6 +197,7 @@ extension CKDatabase {
       progressSubject.send(completion: .finished)
       fetchedSubject.send(completion: .finished)
     }
+
     add(operation)
 
     return CCKFetchRecordPublishers(
@@ -237,58 +238,153 @@ extension CKDatabase {
     query: CKQuery,
     inZoneWith zoneID: CKRecordZone.ID? = nil,
     desiredKeys: [CKRecord.FieldKey]? = nil,
-    resultsLimit: Int = CKQueryOperation.maximumResults,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    func continueQuery() {
-      if configuration != nil {
-        operation.configuration = configuration
+    QueryPublisher(database: self, query, zoneID, desiredKeys, configuration).eraseToAnyPublisher()
+  }
+}
+
+internal class QueryPublisher: Publisher {
+  typealias Output = CKRecord
+  typealias Failure = Error
+
+  private let database: CKDatabase
+  private let query: CKQuery
+  private let zoneID: CKRecordZone.ID?
+  private let desiredKeys: [CKRecord.FieldKey]?
+  private let configuration: CKOperation.Configuration?
+
+  internal init(
+    database: CKDatabase,
+    _ query: CKQuery,
+    _ zoneID: CKRecordZone.ID?,
+    _ desiredKeys: [CKRecord.FieldKey]?,
+    _ configuration: CKOperation.Configuration?
+  ) {
+    self.database = database
+    self.query = query
+    self.zoneID = zoneID
+    self.desiredKeys = desiredKeys
+    self.configuration = configuration
+  }
+
+  func receive<Downstream>(subscriber: Downstream)
+  where Downstream: Subscriber, Downstream.Input == Output, Downstream.Failure == Failure {
+    subscriber.receive(subscription: QuerySubscription(self, subscriber))
+  }
+
+  private class QuerySubscription<Downstream>: Subscription
+  where Downstream: Subscriber, Downstream.Input == Output, Downstream.Failure == Failure {
+    private let publisher: QueryPublisher
+    private let operationQueue: OperationQueue
+    private let dispatchQueue: DispatchQueue
+    private var subscriber: Downstream?
+    private var demand = Subscribers.Demand.none
+    private var operation: CKQueryOperation
+    private var operationIsQueued = false
+
+    internal init(_ publisher: QueryPublisher, _ subscriber: Downstream) {
+      self.publisher = publisher
+      self.subscriber = subscriber
+
+      let qos: DispatchQoS
+      switch publisher.configuration?.qualityOfService {
+      case .userInteractive:
+        qos = .userInteractive
+      case .userInitiated:
+        qos = .userInitiated
+      case .utility:
+        qos = .utility
+      case .background:
+        qos = .background
+      default:
+        qos = .default
       }
-      operation.desiredKeys = desiredKeys
-      operation.resultsLimit = demand
-      operation.zoneID = zoneID
+
+      dispatchQueue = DispatchQueue(label: String(describing: type(of: self)), qos: qos)
+
+      operationQueue = OperationQueue()
+      operationQueue.name = dispatchQueue.label
+      operationQueue.underlyingQueue = dispatchQueue
+      if let qos = publisher.configuration?.qualityOfService {
+        operationQueue.qualityOfService = qos
+      }
+
+      operation = CKQueryOperation(query: publisher.query)
+      prepareOperation()
+    }
+
+    func request(_ demand: Subscribers.Demand) {
+      if demand == Subscribers.Demand.none {
+        return
+      }
+
+      dispatchQueue.async {
+        guard !self.operation.isCancelled, self.subscriber != nil else {
+          return
+        }
+
+        self.demand += demand
+
+        if !self.operationIsQueued {
+          self.operationQueue.addOperation(self.operation)
+          self.operationIsQueued = true
+        }
+      }
+    }
+
+    func cancel() {
+      subscriber = nil
+      operation.cancel()
+    }
+
+    private func prepareOperation() {
+      operation.database = publisher.database
+      operation.desiredKeys = publisher.desiredKeys
+      operation.zoneID = publisher.zoneID
+      operation.resultsLimit = demand.max ?? CKQueryOperation.maximumResults
+
+      if publisher.configuration != nil {
+        operation.configuration = publisher.configuration
+      }
+
       operation.recordFetchedBlock = { record in
-        if demand <= 0 {
+        assert(self.demand != Subscribers.Demand.none)
+
+        guard let subscriber = self.subscriber else {
           // Ignore any remaining results.
           return
         }
 
-        if demand != CKQueryOperation.maximumResults {
-          // Reduce demand.
-          demand -= 1
+        self.demand += subscriber.receive(record)
+      }
+
+      operation.queryCompletionBlock = { cursor, error in
+        guard let subscriber = self.subscriber else {
+          return
         }
 
-        subject.send(record)
-      }
-      operation.queryCompletionBlock = { cursor, error in
         guard error == nil else {
-          subject.send(completion: .failure(error!))
+          subscriber.receive(completion: .failure(error!))
           return
         }
 
         guard let cursor = cursor else {
           // We've fetched all the results.
-          subject.send(completion: .finished)
+          subscriber.receive(completion: .finished)
           return
         }
 
-        // Fetch the next page of results.
-        operation = CKQueryOperation(cursor: cursor)
-        continueQuery()
+        // Prepare to fetch the next page of results.
+        self.operation = CKQueryOperation(cursor: cursor)
+        self.prepareOperation()
+        if self.demand == Subscribers.Demand.none {
+          self.operationIsQueued = false
+        } else {
+          self.operationQueue.addOperation(self.operation)
+          self.operationIsQueued = true
+        }
       }
-
-      add(operation)
     }
-
-    let subject = PassthroughSubject<CKRecord, Error>()
-    var demand = resultsLimit
-    var operation = CKQueryOperation(query: query)
-    continueQuery()
-
-    // We don't use propagateCancellationTo(operation) here because
-    // the operation we need to cancel may change.
-    return subject.handleEvents(receiveCancel: {
-      operation.cancel()
-    }).eraseToAnyPublisher()
   }
 }
