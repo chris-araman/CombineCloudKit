@@ -121,6 +121,7 @@ internal class QueryPublisher: Publisher {
           return
         }
 
+        self.demand -= 1
         self.demand += subscriber.receive(record)
       }
 
@@ -131,12 +132,14 @@ internal class QueryPublisher: Publisher {
 
         guard error == nil else {
           subscriber.receive(completion: .failure(error!))
+          self.subscriber = nil
           return
         }
 
         guard let cursor = cursor else {
           // We've fetched all the results.
           subscriber.receive(completion: .finished)
+          self.subscriber = nil
           return
         }
 
