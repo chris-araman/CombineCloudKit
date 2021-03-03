@@ -1,6 +1,6 @@
 # CombineCloudKit
 
-Asynchronous value processing for structured data. Designed for simplicity.
+Swift Combine extensions for asynchronous CloudKit record processing. Designed for simplicity.
 
 CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/cloudkit) operations as
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
