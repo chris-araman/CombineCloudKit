@@ -30,7 +30,7 @@ import CombineCloudKit
 
 func queryDueItems(database: CKDatabase, due: Date) {
   let cancellable = database
-    .perform(ofType: "ToDoItem", where: NSPredicate(format: "due >= %@", due))
+    .performQuery(ofType: "ToDoItem", where: NSPredicate(format: "due >= %@", due))
     .map { record: CKRecord -> CKRecordValue in
       // Map each ToDoItem to its Name
       print("Received record: \(record)")
@@ -70,4 +70,3 @@ To learn more about Combine and CloudKit, watch these videos from WWDC:
 
 CombineCloudKit was created by [Chris Araman](https://github.com/chris-araman). It is published under the
 [MIT license](LICENSE.md).
-

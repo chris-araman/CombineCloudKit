@@ -216,7 +216,7 @@ extension CKDatabase {
     }
   }
 
-  public final func perform(
+  public final func performQuery(
     ofType recordType: CKRecord.RecordType,
     where predicate: NSPredicate = NSPredicate(value: true),
     orderBy sortDescriptors: [NSSortDescriptor]? = nil,
