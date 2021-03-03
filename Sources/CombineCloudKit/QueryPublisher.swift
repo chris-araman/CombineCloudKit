@@ -85,7 +85,7 @@ internal class QueryPublisher: Publisher {
       }
 
       dispatchQueue.async {
-        guard !self.operation.isCancelled, self.subscriber != nil else {
+        guard self.subscriber != nil else {
           return
         }
 
