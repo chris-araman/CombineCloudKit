@@ -58,10 +58,12 @@ when performing a query and processing only the first few results. However, fail
 ## Further Reading
 
 To learn more about Combine and CloudKit, watch these videos from WWDC:
+
 * [Introducing Combine](https://developer.apple.com/videos/play/wwdc2019/722)
 * [Combine in Practice](https://developer.apple.com/videos/play/wwdc2019/721)
 
 ...or review Apple's documentation:
+
 * [CloudKit Overview](https://developer.apple.com/icloud/cloudkit/)
 * [CloudKit Documentation](https://developer.apple.com/documentation/cloudkit)
 * [Combine Documentation](https://developer.apple.com/documentation/combine)
