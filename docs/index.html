@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CombineCloudKit  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="CombineCloudKit  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          CombineCloudKit v0.0.0-3-g54a9dba Docs
+        </a>
+         (34% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/chris-araman/CombineCloudKit">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">CombineCloudKit Reference</a>
+      <img class="carat" src="img/carat.png" />
+      CombineCloudKit  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKContainer.html">CKContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKDatabase.html">CKDatabase</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE25CCKModifyRecordPublishersV">– CCKModifyRecordPublishers</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE24CCKFetchRecordPublishersV">– CCKFetchRecordPublishers</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE29CCKModifyRecordZonePublishersV">– CCKModifyRecordZonePublishers</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE31CCKModifySubscriptionPublishersV">– CCKModifySubscriptionPublishers</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='combinecloudkit' class='heading'>CombineCloudKit</h1>
+
+<p>Swift Combine extensions for asynchronous CloudKit record processing. Designed for simplicity.</p>
+
+<p>CombineCloudKit exposes <a href="https://developer.apple.com/documentation/cloudkit">CloudKit</a> operations as
+<a href="https://developer.apple.com/documentation/combine">Combine</a> publishers. Publishers can be used to process values over
+time, using Combine&rsquo;s declarative API.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>CombineCloudKit is a <a href="https://developer.apple.com/documentation/swift_packages">Swift Package</a>. Add a dependency on
+CombineCloudKit to your project using
+<a href="https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app">Xcode</a> or the
+<a href="https://swift.org/package-manager/">Swift Package Manager</a>.</p>
+
+<p>Combine allows you to chain value processing <a href="https://developer.apple.com/documentation/combine/publisher">Publishers</a>
+for one or more <a href="https://developer.apple.com/documentation/combine/subscriber">Subscribers</a>. Here, we perform a query on
+our <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase"><code>CKDatabase</code></a>, then process the results
+asynchronously. As each <a href="https://developer.apple.com/documentation/cloudkit/ckrecord"><code>CKRecord</code></a> is read from the
+database, it is passed to the <a href="https://developer.apple.com/documentation/combine/publishers/merge/map(_:)-6v8fv"><code>map</code></a>
+publisher which publishes the value of the record&rsquo;s name field. Any errors in the chain so far can be handled in the
+catch publisher, which passes <a href="https://developer.apple.com/documentation/cloudkit/ckrecordvalue"><code>CKRecordValue</code></a> values
+along to our <a href="https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)"><code>sink</code></a> subscriber where the
+final values are processed.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">CloudKit</span>
+<span class="kd">import</span> <span class="kt">Combine</span>
+<span class="kd">import</span> <span class="kt">CombineCloudKit</span>
+
+<span class="kd">func</span> <span class="nf">queryDueItems</span><span class="p">(</span><span class="nv">database</span><span class="p">:</span> <span class="kt">CKDatabase</span><span class="p">,</span> <span class="nv">due</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">cancellable</span> <span class="o">=</span> <span class="n">database</span>
+    <span class="o">.</span><span class="nf">performQuery</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="s">"ToDoItem"</span><span class="p">,</span> <span class="nv">where</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"due &gt;= %@"</span><span class="p">,</span> <span class="n">due</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span> <span class="o">-&gt;</span> <span class="kt">CKRecordValue</span> <span class="k">in</span>
+      <span class="c1">// Map each ToDoItem to its Name</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"Received record: </span><span class="se">\(</span><span class="n">record</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">record</span><span class="p">[</span><span class="s">"Name"</span><span class="p">]</span>
+    <span class="p">}</span><span class="o">.</span><span class="k">catch</span> <span class="p">{</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span> <span class="k">in</span>
+      <span class="c1">// Handle any upstream error</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"Received error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span><span class="o">.</span><span class="n">sink</span> <span class="p">{</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">CKRecordValue</span> <span class="k">in</span>
+      <span class="c1">// Process the Name of each ToDoItems</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"Received result: </span><span class="se">\(</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Note that the <a href="https://developer.apple.com/documentation/combine/cancellable"><code>Cancellable</code></a> subscriber from
+<a href="https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)"><code>sink</code></a> will cancel the upstream publishers
+when it is deinitialized. Take care to ensure that your subscribers live long enough to process values. If a
+CombineCloudKit publisher is cancelled before it is finished emitting values, the underlying
+<a href="https://developer.apple.com/documentation/cloudkit/ckoperation"><code>CKOperation</code></a> will be cancelled. This may be desirable
+when performing a query and processing only the first few results. However, failing to wait for completion of a <code>save</code>,
+<code>delete</code>, or <code>modify</code> operation may result in undesirable cancellation.</p>
+<h2 id='further-reading' class='heading'>Further Reading</h2>
+
+<p>To learn more about Combine and CloudKit, watch these videos from WWDC:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/videos/play/wwdc2019/722">Introducing Combine</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2019/721">Combine in Practice</a></li>
+</ul>
+
+<p>&hellip;or review Apple&rsquo;s documentation:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/icloud/cloudkit/">CloudKit Overview</a></li>
+<li><a href="https://developer.apple.com/documentation/cloudkit">CloudKit Documentation</a></li>
+<li><a href="https://developer.apple.com/documentation/combine">Combine Documentation</a></li>
+</ul>
+<h2 id='license' class='heading'>License</h2>
+
+<p>CombineCloudKit was created by <a href="https://github.com/chris-araman">Chris Araman</a>. It is published under the
+<a href="LICENSE.md">MIT license</a>.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2021 <a class="link" href="https://github.com/chris-araman" target="_blank" rel="external">Chris Araman</a>. All rights reserved. (Last updated: 2021-03-03)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

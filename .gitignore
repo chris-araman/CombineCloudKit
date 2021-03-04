@@ -9,3 +9,6 @@ xcuserdata/
 
 # Xcode
 /build/
+
+# Jazzy
+/docs/docsets/
