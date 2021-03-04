@@ -9,6 +9,7 @@
 import CloudKit
 import Combine
 
+/// A custom `Publisher` that emits `CKRecord` values from `CKQueryOperation`.
 internal class QueryPublisher: Publisher {
   typealias Output = CKRecord
   typealias Failure = Error
@@ -38,6 +39,10 @@ internal class QueryPublisher: Publisher {
     subscriber.receive(subscription: QuerySubscription(self, subscriber))
   }
 
+  /// A `Subscription` that responds to back pressure and starts a new `CKQueryOperation` whenever demand and additional
+  /// records remain.
+  ///
+  /// When the `QuerySubscription` is cancelled, the underlying `CKQueryOperation` is cancelled.
   private class QuerySubscription<Downstream>: Subscription
   where Downstream: Subscriber, Downstream.Input == Output, Downstream.Failure == Failure {
     private let publisher: QueryPublisher

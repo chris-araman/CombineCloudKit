@@ -25,6 +25,11 @@ extension CKContainer {
     }.eraseToAnyPublisher()
   }
 
+  /// Determines whether the system can access the user’s iCloud account.
+  ///
+  /// - Returns: A `Publisher` that emits a single `CKAccountStatus`, or an error if CombineCloudKit is unable to
+  /// determine the account status.
+  /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
   public final func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
     publisherFrom(accountStatus)
   }
