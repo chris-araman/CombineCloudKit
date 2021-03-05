@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          CombineCloudKit v0.0.0-8-g9de67f1 Docs
+          CombineCloudKit v0.0.0-13-gd737321 Docs
         </a>
          (100% documented)
       </p>
@@ -109,10 +109,12 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Saves a single record.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+happen immediately.
 
-<p>CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save"><code>save</code></a>
 
@@ -128,11 +130,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>record</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record to save to the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L19-L21">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L23-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -170,11 +204,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>record</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record to save to the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L27-L32">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L35-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -213,11 +279,56 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>records</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The records to save to the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isAtomic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A Boolean value that indicates whether the entire operation fails when CloudKit can’t save one or
+more records in a record zone.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L38-L50">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L52-L64">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -236,10 +347,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes a single record.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+to happen immediately.
 
-<p>CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-happen immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete"><code>delete</code></a>
 
@@ -256,11 +369,30 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record to delete permanently from the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord.ID</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L58-L62">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L74-L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -298,12 +430,44 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record to delete permanently from the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKRecord.ID</code>, or an error if CombineCloudKit can&rsquo;t delete
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L69-L74">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L89-L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -342,12 +506,57 @@ it.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the records to delete permanently from the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isAtomic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A Boolean value that indicates whether the entire operation fails when CloudKit can’t delete one or
+more records in a record zone.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKRecord.ID</code>s, or an error if CombineCloudKit can&rsquo;t delete
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L81-L93">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L107-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -366,8 +575,11 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p><code>Publisher</code>s returned by <code>modify</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Canceling either <code>Publisher</code> cancels the underlying <code>CKModifyRecordsOperation</code>.
 
-<p>Canceling either <code>Publisher</code> cancels the underlying <code>CKModifyRecordsOperation</code>.</p>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -379,7 +591,7 @@ them.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L98-L102">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L124-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -419,11 +631,68 @@ them.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordsToSave</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The records to save to the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordsToDelete</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the records to delete permanently from the database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isAtomic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A Boolean value that indicates whether the entire operation fails when CloudKit can’t update one or
+more records in a record zone.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code><a href="../Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE26CCKModifyRecordsPublishersV">CCKModifyRecordsPublishers</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L108-L125">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L150-L167">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -442,10 +711,12 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetches the record with the specified ID.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+immediately.
 
-<p>CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch">fetch</a>
 
@@ -463,11 +734,30 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record ID of the record to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L191-L195">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L235-L239">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -486,8 +776,11 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p><code>Publisher</code>s returned by <code>fetch</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Canceling either <code>Publisher</code> cancels the underlying <code>CKFetchRecordsOperation</code>.
 
-<p>Canceling either <code>Publisher</code> cancels the underlying <code>CKFetchRecordsOperation</code>.</p>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -499,7 +792,7 @@ immediately.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L200-L203">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L244-L254">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -538,11 +831,58 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record ID of the record to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>desiredKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The fields of the record to fetch. Use this parameter to limit the amount of data that CloudKit
+returns for the record. When CloudKit returns the record, it only includes fields with names that match one of
+the keys in this parameter. The parameter&rsquo;s default value is <code>nil</code>, which instructs CloudKit to return all of
+the record’s keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code><a href="../Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE25CCKFetchRecordsPublishersV">CCKFetchRecordsPublishers</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L209-L215">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L268-L274">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -581,11 +921,58 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record IDs of the records to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>desiredKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The fields of the records to fetch. Use this parameter to limit the amount of data that CloudKit
+returns for each record. When CloudKit returns a record, it only includes fields with names that match one of
+the keys in this parameter. The parameter&rsquo;s default value is <code>nil</code>, which instructs CloudKit to return all of
+a record’s keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code><a href="../Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE25CCKFetchRecordsPublishersV">CCKFetchRecordsPublishers</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L221-L262">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L288-L329">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -623,11 +1010,46 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>desiredKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The fields of the record to fetch. Use this parameter to limit the amount of data that CloudKit
+returns for the record. When CloudKit returns the record, it only includes fields with names that match one of
+the keys in this parameter. The parameter&rsquo;s default value is <code>nil</code>, which instructs CloudKit to return all of
+the record’s keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L268-L276">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L342-L350">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -645,10 +1067,22 @@ immediately.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Performs a query.</p>
+                        <p>Fetches records that match the specified query.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckquery">CKQuery</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckqueryoperation">CKQueryOperation</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/foundation/nspredicate">NSPredicate</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/foundation/nssortdescriptor">NSSortDescriptor</a>
 
 </div>
 
@@ -669,11 +1103,96 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record type to search.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>predicate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The predicate to use for matching records.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sortDescriptors</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The sort descriptors for organizing the query’s results.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone that contains the records to search. The value of this parameter limits the
+scope of the search to only the records in the specified record zone. If you don’t specify a record zone, the
+search includes all record zones.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>desiredKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The fields of the records to fetch. Use this parameter to limit the amount of data that CloudKit
+returns for each record. When CloudKit returns a record, it only includes fields with names that match one of
+the keys in this parameter. The parameter&rsquo;s default value is <code>nil</code>, which instructs CloudKit to return all of
+a record’s keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits any matching <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t perform the query.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L282-L298">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L372-L388">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -681,9 +1200,9 @@ immediately.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE7perform5query10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0pH2IDCSgSaySSGSgSo011CKOperationM0CSgtF"></a>
-                    <a name="//apple_ref/swift/Method/perform(query:inZoneWith:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE7perform5query10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0pH2IDCSgSaySSGSgSo011CKOperationM0CSgtF">perform(query:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a name="/s:So10CKDatabaseC15CombineCloudKitE7perform_10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF"></a>
+                    <a name="//apple_ref/swift/Method/perform(_:inZoneWith:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE7perform_10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF">perform(_:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -691,10 +1210,22 @@ immediately.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Performs a query.</p>
+                        <p>Fetches records that match the specified query.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckquery">CKQuery</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckqueryoperation">CKQueryOperation</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/foundation/nspredicate">NSPredicate</a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/foundation/nssortdescriptor">NSSortDescriptor</a>
 
 </div>
 
@@ -704,7 +1235,7 @@ immediately.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span>
-  <span class="nv">query</span><span class="p">:</span> <span class="kt">CKQuery</span><span class="p">,</span>
+  <span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt">CKQuery</span><span class="p">,</span>
   <span class="n">inZoneWith</span> <span class="nv">zoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -713,11 +1244,72 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query for the search.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone that contains the records to search. The value of this parameter limits the
+scope of the search to only the records in the specified record zone. If you don’t specify a record zone, the
+search includes all record zones.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>desiredKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The fields of the records to fetch. Use this parameter to limit the amount of data that CloudKit
+returns for each record. When CloudKit returns a record, it only includes fields with names that match one of
+the keys in this parameter. The parameter&rsquo;s default value is <code>nil</code>, which instructs CloudKit to return all of
+a record’s keys.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits any matching <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t perform the query.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L304-L311">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecord.swift#L408-L415">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -736,10 +1328,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Saves a single record zone.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+happen immediately.
 
-<p>CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save"><code>save</code></a>
 
@@ -757,11 +1351,30 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record zone to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L19-L23">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -799,11 +1412,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZone</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record zone to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L29-L34">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L35-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -841,11 +1486,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZones</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record zones to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L40-L50">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L50-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -864,10 +1541,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes a single record zone.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+to happen immediately.
 
-<p>CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-happen immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete"><code>delete</code></a>
 
@@ -885,11 +1564,30 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone.ID</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L58-L62">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L70-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -927,12 +1625,44 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKRecordZone.ID</code>, or an error if CombineCloudKit can&rsquo;t delete
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L69-L74">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L85-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -970,12 +1700,44 @@ it.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the record zones to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKRecordZone.ID</code>s, or an error if CombineCloudKit can&rsquo;t delete
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L81-L91">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L101-L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -994,8 +1756,11 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p><code>Publisher</code>s returned by <code>modify</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Canceling either <code>Publisher</code> cancels the underlying <code>CKModifyRecordZonesOperation</code>.
 
-<p>Canceling either <code>Publisher</code> cancels the underlying <code>CKModifyRecordZonesOperation</code>.</p>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1007,7 +1772,7 @@ them.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L96-L99">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L116-L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1046,11 +1811,55 @@ them.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZonesToSave</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The record zones to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZonesToDelete</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the record zones to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code><a href="../Extensions/CKDatabase.html#/s:So10CKDatabaseC15CombineCloudKitE30CCKModifyRecordZonesPublishersV">CCKModifyRecordZonesPublishers</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L105-L120">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L133-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1069,10 +1878,12 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetches the record zone with the specified ID.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+zone immediately.
 
-<p>CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record zone
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch">fetch</a>
 
@@ -1090,11 +1901,30 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L128-L132">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L158-L162">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1132,11 +1962,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the record zone to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L138-L143">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L172-L177">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1174,11 +2036,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recordZoneIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the record zones to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L149-L157">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L187-L195">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1197,10 +2091,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetches the database&rsquo;s record zones.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+zones immediately.
 
-<p>CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record zones
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449112-fetchallrecordzones">fetchAllRecordZones</a>
 
@@ -1221,7 +2117,7 @@ immediately.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L165-L169">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L203-L207">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1258,11 +2154,31 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L175-L182">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift#L216-L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1281,10 +2197,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Saves a single subscription.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+happen immediately.
 
-<p>CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save"><code>save</code></a>
 
@@ -1302,11 +2220,30 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscription</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subscription to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L19-L23">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1344,11 +2281,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscription</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subscription to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L29-L34">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L35-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1386,11 +2355,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subscriptions to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L40-L51">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L50-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1409,10 +2410,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes a single subscription.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+to happen immediately.
 
-<p>CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-happen immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete"><code>delete</code></a>
 
@@ -1430,11 +2433,30 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the subscription to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKSubscriptionID</code>, or an error if CombineCloudKit can&rsquo;t delete it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L59-L63">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L71-L75">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1472,12 +2494,44 @@ happen immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the subscription to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKSubscriptionID</code>, or an error if CombineCloudKit can&rsquo;t delete
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L70-L75">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L86-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1515,12 +2569,44 @@ it.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the subscriptions to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the deleted <code>CKSubscriptionID</code>s, or an error if CombineCloudKit can&rsquo;t delete
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L82-L93">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L102-L113">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1539,8 +2625,11 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p><code>Publisher</code>s returned by <code>modify</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Canceling either <code>Publisher</code> cancels the underlying <code>CKModifySubscriptionsOperation</code>.
 
-<p>Canceling either <code>Publisher</code> cancels the underlying <code>CKModifySubscriptionsOperation</code>.</p>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1552,7 +2641,7 @@ them.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L98-L104">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L118-L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1591,11 +2680,55 @@ them.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionsToSave</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The subscriptions to save.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionsToDelete</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the subscriptions to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>CCKModifySubscriptionPublishers</code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L110-L125">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L135-L150">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1614,10 +2747,12 @@ them.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetches the subscription with the specified ID.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
+subscription immediately.
 
-<p>CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the subscription
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch">fetch</a>
 
@@ -1635,11 +2770,30 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the subscription to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L133-L137">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L160-L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1677,11 +2831,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the subscription to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L143-L148">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L174-L179">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1719,11 +2905,43 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>subscriptionIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The IDs of the subscriptions to fetch.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L154-L162">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L189-L197">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1742,10 +2960,12 @@ immediately.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetches the database&rsquo;s subscriptions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
+subscriptions immediately.
 
-<p>CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the subscriptions
-immediately.</p>
-<div class="aside aside-see-also">
+</div><div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions">fetchAllSubscriptions</a>
 
@@ -1766,7 +2986,7 @@ immediately.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L170-L174">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L205-L209">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1803,11 +3023,31 @@ immediately.</p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to use for the underlying operation. If you don&rsquo;t specify a configuration,
+the operation will use a default configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/9de67f116d13daf154cb6effa695a96432bdf4ad/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L180-L187">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/d737321c145efee3dc3d8cd52450aa4f9fac9d24/Sources/CombineCloudKit/CKDatabase/CKSubscription.swift#L218-L225">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
