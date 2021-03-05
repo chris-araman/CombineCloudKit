@@ -45,7 +45,7 @@
     {
       "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecord.swift",
       "line": 65,
-      "symbol": "CKDatabase.CCKModifyRecordPublishers",
+      "symbol": "CKDatabase.CCKModifyRecordsPublishers",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
@@ -66,7 +66,7 @@
     {
       "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecord.swift",
       "line": 154,
-      "symbol": "CKDatabase.CCKFetchRecordPublishers",
+      "symbol": "CKDatabase.CCKFetchRecordsPublishers",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
@@ -102,97 +102,6 @@
       "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecord.swift",
       "line": 237,
       "symbol": "CKDatabase.perform(query:inZoneWith:desiredKeys:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 13,
-      "symbol": "CKDatabase.saveAtBackgroundPriority(recordZone:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 19,
-      "symbol": "CKDatabase.save(recordZone:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 26,
-      "symbol": "CKDatabase.save(recordZones:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 38,
-      "symbol": "CKDatabase.deleteAtBackgroundPriority(recordZoneID:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 44,
-      "symbol": "CKDatabase.delete(recordZoneID:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 51,
-      "symbol": "CKDatabase.delete(recordZoneIDs:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 63,
-      "symbol": "CKDatabase.CCKModifyRecordZonePublishers",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 68,
-      "symbol": "CKDatabase.modify(recordZonesToSave:recordZoneIDsToDelete:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 85,
-      "symbol": "CKDatabase.fetchAtBackgroundPriority(withRecordZoneID:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 91,
-      "symbol": "CKDatabase.fetch(recordZoneID:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 98,
-      "symbol": "CKDatabase.fetch(recordZoneIDs:withConfiguration:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 108,
-      "symbol": "CKDatabase.fetchAllRecordZonesAtBackgroundPriority()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/caraman/src/CombineCloudKit/Sources/CombineCloudKit/CKDatabase/CKRecordZone.swift",
-      "line": 114,
-      "symbol": "CKDatabase.fetchAllRecordZones(withConfiguration:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     }
