@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CKContainer Extension Reference</title>
+    <title>CCKFetchRecordsPublishers Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Extension/CKContainer" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/CCKFetchRecordsPublishers" class="dashAnchor"></a>
 
-    <a title="CKContainer Extension Reference"></a>
+    <a title="CCKFetchRecordsPublishers Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">CombineCloudKit Reference</a>
       <img class="carat" src="../img/carat.png" />
-      CKContainer Extension Reference
+      CCKFetchRecordsPublishers Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -84,15 +84,24 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>CKContainer</h1>
+            <h1>CCKFetchRecordsPublishers</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CKContainer</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">CCKFetchRecordsPublishers</span></code></pre>
 
                 </div>
               </div>
-            
+            <p><code>Publisher</code>s returned by <code>fetch</code>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Canceling either <code>Publisher</code> cancels the underlying <code>CKFetchRecordsOperation</code>.
+
+</div>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/chris-araman/CombineCloudKit/tree/f4596d5fd7c0d2937a59f7334786c24a923facae/Sources/CombineCloudKit/CCKFetchRecordsPublishers.swift#L15-L25">Show on GitHub</a>
+              </div>
           </div>
         </section>
 
@@ -103,9 +112,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So11CKContainerC15CombineCloudKitE13accountStatus0B012AnyPublisherVySo09CKAccountF0Vs5Error_pGyF"></a>
-                    <a name="//apple_ref/swift/Method/accountStatus()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So11CKContainerC15CombineCloudKitE13accountStatus0B012AnyPublisherVySo09CKAccountF0Vs5Error_pGyF">accountStatus()</a>
+                    <a name="/s:15CombineCloudKit25CCKFetchRecordsPublishersV8progress0A012AnyPublisherVySo10CKRecordIDC_Sdts5Error_pGvp"></a>
+                    <a name="//apple_ref/swift/Property/progress" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit25CCKFetchRecordsPublishersV8progress0A012AnyPublisherVySo10CKRecordIDC_Sdts5Error_pGvp">progress</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -113,10 +122,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Determines whether the system can access the user’s iCloud account.</p>
-<div class="aside aside-see-also">
-    <p class="aside-title">See also</p>
-    <a href="https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus"><code>accountStatus</code></a>
+                        <p>A <code>Publisher</code> that emits percentages of data downloaded for fetched records, or an error if they could not be
+fetched.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The range is 0.0 to 1.0, where 0.0 indicates that CloudKit hasn’t downloaded anything for the record
+with the provided <code>CKRecord.ID</code>, and 1.0 means the record download is complete.
 
 </div>
 
@@ -125,17 +136,42 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">accountStatus</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKAccountStatus</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Double</span><span class="p">),</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A <code>Publisher</code> that emits a single <code>CKAccountStatus</code>, or an error if CombineCloudKit is unable to
-determine the account status.</p>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f4596d5fd7c0d2937a59f7334786c24a923facae/Sources/CombineCloudKit/CCKFetchRecordsPublishers.swift#L21">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit25CCKFetchRecordsPublishersV7fetched0A012AnyPublisherVySo8CKRecordCs5Error_pGvp"></a>
+                    <a name="//apple_ref/swift/Property/fetched" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit25CCKFetchRecordsPublishersV7fetched0A012AnyPublisherVySo8CKRecordCs5Error_pGvp">fetched</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code>Publisher</code> that emits the <code>CKRecord</code>s of the fetched records, or an error if they could not be fetched.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">fetched</span><span class="p">:</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f4596d5fd7c0d2937a59f7334786c24a923facae/Sources/CombineCloudKit/CKContainer.swift#L33-L35">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f4596d5fd7c0d2937a59f7334786c24a923facae/Sources/CombineCloudKit/CCKFetchRecordsPublishers.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
