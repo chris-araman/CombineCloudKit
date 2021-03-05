@@ -12,8 +12,8 @@ import Combine
 extension CKDatabase {
   /// Saves a single subscription.
   ///
-  /// CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-  /// immediately.
+  /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+  /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
   public final func saveAtBackgroundPriority(
@@ -52,8 +52,8 @@ extension CKDatabase {
 
   /// Deletes a single subscription.
   ///
-  /// CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-  /// happen immediately.
+  /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+  /// to happen immediately.
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
   public final func deleteAtBackgroundPriority(
@@ -126,8 +126,8 @@ extension CKDatabase {
 
   /// Fetches the subscription with the specified ID.
   ///
-  /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the subscription
-  /// immediately.
+  /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
+  /// subscription immediately.
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   public final func fetchAtBackgroundPriority(
@@ -163,8 +163,8 @@ extension CKDatabase {
 
   /// Fetches the database's subscriptions.
   ///
-  /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the subscriptions
-  /// immediately.
+  /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
+  /// subscriptions immediately.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
   public final func fetchAllSubscriptionsAtBackgroundPriority()

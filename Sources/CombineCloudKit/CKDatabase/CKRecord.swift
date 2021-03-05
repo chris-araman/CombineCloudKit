@@ -12,8 +12,8 @@ import Combine
 extension CKDatabase {
   /// Saves a single record.
   ///
-  /// CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-  /// immediately.
+  /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+  /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save)
   public final func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
@@ -51,8 +51,8 @@ extension CKDatabase {
 
   /// Deletes a single record.
   ///
-  /// CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-  /// happen immediately.
+  /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+  /// to happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKRecord.ID`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
   public final func deleteAtBackgroundPriority(recordID: CKRecord.ID)
@@ -94,7 +94,7 @@ extension CKDatabase {
 
   /// `Publisher`s returned by `modify`.
   ///
-  /// Canceling either `Publisher` cancels the underlying `CKModifyRecordsOperation`.
+  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifyRecordsOperation`.
   public struct CCKModifyRecordsPublishers {
     let progress: AnyPublisher<(CKRecord, Double), Error>
     let saved: AnyPublisher<CKRecord, Error>
@@ -184,7 +184,7 @@ extension CKDatabase {
 
   /// Fetches the record with the specified ID.
   ///
-  /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+  /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
   /// immediately.
   /// - Returns: A `Publisher` that emits the `CKRecord`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch)
@@ -196,7 +196,7 @@ extension CKDatabase {
 
   /// `Publisher`s returned by `fetch`.
   ///
-  /// Canceling either `Publisher` cancels the underlying `CKFetchRecordsOperation`.
+  /// - Note: Canceling either `Publisher` cancels the underlying `CKFetchRecordsOperation`.
   public struct CCKFetchRecordsPublishers {
     let progress: AnyPublisher<(CKRecord.ID, Double), Error>
     let fetched: AnyPublisher<CKRecord, Error>

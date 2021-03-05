@@ -12,8 +12,8 @@ import Combine
 extension CKDatabase {
   /// Saves a single record zone.
   ///
-  /// CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to happen
-  /// immediately.
+  /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
+  /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKRecordZone`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save)
   public final func saveAtBackgroundPriority(
@@ -51,8 +51,8 @@ extension CKDatabase {
 
   /// Deletes a single record zone.
   ///
-  /// CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
-  /// happen immediately.
+  /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+  /// to happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKRecordZone.ID`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete)
   public final func deleteAtBackgroundPriority(
@@ -92,7 +92,7 @@ extension CKDatabase {
 
   /// `Publisher`s returned by `modify`.
   ///
-  /// Canceling either `Publisher` cancels the underlying `CKModifyRecordZonesOperation`.
+  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifyRecordZonesOperation`.
   public struct CCKModifyRecordZonesPublishers {
     let saved: AnyPublisher<CKRecordZone, Error>
     let deleted: AnyPublisher<CKRecordZone.ID, Error>
@@ -121,8 +121,8 @@ extension CKDatabase {
 
   /// Fetches the record zone with the specified ID.
   ///
-  /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record zone
-  /// immediately.
+  /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+  /// zone immediately.
   /// - Returns: A `Publisher` that emits the `CKRecordZone`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch)
   public final func fetchAtBackgroundPriority(
@@ -158,8 +158,8 @@ extension CKDatabase {
 
   /// Fetches the database's record zones.
   ///
-  /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record zones
-  /// immediately.
+  /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
+  /// zones immediately.
   /// - Returns: A `Publisher` that emits the `CKRecordZone`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllRecordZones](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449112-fetchallrecordzones)
   public final func fetchAllRecordZonesAtBackgroundPriority()
