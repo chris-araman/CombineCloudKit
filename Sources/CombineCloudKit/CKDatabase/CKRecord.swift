@@ -62,7 +62,7 @@ extension CKDatabase {
     return publishers.deleted.propagateCancellationTo(operation)
   }
 
-  public struct CCKModifyRecordPublishers {
+  public struct CCKModifyRecordsPublishers {
     let progress: AnyPublisher<(CKRecord, Double), Error>
     let saved: AnyPublisher<CKRecord, Error>
     let deleted: AnyPublisher<CKRecord.ID, Error>
@@ -73,14 +73,14 @@ extension CKDatabase {
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKModifyRecordPublishers {
+  ) -> CCKModifyRecordsPublishers {
     let (publishers, operation) = modifyWithoutCancellation(
       recordsToSave: recordsToSave,
       recordIDsToDelete: recordIDsToDelete,
       atomically: isAtomic,
       withConfiguration: configuration
     )
-    return CCKModifyRecordPublishers(
+    return CCKModifyRecordsPublishers(
       progress: publishers.progress.propagateCancellationTo(operation),
       saved: publishers.saved.propagateCancellationTo(operation),
       deleted: publishers.deleted.propagateCancellationTo(operation)
@@ -92,7 +92,7 @@ extension CKDatabase {
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> (CCKModifyRecordPublishers, CKModifyRecordsOperation) {
+  ) -> (CCKModifyRecordsPublishers, CKModifyRecordsOperation) {
     let progressSubject = PassthroughSubject<(CKRecord, Double), Error>()
     let savedSubject = PassthroughSubject<CKRecord, Error>()
     let deletedSubject = PassthroughSubject<CKRecord.ID, Error>()
@@ -136,7 +136,7 @@ extension CKDatabase {
     add(operation)
 
     return (
-      CCKModifyRecordPublishers(
+      CCKModifyRecordsPublishers(
         progress: progressSubject.propagateCancellationTo(operation),
         saved: savedSubject.propagateCancellationTo(operation),
         deleted: deletedSubject.propagateCancellationTo(operation)
@@ -151,7 +151,7 @@ extension CKDatabase {
     publisherFrom(fetch, with: recordID)
   }
 
-  public struct CCKFetchRecordPublishers {
+  public struct CCKFetchRecordsPublishers {
     let progress: AnyPublisher<(CKRecord.ID, Double), Error>
     let fetched: AnyPublisher<CKRecord, Error>
   }
@@ -159,7 +159,7 @@ extension CKDatabase {
   public final func fetch(
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKFetchRecordPublishers {
+  ) -> CCKFetchRecordsPublishers {
     fetch(recordIDs: [recordID], withConfiguration: configuration)
   }
 
@@ -167,7 +167,7 @@ extension CKDatabase {
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKFetchRecordPublishers {
+  ) -> CCKFetchRecordsPublishers {
     let progressSubject = PassthroughSubject<(CKRecord.ID, Double), Error>()
     let fetchedSubject = PassthroughSubject<CKRecord, Error>()
     let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
@@ -200,7 +200,7 @@ extension CKDatabase {
 
     add(operation)
 
-    return CCKFetchRecordPublishers(
+    return CCKFetchRecordsPublishers(
       progress: progressSubject.propagateCancellationTo(operation),
       fetched: fetchedSubject.propagateCancellationTo(operation)
     )

@@ -54,8 +54,8 @@ extension CKDatabase {
   ///
   /// CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete to
   /// happen immediately.
-  /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
-  /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
+  /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete it.
+  /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
   public final func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription.ID, Error> {
@@ -95,7 +95,7 @@ extension CKDatabase {
   /// `Publisher`s returned by `modify`.
   ///
   /// Canceling either `Publisher` cancels the underlying `CKModifySubscriptionsOperation`.
-  public struct CCKModifySubscriptionPublishers {
+  public struct CCKModifySubscriptionsPublishers {
     /// Emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
     let saved: AnyPublisher<CKSubscription, Error>
 
@@ -111,7 +111,7 @@ extension CKDatabase {
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKModifySubscriptionPublishers {
+  ) -> CCKModifySubscriptionsPublishers {
     let operation = CKModifySubscriptionsOperation(
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
@@ -120,15 +120,15 @@ extension CKDatabase {
       operation,
       configuration,
       setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion },
-      initPublishers: CCKModifySubscriptionPublishers.init
+      initPublishers: CCKModifySubscriptionsPublishers.init
     )
   }
 
-  /// Fetches a single subscription.
+  /// Fetches the subscription with the specified ID.
   ///
   /// CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the subscription
   /// immediately.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch them.
+  /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   public final func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
@@ -136,7 +136,7 @@ extension CKDatabase {
     publisherFrom(fetch, with: subscriptionID)
   }
 
-  /// Fetches a single subscription.
+  /// Fetches the subscription with the specified ID.
   ///
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
