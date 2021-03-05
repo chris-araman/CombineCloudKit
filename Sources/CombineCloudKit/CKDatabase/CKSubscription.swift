@@ -112,17 +112,6 @@ extension CKDatabase {
     }
   }
 
-  /// `Publisher`s returned by `modify`.
-  ///
-  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifySubscriptionsOperation`.
-  public struct CCKModifySubscriptionsPublishers {
-    /// Emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
-    let saved: AnyPublisher<CKSubscription, Error>
-
-    /// Emits the deleted `CKSubscriptionID`s, or an error if CombineCloudKit can't delete them.
-    let deleted: AnyPublisher<CKSubscription.ID, Error>
-  }
-
   /// Modifies one or more subscriptions.
   ///
   /// - Parameters:

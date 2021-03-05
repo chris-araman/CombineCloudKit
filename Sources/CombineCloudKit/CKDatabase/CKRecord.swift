@@ -118,24 +118,6 @@ extension CKDatabase {
     return publishers.deleted.propagateCancellationTo(operation)
   }
 
-  /// `Publisher`s returned by `modify`.
-  ///
-  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifyRecordsOperation`.
-  public struct CCKModifyRecordsPublishers {
-    /// A `Publisher` that emits percentages of data saved for each record, or an error if the records could not be
-    /// saved.
-    ///
-    /// - Note: The range is 0.0 to 1.0, where 0.0 indicates that CloudKit hasn’t saved any data for the record
-    /// with the provided `CKRecord.ID`, and 1.0 means that CloudKit has saved the entire record.
-    let progress: AnyPublisher<(CKRecord, Double), Error>
-
-    /// A `Publisher` that emits the `CKRecord`s of the saved records, or an error if they could not be saved.
-    let saved: AnyPublisher<CKRecord, Error>
-
-    /// A `Publisher` that emits the `CKRecord.ID`s of the deleted records, or an error if they could not be deleted.
-    let deleted: AnyPublisher<CKRecord.ID, Error>
-  }
-
   /// Modifies one or more records.
   ///
   /// - Parameters:
@@ -236,21 +218,6 @@ extension CKDatabase {
     withRecordID recordID: CKRecord.ID
   ) -> AnyPublisher<CKRecord, Error> {
     publisherFrom(fetch, with: recordID)
-  }
-
-  /// `Publisher`s returned by `fetch`.
-  ///
-  /// - Note: Canceling either `Publisher` cancels the underlying `CKFetchRecordsOperation`.
-  public struct CCKFetchRecordsPublishers {
-    /// A `Publisher` that emits percentages of data downloaded for fetched records, or an error if they could not be
-    /// fetched.
-    ///
-    /// - Note: The range is 0.0 to 1.0, where 0.0 indicates that CloudKit hasn’t downloaded anything for the record
-    /// with the provided `CKRecord.ID`, and 1.0 means the record download is complete.
-    let progress: AnyPublisher<(CKRecord.ID, Double), Error>
-
-    /// A `Publisher` that emits the `CKRecord`s of the fetched records, or an error if they could not be fetched.
-    let fetched: AnyPublisher<CKRecord, Error>
   }
 
   /// Fetches the record with the specified ID.

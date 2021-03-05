@@ -110,17 +110,6 @@ extension CKDatabase {
     }
   }
 
-  /// `Publisher`s returned by `modify`.
-  ///
-  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifyRecordZonesOperation`.
-  public struct CCKModifyRecordZonesPublishers {
-    /// A `Publisher` that emits the saved `CKRecordZone`s, or an error if they could not be saved.
-    let saved: AnyPublisher<CKRecordZone, Error>
-
-    /// A `Publisher` that emits the deleted `CKRecordZone.ID`s, or an error if they could not be deleted.
-    let deleted: AnyPublisher<CKRecordZone.ID, Error>
-  }
-
   /// Modifies one or more record zones.
   ///
   /// - Parameters:
