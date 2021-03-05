@@ -12,6 +12,8 @@ import Combine
 extension CKDatabase {
   /// Saves a single subscription.
   ///
+  /// - Parameters:
+  ///   - subscription: The subscription to save.
   /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
   /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
@@ -24,6 +26,10 @@ extension CKDatabase {
 
   /// Saves a single subscription.
   ///
+  /// - Parameters:
+  ///   - subscription: The subscription to save.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public final func save(
@@ -35,6 +41,10 @@ extension CKDatabase {
 
   /// Saves multiple subscriptions.
   ///
+  /// - Parameters:
+  ///   - subscriptions: The subscriptions to save.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public final func save(
@@ -52,6 +62,8 @@ extension CKDatabase {
 
   /// Deletes a single subscription.
   ///
+  /// - Parameters:
+  ///   - subscriptionID: The ID of the subscription to delete.
   /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
   /// to happen immediately.
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete it.
@@ -64,6 +76,10 @@ extension CKDatabase {
 
   /// Deletes a single subscription.
   ///
+  /// - Parameters:
+  ///   - subscriptionID: The ID of the subscription to delete.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete
   /// it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
@@ -76,6 +92,10 @@ extension CKDatabase {
 
   /// Deletes multiple subscriptions.
   ///
+  /// - Parameters:
+  ///   - subscriptionIDs: The IDs of the subscriptions to delete.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`s, or an error if CombineCloudKit can't delete
   /// them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
@@ -94,7 +114,7 @@ extension CKDatabase {
 
   /// `Publisher`s returned by `modify`.
   ///
-  /// Canceling either `Publisher` cancels the underlying `CKModifySubscriptionsOperation`.
+  /// - Note: Canceling either `Publisher` cancels the underlying `CKModifySubscriptionsOperation`.
   public struct CCKModifySubscriptionsPublishers {
     /// Emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
     let saved: AnyPublisher<CKSubscription, Error>
@@ -105,6 +125,11 @@ extension CKDatabase {
 
   /// Modifies one or more subscriptions.
   ///
+  /// - Parameters:
+  ///   - subscriptionsToSave: The subscriptions to save.
+  ///   - subscriptionsToDelete: The IDs of the subscriptions to delete.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `CCKModifySubscriptionPublishers`.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public final func modify(
@@ -126,6 +151,8 @@ extension CKDatabase {
 
   /// Fetches the subscription with the specified ID.
   ///
+  /// - Parameters:
+  ///   - subscriptionID: The ID of the subscription to fetch.
   /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
   /// subscription immediately.
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
@@ -138,6 +165,10 @@ extension CKDatabase {
 
   /// Fetches the subscription with the specified ID.
   ///
+  /// - Parameters:
+  ///   - subscriptionID: The ID of the subscription to fetch.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
   public final func fetch(
@@ -149,6 +180,10 @@ extension CKDatabase {
 
   /// Fetches multiple subscriptions.
   ///
+  /// - Parameters:
+  ///   - subscriptionIDs: The IDs of the subscriptions to fetch.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
   public final func fetch(
@@ -175,6 +210,9 @@ extension CKDatabase {
 
   /// Fetches the database's subscriptions.
   ///
+  /// - Parameters:
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation/1515282-fetchallsubscriptionsoperation)
   public final func fetchAllSubscriptions(
