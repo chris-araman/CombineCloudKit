@@ -35,14 +35,16 @@ extension CKDatabase {
     _ method: @escaping (Input, @escaping (Output?, Error?) -> Void) -> Void,
     with input: Input
   ) -> AnyPublisher<Output, Error> {
-    Future { promise in
-      method(input) { output, error in
-        guard let output = output, error == nil else {
-          promise(.failure(error!))
-          return
-        }
+    Deferred {
+      Future { promise in
+        method(input) { output, error in
+          guard let output = output, error == nil else {
+            promise(.failure(error!))
+            return
+          }
 
-        promise(.success(output))
+          promise(.success(output))
+        }
       }
     }.eraseToAnyPublisher()
   }

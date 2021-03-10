@@ -13,14 +13,16 @@ extension CKContainer {
   private func publisherFrom<Output>(
     _ method: @escaping (@escaping (Output, Error?) -> Void) -> Void
   ) -> AnyPublisher<Output, Error> {
-    Future { promise in
-      method { item, error in
-        guard error == nil else {
-          promise(.failure(error!))
-          return
-        }
+    Deferred {
+      Future { promise in
+        method { item, error in
+          guard error == nil else {
+            promise(.failure(error!))
+            return
+          }
 
-        promise(.success(item))
+          promise(.success(item))
+        }
       }
     }.eraseToAnyPublisher()
   }
