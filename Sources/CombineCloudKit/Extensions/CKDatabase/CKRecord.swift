@@ -30,13 +30,12 @@ extension CKDatabase {
   ///   - record: The record to save to the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`, or an error if CombineCloudKit can't save it.
-  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
+  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func save(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<(CKRecord, Double), Error> {
+  ) -> AnyPublisher<(CKRecord, Progress), Error> {
     save(records: [record], withConfiguration: configuration)
   }
 
@@ -48,20 +47,19 @@ extension CKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
-  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
+  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func save(
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<(CKRecord, Double), Error> {
+  ) -> AnyPublisher<(CKRecord, Progress), Error> {
     return modify(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration
-    ).compactMap { (progress, _) in
+    ).compactMap { progress, _ in
       progress
     }.eraseToAnyPublisher()
   }
@@ -117,7 +115,7 @@ extension CKDatabase {
       recordIDsToDelete: recordIDs,
       atomically: isAtomic,
       withConfiguration: configuration
-    ).compactMap { (_, deleted) in
+    ).compactMap { _, deleted in
       deleted
     }.eraseToAnyPublisher()
   }
@@ -131,16 +129,15 @@ extension CKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`s, and the deleted `CKRecord.ID`s.
-  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
+  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, and the deleted `CKRecord.ID`s.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<((CKRecord, Double)?, CKRecord.ID?), Error> {
-    let subject = PassthroughSubject<((CKRecord, Double)?, CKRecord.ID?), Error>()
+  ) -> AnyPublisher<((CKRecord, Progress)?, CKRecord.ID?), Error> {
+    let subject = PassthroughSubject<((CKRecord, Progress)?, CKRecord.ID?), Error>()
     let operation = CKModifyRecordsOperation(
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
@@ -148,9 +145,9 @@ extension CKDatabase {
       operation.configuration = configuration
     }
     operation.isAtomic = isAtomic
-    operation.perRecordProgressBlock = { record, progress in
-      if (progress < 1.0) {
-        subject.send(((record, progress), nil))
+    operation.perRecordProgressBlock = { record, percent in
+      if (percent < 1.0) {
+        subject.send(((record, .incomplete(percent: percent)), nil))
       }
     }
     operation.perRecordCompletionBlock = { record, error in
@@ -159,7 +156,7 @@ extension CKDatabase {
         return
       }
 
-      subject.send(((record, 1.0), nil))
+      subject.send(((record, .complete), nil))
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
@@ -205,25 +202,25 @@ extension CKDatabase {
   ///     the record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits progress and the fetched `CKRecord` on completion, or an error if
-  ///   CombineCloudKit can't fetch it. Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
+  /// - Returns: A `Publisher` that emits `Progress` and the fetched `CKRecord` on completion, or an error if
+  ///   CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public final func fetch(
     recordID: CKRecord.ID,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<(CKRecord?, Double?), Error> {
+  ) -> AnyPublisher<(Progress, CKRecord?), Error> {
     fetch(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration)
-      .compactMap { (progress, record) in
-      if let progress = progress, progress.1 < 1.0 {
-        return (nil, progress.1)
-      }
-      
-      if let record = record {
-        return (record, 1.0)
-      }
-      
-      return nil
+      .compactMap { progress, record in
+        if let record = record {
+          return (.complete, record)
+        }
+        
+        if let progress = progress {
+          return (progress.1, nil)
+        }
+          
+        return nil
       }.eraseToAnyPublisher()
   }
 
@@ -237,21 +234,22 @@ extension CKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits progress of the fetched `CKRecord.ID`s and the fetched `CKRecord`s, or an error if
-  ///   CombineCloudKit can't fetch them. Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
+  /// - Returns: A `Publisher` that emits the `Progress` of the fetched `CKRecord.ID`s and the fetched `CKRecord`s, or an error if
+  ///   CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public final func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<((CKRecord.ID, Double)?, CKRecord?), Error> {
-    let subject = PassthroughSubject<((CKRecord.ID, Double)?, CKRecord?), Error>()
+  ) -> AnyPublisher<((CKRecord.ID, Progress)?, CKRecord?), Error> {
+    let subject = PassthroughSubject<((CKRecord.ID, Progress)?, CKRecord?), Error>()
     let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
     if configuration != nil {
       operation.configuration = configuration
     }
     operation.desiredKeys = desiredKeys
-    operation.perRecordProgressBlock = { recordID, progress in
+    operation.perRecordProgressBlock = { recordID, percent in
+      let progress = percent < 1.0 ? Progress.incomplete(percent: percent) : Progress.complete
       subject.send(((recordID, progress), nil))
     }
     operation.perRecordCompletionBlock = { record, _, error in
