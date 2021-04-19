@@ -30,12 +30,13 @@ extension CKDatabase {
   ///   - record: The record to save to the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func save(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
+  ) -> AnyPublisher<(CKRecord, Double), Error> {
     save(records: [record], withConfiguration: configuration)
   }
 
@@ -47,20 +48,22 @@ extension CKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
+  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
+  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func save(
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
-    let (publishers, operation) = modifyWithoutCancellation(
+  ) -> AnyPublisher<(CKRecord, Double), Error> {
+    return modify(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration
-    )
-    return publishers.saved.propagateCancellationTo(operation)
+    ).compactMap { (progress, _) in
+      progress
+    }.eraseToAnyPublisher()
   }
 
   /// Deletes a single record.
@@ -109,13 +112,14 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    let (publishers, operation) = modifyWithoutCancellation(
+    return modify(
       recordsToSave: nil,
       recordIDsToDelete: recordIDs,
       atomically: isAtomic,
       withConfiguration: configuration
-    )
-    return publishers.deleted.propagateCancellationTo(operation)
+    ).compactMap { (_, deleted) in
+      deleted
+    }.eraseToAnyPublisher()
   }
 
   /// Modifies one or more records.
@@ -127,36 +131,16 @@ extension CKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `CCKModifyRecordsPublishers`.
+  /// - Returns: A `Publisher` that emits progress of the saved `CKRecord`s, and the deleted `CKRecord.ID`s.
+  ///   Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public final func modify(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKModifyRecordsPublishers {
-    let (publishers, operation) = modifyWithoutCancellation(
-      recordsToSave: recordsToSave,
-      recordIDsToDelete: recordIDsToDelete,
-      atomically: isAtomic,
-      withConfiguration: configuration
-    )
-    return CCKModifyRecordsPublishers(
-      progress: publishers.progress.propagateCancellationTo(operation),
-      saved: publishers.saved.propagateCancellationTo(operation),
-      deleted: publishers.deleted.propagateCancellationTo(operation)
-    )
-  }
-
-  private final func modifyWithoutCancellation(
-    recordsToSave: [CKRecord]? = nil,
-    recordIDsToDelete: [CKRecord.ID]? = nil,
-    atomically isAtomic: Bool = true,
-    withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> (CCKModifyRecordsPublishers, CKModifyRecordsOperation) {
-    let progressSubject = PassthroughSubject<(CKRecord, Double), Error>()
-    let savedSubject = PassthroughSubject<CKRecord, Error>()
-    let deletedSubject = PassthroughSubject<CKRecord.ID, Error>()
+  ) -> AnyPublisher<((CKRecord, Double)?, CKRecord.ID?), Error> {
+    let subject = PassthroughSubject<((CKRecord, Double)?, CKRecord.ID?), Error>()
     let operation = CKModifyRecordsOperation(
       recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete
     )
@@ -165,45 +149,36 @@ extension CKDatabase {
     }
     operation.isAtomic = isAtomic
     operation.perRecordProgressBlock = { record, progress in
-      progressSubject.send((record, progress))
+      if (progress < 1.0) {
+        subject.send(((record, progress), nil))
+      }
     }
     operation.perRecordCompletionBlock = { record, error in
       guard error == nil else {
-        savedSubject.send(completion: .failure(error!))
+        subject.send(completion: .failure(error!))
         return
       }
 
-      savedSubject.send(record)
+      subject.send(((record, 1.0), nil))
     }
     operation.modifyRecordsCompletionBlock = { _, deletedRecordIDs, error in
       guard error == nil else {
-        progressSubject.send(completion: .failure(error!))
-        savedSubject.send(completion: .failure(error!))
-        deletedSubject.send(completion: .failure(error!))
+        subject.send(completion: .failure(error!))
         return
       }
 
       if let deletedRecordIDs = deletedRecordIDs {
         for recordID in deletedRecordIDs {
-          deletedSubject.send(recordID)
+          subject.send((nil, recordID))
         }
       }
 
-      progressSubject.send(completion: .finished)
-      savedSubject.send(completion: .finished)
-      deletedSubject.send(completion: .finished)
+      subject.send(completion: .finished)
     }
 
     add(operation)
 
-    return (
-      CCKModifyRecordsPublishers(
-        progress: progressSubject.propagateCancellationTo(operation),
-        saved: savedSubject.propagateCancellationTo(operation),
-        deleted: deletedSubject.propagateCancellationTo(operation)
-      ),
-      operation
-    )
+    return subject.propagateCancellationTo(operation)
   }
 
   /// Fetches the record with the specified ID.
@@ -230,14 +205,26 @@ extension CKDatabase {
   ///     the record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `CCKFetchRecordsPublishers`.
+  /// - Returns: A `Publisher` that emits progress and the fetched `CKRecord` on completion, or an error if
+  ///   CombineCloudKit can't fetch it. Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public final func fetch(
     recordID: CKRecord.ID,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKFetchRecordsPublishers {
+  ) -> AnyPublisher<(CKRecord?, Double?), Error> {
     fetch(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration)
+      .compactMap { (progress, record) in
+      if let progress = progress, progress.1 < 1.0 {
+        return (nil, progress.1)
+      }
+      
+      if let record = record {
+        return (record, 1.0)
+      }
+      
+      return nil
+      }.eraseToAnyPublisher()
   }
 
   /// Fetches multiple records.
@@ -250,49 +237,43 @@ extension CKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `CCKFetchRecordsPublishers`.
+  /// - Returns: A `Publisher` that emits progress of the fetched `CKRecord.ID`s and the fetched `CKRecord`s, or an error if
+  ///   CombineCloudKit can't fetch them. Progress is a `Double` where `0.0` indicates no progress, and `1.0` indicates completion.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public final func fetch(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKFetchRecordsPublishers {
-    let progressSubject = PassthroughSubject<(CKRecord.ID, Double), Error>()
-    let fetchedSubject = PassthroughSubject<CKRecord, Error>()
+  ) -> AnyPublisher<((CKRecord.ID, Double)?, CKRecord?), Error> {
+    let subject = PassthroughSubject<((CKRecord.ID, Double)?, CKRecord?), Error>()
     let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
     if configuration != nil {
       operation.configuration = configuration
     }
     operation.desiredKeys = desiredKeys
     operation.perRecordProgressBlock = { recordID, progress in
-      progressSubject.send((recordID, progress))
+      subject.send(((recordID, progress), nil))
     }
     operation.perRecordCompletionBlock = { record, _, error in
       guard let record = record, error == nil else {
-        progressSubject.send(completion: .failure(error!))
-        fetchedSubject.send(completion: .failure(error!))
+        subject.send(completion: .failure(error!))
         return
       }
 
-      fetchedSubject.send(record)
+      subject.send((nil, record))
     }
     operation.fetchRecordsCompletionBlock = { _, error in
       guard error == nil else {
-        progressSubject.send(completion: .failure(error!))
-        fetchedSubject.send(completion: .failure(error!))
+        subject.send(completion: .failure(error!))
         return
       }
 
-      progressSubject.send(completion: .finished)
-      fetchedSubject.send(completion: .finished)
+      subject.send(completion: .finished)
     }
 
     add(operation)
 
-    return CCKFetchRecordsPublishers(
-      progress: progressSubject.propagateCancellationTo(operation),
-      fetched: fetchedSubject.propagateCancellationTo(operation)
-    )
+    return subject.propagateCancellationTo(operation)
   }
 
   /// Fetches the current user record.

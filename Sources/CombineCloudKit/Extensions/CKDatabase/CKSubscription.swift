@@ -119,13 +119,14 @@ extension CKDatabase {
   ///   - subscriptionsToDelete: The IDs of the subscriptions to delete.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `CCKModifySubscriptionPublishers`.
+  /// - Returns: A `Publisher` that emits the saved `CKSubscription`s and the deleted `CKRecordZone.ID`s, or an
+  ///   error if CombineCloudKit can't modify them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public final func modify(
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKModifySubscriptionsPublishers {
+  ) -> AnyPublisher<(CKSubscription?, CKSubscription.ID?), Error> {
     let operation = CKModifySubscriptionsOperation(
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
@@ -133,8 +134,7 @@ extension CKDatabase {
     return publisherFrom(
       operation,
       configuration,
-      setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion },
-      initPublishers: CCKModifySubscriptionsPublishers.init
+      setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion }
     )
   }
 

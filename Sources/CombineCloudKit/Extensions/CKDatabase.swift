@@ -130,45 +130,38 @@ extension CKDatabase {
     return subject.propagateCancellationTo(operation)
   }
 
-  func publisherFrom<Output, OutputID, Publishers>(
+  func publisherFrom<Output, OutputID>(
     _ operation: CKDatabaseOperation,
     _ configuration: CKOperation.Configuration? = nil,
-    setCompletion: (@escaping ([Output]?, [OutputID]?, Error?) -> Void) -> Void,
-    initPublishers: (AnyPublisher<Output, Error>, AnyPublisher<OutputID, Error>) -> Publishers
-  ) -> Publishers {
-    let savedSubject = PassthroughSubject<Output, Error>()
-    let deletedSubject = PassthroughSubject<OutputID, Error>()
+    setCompletion: (@escaping ([Output]?, [OutputID]?, Error?) -> Void) -> Void
+  ) -> AnyPublisher<(Output?, OutputID?), Error> {
+    let subject = PassthroughSubject<(Output?, OutputID?), Error>()
     if configuration != nil {
       operation.configuration = configuration
     }
     setCompletion { saved, deleted, error in
       guard error == nil else {
-        savedSubject.send(completion: .failure(error!))
-        deletedSubject.send(completion: .failure(error!))
+        subject.send(completion: .failure(error!))
         return
       }
 
       if let saved = saved {
         for output in saved {
-          savedSubject.send(output)
+          subject.send((output, nil))
         }
       }
 
       if let deleted = deleted {
         for outputID in deleted {
-          deletedSubject.send(outputID)
+          subject.send((nil, outputID))
         }
       }
 
-      savedSubject.send(completion: .finished)
-      deletedSubject.send(completion: .finished)
+      subject.send(completion: .finished)
     }
 
     add(operation)
 
-    return initPublishers(
-      savedSubject.propagateCancellationTo(operation),
-      deletedSubject.propagateCancellationTo(operation)
-    )
+    return subject.propagateCancellationTo(operation)
   }
 }

@@ -117,13 +117,14 @@ extension CKDatabase {
   ///   - recordZonesToDelete: The IDs of the record zones to delete.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `CCKModifyRecordZonesPublishers`.
+  /// - Returns: A `Publisher` that emits the saved `CKRecordZone`s and the deleted `CKRecordZone.ID`s, or an
+  ///   error if CombineCloudKit can't modify them.
   /// - SeeAlso: [`CKModifyRecordZonesOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordzonesoperation)
   public final func modify(
     recordZonesToSave: [CKRecordZone]? = nil,
     recordZoneIDsToDelete: [CKRecordZone.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> CCKModifyRecordZonesPublishers {
+  ) -> AnyPublisher<(CKRecordZone?, CKRecordZone.ID?), Error> {
     let operation = CKModifyRecordZonesOperation(
       recordZonesToSave: recordZonesToSave,
       recordZoneIDsToDelete: recordZoneIDsToDelete
@@ -131,8 +132,7 @@ extension CKDatabase {
     return publisherFrom(
       operation,
       configuration,
-      setCompletion: { completion in operation.modifyRecordZonesCompletionBlock = completion },
-      initPublishers: CCKModifyRecordZonesPublishers.init
+      setCompletion: { completion in operation.modifyRecordZonesCompletionBlock = completion }
     )
   }
 
