@@ -3,6 +3,7 @@
 
 # Swift Package Manager
 /.build/
+/.swiftpm/
 /Packages
 /*.xcodeproj
 xcuserdata/
