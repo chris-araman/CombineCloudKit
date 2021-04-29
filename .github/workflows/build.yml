@@ -1,4 +1,4 @@
-name: Build
+name: Build & Test
 
 on:
   push:
@@ -8,16 +8,24 @@ on:
 
 jobs:
   build:
+    name: Build & Test
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: sudo xcode-select --switch /Applications/Xcode_12.4.app
+    - name: Clone Repository
+      uses: actions/checkout@v2
+    - name: Select Xcode 12.4
+      run: sudo xcode-select --switch /Applications/Xcode_12.4.app
     - name: Build
-      run: xcrun swift build  --verbose
+      run: xcrun swift build --verbose
     - name: Test with Address Sanitizer
       run: xcrun swift test --verbose --sanitize=address
     - name: Test with Thread Sanitizer
       run: xcrun swift test --verbose --sanitize=thread
     - name: Test with Undefined Behavior Sanitizer
       run: xcrun swift test --verbose --sanitize=undefined
-
+    - name: Test with Code Coverage
+      run: |
+        xcrun swift test --verbose --enable-code-coverage
+        cd .build/$(uname -m)-apple-macosx/debug
+        xcrun llvm-cov show -use-color -instr-profile=codecov/default.profdata CombineCloudKitPackageTests.xctest/Contents/MacOS/CombineCloudKitPackageTests > coverage.txt
+        bash <(curl -s https://codecov.io/bash) -f coverage.txt -Z
