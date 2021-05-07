@@ -13,7 +13,15 @@ import XCTest
 @testable import CombineCloudKit
 
 class CombineCloudKitTests: XCTestCase {
-  let container = CKContainer(identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
+  lazy var container = CKContainer(identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
+
+  #if SWIFT_PACKAGE
+  override func setUpWithError() throws {
+    try super.setUpWithError()
+
+    throw XCTSkip("Tests requiring CloudKit can not be run without app entitlements.")
+  }
+  #endif
 
   func waitForLast<P>(from publisher: P, timeout: TimeInterval = 1)
     throws -> P.Output where P: Publisher {
