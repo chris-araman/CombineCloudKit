@@ -16,6 +16,45 @@ extension CKDatabase {
   ///   - record: The record to save to the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
+  /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
+  public final func save(
+    record: CKRecord,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<CKRecord, Error> {
+    save(records: [record], withConfiguration: configuration)
+  }
+
+  /// Saves multiple records.
+  ///
+  /// - Parameters:
+  ///   - records: The records to save to the database.
+  ///   - isAtomic: A Boolean value that indicates whether the entire operation fails when CloudKit can’t save one or
+  ///     more records in a record zone.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
+  /// - Returns: A `Publisher` that the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
+  /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
+  public final func save(
+    records: [CKRecord],
+    atomically isAtomic: Bool = true,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<CKRecord, Error> {
+    saveWithProgress(records: records, atomically: isAtomic, withConfiguration: configuration).compactMap { record, progress in
+      guard case .complete = progress else {
+        return nil
+      }
+
+      return record
+    }.eraseToAnyPublisher()
+  }
+
+  /// Saves a single record.
+  ///
+  /// - Parameters:
+  ///   - record: The record to save to the database.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
   /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
   /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
@@ -32,11 +71,11 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
-  public final func save(
+  public final func saveWithProgress(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<(CKRecord, Progress), Error> {
-    save(records: [record], withConfiguration: configuration)
+    saveWithProgress(records: [record], withConfiguration: configuration)
   }
 
   /// Saves multiple records.
@@ -49,12 +88,12 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
-  public final func save(
+  public final func saveWithProgress(
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<(CKRecord, Progress), Error> {
-    return modify(
+    modifyWithProgress(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
@@ -62,20 +101,6 @@ extension CKDatabase {
     ).compactMap { progress, _ in
       progress
     }.eraseToAnyPublisher()
-  }
-
-  /// Deletes a single record.
-  ///
-  /// - Parameters:
-  ///   - recordID: The ID of the record to delete permanently from the database.
-  /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
-  /// to happen immediately.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord.ID`, or an error if CombineCloudKit can't save it.
-  /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
-  public final func deleteAtBackgroundPriority(recordID: CKRecord.ID)
-    -> AnyPublisher<CKRecord.ID, Error>
-  {
-    publisherFrom(delete, with: recordID)
   }
 
   /// Deletes a single record.
@@ -110,13 +135,62 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord.ID, Error> {
-    return modify(
+    modify(
       recordsToSave: nil,
       recordIDsToDelete: recordIDs,
       atomically: isAtomic,
       withConfiguration: configuration
     ).compactMap { _, deleted in
       deleted
+    }.eraseToAnyPublisher()
+  }
+
+  /// Deletes a single record.
+  ///
+  /// - Parameters:
+  ///   - recordID: The ID of the record to delete permanently from the database.
+  /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
+  /// to happen immediately.
+  /// - Returns: A `Publisher` that emits the saved `CKRecord.ID`, or an error if CombineCloudKit can't save it.
+  /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
+  public final func deleteAtBackgroundPriority(recordID: CKRecord.ID)
+    -> AnyPublisher<CKRecord.ID, Error>
+  {
+    publisherFrom(delete, with: recordID)
+  }
+
+  /// Modifies one or more records.
+  ///
+  /// - Parameters:
+  ///   - recordsToSave: The records to save to the database.
+  ///   - recordsToDelete: The IDs of the records to delete permanently from the database.
+  ///   - isAtomic: A Boolean value that indicates whether the entire operation fails when CloudKit can’t update one or
+  ///     more records in a record zone.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
+  /// - Returns: A `Publisher` that the saved `CKRecord`s and the deleted `CKRecord.ID`s.
+  /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
+  public final func modify(
+    recordsToSave: [CKRecord]? = nil,
+    recordIDsToDelete: [CKRecord.ID]? = nil,
+    atomically isAtomic: Bool = true,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<(CKRecord?, CKRecord.ID?), Error> {
+    modifyWithProgress(
+      recordsToSave: recordsToSave,
+      recordIDsToDelete: recordIDsToDelete,
+      atomically: isAtomic,
+      withConfiguration: configuration
+    ).compactMap { saved, deleted in
+      if let deleted = deleted {
+        return (nil, deleted)
+      }
+
+      if let saved = saved, case (let record, let progress) = saved, case .complete = progress {
+        return (record, nil)
+      }
+
+      return nil
     }.eraseToAnyPublisher()
   }
 
@@ -131,7 +205,7 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, and the deleted `CKRecord.ID`s.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
-  public final func modify(
+  public final func modifyWithProgress(
     recordsToSave: [CKRecord]? = nil,
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
@@ -182,6 +256,66 @@ extension CKDatabase {
   ///
   /// - Parameters:
   ///   - recordID: The record ID of the record to fetch.
+  ///   - desiredKeys: The fields of the record to fetch. Use this parameter to limit the amount of data that CloudKit
+  ///     returns for the record. When CloudKit returns the record, it only includes fields with names that match one of
+  ///     the keys in this parameter. The parameter's default value is `nil`, which instructs CloudKit to return all of
+  ///     the record’s keys.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
+  /// - Returns: A `Publisher` that emits the fetched `CKRecord`, or an error if CombineCloudKit can't fetch it.
+  /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
+  public final func fetch(
+    recordID: CKRecord.ID,
+    desiredKeys: [CKRecord.FieldKey]? = nil,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<CKRecord, Error> {
+    fetchWithProgress(
+      recordID: recordID,
+      desiredKeys: desiredKeys,
+      withConfiguration: configuration
+    ).compactMap { _, record in
+      guard let record = record else {
+        return nil
+      }
+
+      return record
+    }.eraseToAnyPublisher()
+  }
+
+  /// Fetches multiple records.
+  ///
+  /// - Parameters:
+  ///   - recordIDs: The record IDs of the records to fetch.
+  ///   - desiredKeys: The fields of the records to fetch. Use this parameter to limit the amount of data that CloudKit
+  ///     returns for each record. When CloudKit returns a record, it only includes fields with names that match one of
+  ///     the keys in this parameter. The parameter's default value is `nil`, which instructs CloudKit to return all of
+  ///     a record’s keys.
+  ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
+  ///     the operation will use a default configuration.
+  /// - Returns: A `Publisher` that emits the fetched `CKRecord`s, or an error if CombineCloudKit can't fetch them.
+  /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
+  public final func fetch(
+    recordIDs: [CKRecord.ID],
+    desiredKeys: [CKRecord.FieldKey]? = nil,
+    withConfiguration configuration: CKOperation.Configuration? = nil
+  ) -> AnyPublisher<CKRecord, Error> {
+    fetchWithProgress(
+      recordIDs: recordIDs,
+      desiredKeys: desiredKeys,
+      withConfiguration: configuration
+    ).compactMap { _, record in
+      guard let record = record else {
+        return nil
+      }
+
+      return record
+    }.eraseToAnyPublisher()
+  }
+
+  /// Fetches the record with the specified ID.
+  ///
+  /// - Parameters:
+  ///   - recordID: The record ID of the record to fetch.
   /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
   /// immediately.
   /// - Returns: A `Publisher` that emits the `CKRecord`, or an error if CombineCloudKit can't fetch it.
@@ -205,23 +339,22 @@ extension CKDatabase {
   /// - Returns: A `Publisher` that emits `Progress` and the fetched `CKRecord` on completion, or an error if
   ///   CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
-  public final func fetch(
+  public final func fetchWithProgress(
     recordID: CKRecord.ID,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<(Progress, CKRecord?), Error> {
-    fetch(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration)
-      .compactMap { progress, record in
-        if let record = record {
-          return (.complete, record)
-        }
-        
-        if let progress = progress {
-          return (progress.1, nil)
-        }
-          
-        return nil
-      }.eraseToAnyPublisher()
+    fetchWithProgress(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration).compactMap { idAndProgress, record in
+      if let record = record {
+        return (.complete, record)
+      }
+
+      if let idAndProgress = idAndProgress, case (_, let progress) = idAndProgress {
+        return (progress, nil)
+      }
+
+      return nil
+    }.eraseToAnyPublisher()
   }
 
   /// Fetches multiple records.
@@ -237,7 +370,7 @@ extension CKDatabase {
   /// - Returns: A `Publisher` that emits the `Progress` of the fetched `CKRecord.ID`s and the fetched `CKRecord`s, or an error if
   ///   CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
-  public final func fetch(
+  public final func fetchWithProgress(
     recordIDs: [CKRecord.ID],
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil

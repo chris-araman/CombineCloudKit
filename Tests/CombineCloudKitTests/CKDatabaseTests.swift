@@ -33,11 +33,11 @@ final class CKDatabaseTests: CombineCloudKitTests {
     let record = CKRecord(recordType: "Test")
     let database = container.privateCloudDatabase
     let save = database.save(record: record)
-    let saved = try waitForLast(from: save).0
+    let saved = try waitForSingle(from: save)
     XCTAssertEqual(saved.recordID, record.recordID)
 
     let fetch = database.fetch(recordID: saved.recordID)
-    let fetched = try XCTUnwrap(try waitForLast(from: fetch).1)
+    let fetched = try waitForSingle(from: fetch)
     XCTAssertEqual(fetched.recordID, record.recordID)
 
     let delete = database.delete(recordID: saved.recordID)
