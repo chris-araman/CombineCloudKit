@@ -40,7 +40,11 @@ extension CKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    saveWithProgress(records: records, atomically: isAtomic, withConfiguration: configuration).compactMap { record, progress in
+    saveWithProgress(
+      records: records,
+      atomically: isAtomic,
+      withConfiguration: configuration
+    ).compactMap { record, progress in
       guard case .complete = progress else {
         return nil
       }
@@ -186,7 +190,9 @@ extension CKDatabase {
         return (nil, deleted)
       }
 
-      if let saved = saved, case (let record, let progress) = saved, case .complete = progress {
+      if let saved = saved,
+        case (let record, let progress) = saved,
+        case .complete = progress {
         return (record, nil)
       }
 
@@ -274,11 +280,7 @@ extension CKDatabase {
       desiredKeys: desiredKeys,
       withConfiguration: configuration
     ).compactMap { _, record in
-      guard let record = record else {
-        return nil
-      }
-
-      return record
+      record
     }.eraseToAnyPublisher()
   }
 
@@ -304,11 +306,7 @@ extension CKDatabase {
       desiredKeys: desiredKeys,
       withConfiguration: configuration
     ).compactMap { _, record in
-      guard let record = record else {
-        return nil
-      }
-
-      return record
+      record
     }.eraseToAnyPublisher()
   }
 
@@ -343,18 +341,12 @@ extension CKDatabase {
     recordID: CKRecord.ID,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<(Progress, CKRecord?), Error> {
-    fetchWithProgress(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration).compactMap { idAndProgress, record in
-      if let record = record {
-        return (.complete, record)
-      }
-
-      if let idAndProgress = idAndProgress, case (_, let progress) = idAndProgress {
-        return (progress, nil)
-      }
-
-      return nil
-    }.eraseToAnyPublisher()
+  ) -> AnyPublisher<((CKRecord.ID, Progress)?, CKRecord?), Error> {
+    fetchWithProgress(
+      recordIDs: [recordID],
+      desiredKeys: desiredKeys,
+      withConfiguration: configuration
+    )
   }
 
   /// Fetches multiple records.

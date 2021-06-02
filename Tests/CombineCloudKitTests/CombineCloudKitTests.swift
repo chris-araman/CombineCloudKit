@@ -23,13 +23,11 @@ class CombineCloudKitTests: XCTestCase {
   }
   #endif
 
-  func waitForLast<P>(from publisher: P, timeout: TimeInterval = 1)
-    throws -> P.Output where P: Publisher {
-    try XCTUnwrap(try wait(for: publisher.record().last, timeout: timeout))
-  }
-
-  func waitForSingle<P>(from publisher: P, timeout: TimeInterval = 1)
-    throws -> P.Output where P: Publisher {
-    try wait(for: publisher.record().single, timeout: timeout)
+  func wait<P, R>(
+    for selector: (Recorder<P.Output, P.Failure>) -> R,
+    from publisher: P,
+    timeout: TimeInterval = 1
+  ) throws -> R.Output where P: Publisher, R: PublisherExpectation  {
+    try wait(for: selector(publisher.record()), timeout: timeout)
   }
 }
