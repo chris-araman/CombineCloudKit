@@ -63,27 +63,31 @@ final class CKDatabaseTests: CombineCloudKitTests {
   }
 
   private func validateProgressOfSingleRecord<P, T>(from publisher: P)
-  throws -> T where P: Publisher, T: Hashable, P.Output == (T, Progress) {
+    throws -> T where P: Publisher, T: Hashable, P.Output == (T, Progress)
+  {
     let records = try validateProgress(from: publisher)
     XCTAssertEqual(records.count, 1)
     return records.first!
   }
 
   private func validateProgressOfSingleRecord<P>(from publisher: P)
-  throws -> CKRecord where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?) {
+    throws -> CKRecord where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?)
+  {
     let records = try validateProgress(from: publisher)
     XCTAssertEqual(records.count, 1)
     return records.first!
   }
 
   private func validateProgress<P, T>(from publisher: P)
-  throws -> [T] where P: Publisher, T: Hashable, P.Output == (T, Progress) {
+    throws -> [T] where P: Publisher, T: Hashable, P.Output == (T, Progress)
+  {
     var recordProgress: [T: Progress] = [:]
     let elements = try wait(for: \.elements, from: publisher)
     for (recordID, progress) in elements {
       if let latest = recordProgress[recordID] {
         XCTAssertGreaterThan(
-          progress, latest, "Received a progress update that was not more complete than a previous update.")
+          progress, latest,
+          "Received a progress update that was not more complete than a previous update.")
       }
 
       recordProgress[recordID] = progress
@@ -97,7 +101,8 @@ final class CKDatabaseTests: CombineCloudKitTests {
   }
 
   private func validateProgress<P>(from publisher: P)
-  throws -> [CKRecord] where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?) {
+    throws -> [CKRecord] where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?)
+  {
     var records: [CKRecord] = []
     var recordProgress: [CKRecord.ID: Progress] = [:]
     let elements = try wait(for: \.elements, from: publisher)
@@ -110,7 +115,8 @@ final class CKDatabaseTests: CombineCloudKitTests {
 
         if let latest = recordProgress[recordID] {
           XCTAssertGreaterThan(
-            progress, latest, "Received a progress update that was not more complete than a previous update.")
+            progress, latest,
+            "Received a progress update that was not more complete than a previous update.")
         }
 
         recordProgress[recordID] = progress

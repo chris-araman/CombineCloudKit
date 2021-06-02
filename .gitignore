@@ -11,5 +11,8 @@ xcuserdata/
 # Xcode
 /build/
 
+# Homebrew
+Brewfile.lock.json
+
 # Jazzy
 /docs/docsets/

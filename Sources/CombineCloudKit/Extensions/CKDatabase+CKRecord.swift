@@ -192,7 +192,8 @@ extension CKDatabase {
 
       if let saved = saved,
         case (let record, let progress) = saved,
-        case .complete = progress {
+        case .complete = progress
+      {
         return (record, nil)
       }
 
@@ -226,7 +227,7 @@ extension CKDatabase {
     }
     operation.isAtomic = isAtomic
     operation.perRecordProgressBlock = { record, percent in
-      if (percent < 1.0) {
+      if percent < 1.0 {
         subject.send(((record, .incomplete(percent: percent)), nil))
       }
     }

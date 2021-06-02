@@ -35,3 +35,13 @@ let package = Package(
     ),
   ]
 )
+
+#if compiler(>=5.4)
+  package.dependencies += [
+    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))
+  ]
+#elseif compiler(>=5.3)
+  package.dependencies += [
+    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.3-branch"))
+  ]
+#endif
