@@ -9,31 +9,25 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macos-${{ matrix.macos }}
+    runs-on: macos-10.15
     strategy:
       matrix:
-        platform: [iOS, macOS, tvOS, watchOS]
         swift: [5.1, 5.2, 5.3, 5.4, 5.5-dev]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
           - swift: 5.1
             xcode: 11.3.1
-            macos: 10.15
           - swift: 5.2
             xcode: 11.7
-            macos: 10.15
           - swift: 5.3
             xcode: 12.4
-            macos: latest
           - swift: 5.4
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
-            macos: latest
           - swift: 5.5-dev
             pkg: https://swift.org/builds/swift-5.5-branch/xcode/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a-osx.pkg
             toolchain: swift
-            macos: latest
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
@@ -48,13 +42,18 @@ jobs:
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
     - name: Build for macOS with Swift Package Manager
-      if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift build --verbose
-    - name: Build for ${{ matrix.platform }} with xcodebuild
-      run: xcrun xcodebuild build -scheme CombineCloudKit -destination generic/platform=${{ matrix.platform }}
+    - name: Build for macOS Catalyst
+      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=macOS,variant=Mac Catalyst'
+    - name: Build for iOS
+      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=iOS'
+    - name: Build for tvOS
+      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=tvOS'
+    - name: Build for watchOS
+      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=watchOS'
   lint-test:
     name: Lint & Test
-    runs-on: macos-latest
+    runs-on: macos-10.15
     env:
       TOOLCHAINS: swift
     steps:
