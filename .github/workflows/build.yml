@@ -11,13 +11,16 @@ jobs:
     name: Lint
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: script/lint
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Lint
+      run: script/lint
   build:
     name: Build
     runs-on: macos-${{ matrix.macos }}
     strategy:
       matrix:
+        platform: [iOS, macOS, tvOS, watchOS]
         swift: [5.2, 5.3, 5.4, 5.5-dev]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
@@ -29,30 +32,40 @@ jobs:
             xcode: 12.4
             macos: latest
           - swift: 5.4
-            # xcode: 12.5
-            toolchain: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
+            pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
+            toolchain: swift
             macos: latest
           - swift: 5.5-dev
-            # xcode: 12.6
-            toolchain: https://swift.org/builds/swift-5.5-branch/xcode/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a-osx.pkg
+            pkg: https://swift.org/builds/swift-5.5-branch/xcode/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a-osx.pkg
+            toolchain: swift
             macos: latest
+    env:
+      TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
-    - uses: actions/checkout@v2
-    - if: ${{ matrix.xcode }}
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Select Xcode ${{ matrix.xcode }}
+      if: ${{ matrix.xcode }}
+      run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
+    - name: Install Swift ${{ matrix.swift }}
+      if: ${{ matrix.pkg }}
       run: |
-        sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
-        xcrun swift build --verbose
-    - if: ${{ matrix.toolchain }}
-      run: |
-        curl -o swift.pkg '${{ matrix.toolchain }}'
+        curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
-        xcrun --toolchain swift swift build --verbose
+    - name: Build for macOS with Swift Package Manager
+      if: ${{ matrix.platform == 'macOS' }}
+      run: xcrun swift build --verbose
+    - name: Build for ${{ matrix.platform }} with xcodebuild
+      if: ${{ matrix.platform != 'macOS' }}
+      run: xcrun xcodebuild build -scheme CombineCloudKit -destination generic/platform=${{ matrix.platform }}
   test:
     name: Test
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: xcrun swift test --verbose
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Test
+      run: xcrun swift test --verbose
   sanitize:
     name: Sanitize
     runs-on: macos-latest
@@ -60,14 +73,18 @@ jobs:
       matrix:
         sanitizer: [address, thread, undefined]
     steps:
-    - uses: actions/checkout@v2
-    - run: xcrun swift test --verbose --sanitize=${{ matrix.sanitizer }}
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Sanitize
+      run: xcrun swift test --verbose --sanitize=${{ matrix.sanitizer }}
   codecov:
     name: Coverage
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: |
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Coverage
+      run: |
         xcrun swift test --verbose --enable-code-coverage
         cd .build/$(uname -m)-apple-macosx/debug
         xcrun llvm-cov show -use-color -instr-profile=codecov/default.profdata CombineCloudKitPackageTests.xctest/Contents/MacOS/CombineCloudKitPackageTests > coverage.txt
