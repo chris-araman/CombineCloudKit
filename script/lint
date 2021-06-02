@@ -20,7 +20,7 @@ shfmt -d -i 2 -l -w script/
 echo "  🧹 swift-format"
 swift build --product swift-format >/dev/null
 SOURCES=(
-  Package.swift
+  Package*.swift
   Sources
   Tests
 )

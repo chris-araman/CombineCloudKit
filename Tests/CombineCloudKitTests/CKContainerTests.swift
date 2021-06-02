@@ -5,17 +5,21 @@
 //  Created by Chris Araman on 4/29/21.
 //
 
-import CloudKit
-import Combine
-import CombineExpectations
-import XCTest
+#if canImport(CombineExpectations) && canImport(XCTest)
 
-@testable import CombineCloudKit
+  import CloudKit
+  import Combine
+  import CombineExpectations
+  import XCTest
 
-final class CKContainerTests: CombineCloudKitTests {
-  func testAccountStatusIsAvailable() throws {
-    let publisher = container.accountStatus()
-    let status = try wait(for: \.single, from: publisher)
-    XCTAssertEqual(status, .available)
+  @testable import CombineCloudKit
+
+  final class CKContainerTests: CombineCloudKitTests {
+    func testAccountStatusIsAvailable() throws {
+      let publisher = container.accountStatus()
+      let status = try wait(for: \.single, from: publisher)
+      XCTAssertEqual(status, .available)
+    }
   }
-}
+
+#endif
