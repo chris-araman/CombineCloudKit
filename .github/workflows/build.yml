@@ -18,8 +18,7 @@ jobs:
     runs-on: macos-${{ matrix.macos }}
     strategy:
       matrix:
-        # TODO: Add 5.4 once available.
-        swift: [5.2, 5.3]
+        swift: [5.2, 5.3, 5.4, 5.5-dev]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
@@ -28,14 +27,26 @@ jobs:
             macos: 10.15
           - swift: 5.3
             xcode: 12.4
-            macos: 10.15
-          # - swift: 5.4
-          #   xcode: 12.5
-          #   macos: 11
+            macos: latest
+          - swift: 5.4
+            # xcode: 12.5
+            toolchain: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
+            macos: latest
+          - swift: 5.5-dev
+            # xcode: 12.6
+            toolchain: https://swift.org/builds/swift-5.5-branch/xcode/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a-osx.pkg
+            macos: latest
     steps:
     - uses: actions/checkout@v2
-    - run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
-    - run: xcrun swift build --verbose
+    - if: ${{ matrix.xcode }}
+      run: |
+        sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
+        xcrun swift build --verbose
+    - if: ${{ matrix.toolchain }}
+      run: |
+        curl -o swift.pkg '${{ matrix.toolchain }}'
+        sudo installer -pkg swift.pkg -target /
+        xcrun --toolchain swift swift build --verbose
   test:
     name: Test
     runs-on: macos-latest
