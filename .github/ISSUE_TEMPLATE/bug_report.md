@@ -41,7 +41,7 @@ A clear and concise description of what you expected to happen.
 ## Environment
 
 - CombineCloudKit version
-- Platform version
+- macOS, iOS, watchOS, or tvOS version
 - Swift version
 - Xcode version
 
