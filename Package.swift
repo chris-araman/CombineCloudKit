@@ -1,5 +1,4 @@
-// swift-tools-version:5.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -12,19 +11,15 @@ let package = Package(
     .watchOS(.v6),
   ],
   products: [
-    // Products define the executables and libraries a package produces, and make them visible to other packages.
     .library(
       name: "CombineCloudKit",
       targets: ["CombineCloudKit"]
     )
   ],
   dependencies: [
-    // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.8.0")
   ],
   targets: [
-    // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-    // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "CombineCloudKit",
       dependencies: []
@@ -33,15 +28,20 @@ let package = Package(
       name: "CombineCloudKitTests",
       dependencies: ["CombineCloudKit", "CombineExpectations"]
     ),
-  ]
+  ],
+  swiftLanguageVersions: [.v5]
 )
 
 #if compiler(>=5.4)
-  package.dependencies += [
-    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))
-  ]
+  package.dependencies +=
+    [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))]
 #elseif compiler(>=5.3)
-  package.dependencies += [
-    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.3-branch"))
-  ]
+  package.dependencies +=
+    [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.3-branch"))]
+#elseif compiler(>=5.2)
+  package.dependencies +=
+    [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.2-branch"))]
+#elseif compiler(>=5.1)
+  package.dependencies +=
+    [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.1-branch"))]
 #endif

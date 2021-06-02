@@ -21,12 +21,29 @@ jobs:
     - run: xcrun swift build --verbose
   test:
     name: Test
-    runs-on: macos-latest
+    runs-on: macos-${{ matrix.macos }}
     strategy:
       matrix:
         sanitizer: [address, thread, undefined]
+        swift: [5.1, 5.2, 5.3, 5.4]
+        # The latest version of Xcode that supports each release of Swift.
+        # https://developer.apple.com/support/xcode/
+        include:
+          - swift: 5.1
+            xcode: 11.3.1
+            macos: 10.15
+          - swift: 5.2
+            xcode: 11.7
+            macos: 10.15
+          - swift: 5.3
+            xcode: 12.4
+            macos: 10.15
+          - swift: 5.4
+            xcode: 12.5
+            macos: 11
     steps:
     - uses: actions/checkout@v2
+    - run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
     - run: xcrun swift test --verbose --sanitize=${{ matrix.sanitizer }}
   codecov:
     name: Coverage
