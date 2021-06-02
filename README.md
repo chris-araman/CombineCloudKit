@@ -89,7 +89,8 @@ goal to achieve > 90% code coverage.
 
 ## Documentation
 
-💯% [documented](https://chris-araman.github.io/CombineCloudKit/) using [Jazzy](https://github.com/realm/jazzy). Hosted by [GitHub Pages](https://pages.github.com).
+💯% [documented](https://chris-araman.github.io/CombineCloudKit/) using [Jazzy](https://github.com/realm/jazzy).
+Hosted by [GitHub Pages](https://pages.github.com).
 
 ## Further Reading
 
