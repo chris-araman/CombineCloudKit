@@ -4,7 +4,7 @@ if [[ ! -x "$(command -v brew)" ]]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-brew bundle install --quiet >/dev/null
+brew bundle install --no-lock --quiet >/dev/null
 
 echo "⚙️  Linting CombineCloudKit..."
 
@@ -18,7 +18,7 @@ echo "  🧹 shfmt"
 shfmt -d -i 2 -l -w script/
 
 echo "  🧹 swift-format"
-swift build --target swift-format >/dev/null
+swift build --product swift-format >/dev/null
 SOURCES=(
   Package.swift
   Sources
