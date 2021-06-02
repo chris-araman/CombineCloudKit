@@ -2,7 +2,7 @@
 
 Swift Combine extensions for asynchronous CloudKit record processing. Designed for simplicity.
 
-[![Swift](https://img.shields.io/badge/swift-5.1%2B-informational?logo=swift&style=flat-square)](https://swift.org)
+[![Swift](https://img.shields.io/badge/swift-5.2%2B-informational?logo=swift&style=flat-square)](https://swift.org)
 [![License](https://img.shields.io/github/license/chris-araman/CombineCloudKit?style=flat-square&color=informational)](https://github.com/chris-araman/CombineCloudKit/blob/main/LICENSE.md)
 [![Release](https://img.shields.io/github/v/tag/chris-araman/CombineCloudKit?style=flat-square&color=informational&label=release&sort=semver)](https://github.com/chris-araman/CombineCloudKit/releases)
 [![Lint, Build, & Test](https://img.shields.io/github/workflow/status/chris-araman/CombineCloudKit/Lint,%20Build,%20&%20Test/main?style=flat-square&logo=github)](https://github.com/chris-araman/CombineCloudKit/actions/workflows/build.yml?query=branch%3Amain)

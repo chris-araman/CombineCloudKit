@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 
 import PackageDescription
 
@@ -41,7 +41,4 @@ let package = Package(
 #elseif compiler(>=5.2)
   package.dependencies +=
     [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.2-branch"))]
-#elseif compiler(>=5.1)
-  package.dependencies +=
-    [.package(url: "https://github.com/apple/swift-format", .branch("swift-5.1-branch"))]
 #endif
