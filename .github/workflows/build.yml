@@ -1,4 +1,4 @@
-name: Build & Test
+name: Lint, Build, & Test
 
 on:
   push:
@@ -7,16 +7,28 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build & Test
+  lint:
+    name: Lint
     runs-on: macos-latest
     steps:
     - name: Clone Repository
       uses: actions/checkout@v2
-    - name: Select Xcode 12.4
-      run: sudo xcode-select --switch /Applications/Xcode_12.4.app
+    - name: Lint
+      run: script/lint
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+    - name: Clone Repository
+      uses: actions/checkout@v2
     - name: Build
       run: xcrun swift build --verbose
+  test:
+    name: Test
+    runs-on: macos-latest
+    steps:
+    - name: Clone Repository
+      uses: actions/checkout@v2
     - name: Test with Address Sanitizer
       run: xcrun swift test --verbose --sanitize=address
     - name: Test with Thread Sanitizer
