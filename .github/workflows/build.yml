@@ -24,7 +24,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        sanitizer: [address, thread, undefined, scudo]
+        sanitizer: [address, thread, undefined]
     steps:
     - uses: actions/checkout@v2
     - run: xcrun swift test --verbose --sanitize=${{ matrix.sanitizer }}
