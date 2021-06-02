@@ -11,32 +11,29 @@ jobs:
     name: Lint
     runs-on: macos-latest
     steps:
-    - name: Clone Repository
-      uses: actions/checkout@v2
-    - name: Lint
-      run: script/lint
+    - uses: actions/checkout@v2
+    - run: script/lint
   build:
     name: Build
     runs-on: macos-latest
     steps:
-    - name: Clone Repository
-      uses: actions/checkout@v2
-    - name: Build
-      run: xcrun swift build --verbose
+    - uses: actions/checkout@v2
+    - run: xcrun swift build --verbose
   test:
     name: Test
     runs-on: macos-latest
+    strategy:
+      matrix:
+        sanitizer: [address, thread, undefined, scudo]
     steps:
-    - name: Clone Repository
-      uses: actions/checkout@v2
-    - name: Test with Address Sanitizer
-      run: xcrun swift test --verbose --sanitize=address
-    - name: Test with Thread Sanitizer
-      run: xcrun swift test --verbose --sanitize=thread
-    - name: Test with Undefined Behavior Sanitizer
-      run: xcrun swift test --verbose --sanitize=undefined
-    - name: Test with Code Coverage
-      run: |
+    - uses: actions/checkout@v2
+    - run: xcrun swift test --verbose --sanitize=${{ matrix.sanitizer }}
+  codecov:
+    name: Coverage
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
         xcrun swift test --verbose --enable-code-coverage
         cd .build/$(uname -m)-apple-macosx/debug
         xcrun llvm-cov show -use-color -instr-profile=codecov/default.profdata CombineCloudKitPackageTests.xctest/Contents/MacOS/CombineCloudKitPackageTests > coverage.txt
