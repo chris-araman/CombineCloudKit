@@ -48,6 +48,8 @@ jobs:
     - name: Build for tvOS
       run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=tvOS'
     - name: Build for watchOS
+      # watchOS currently fails to build with a Swift toolchain that is newer than Xcode 12.4.
+      if: ${{ matrix.xcode }}
       run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=watchOS'
   lint-test:
     name: Lint & Test
