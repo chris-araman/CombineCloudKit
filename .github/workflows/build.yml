@@ -37,7 +37,7 @@ jobs:
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
     - name: Build for ${{ matrix.platform }} with xcodebuild
-      uses: mxcl/xcodebuild@master
+      uses: chris-araman/xcodebuild@master
       with:
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
