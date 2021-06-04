@@ -12,23 +12,61 @@ CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/clo
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
 time, using Combine's declarative API.
 
-## Usage
+## Adding CombineCloudKit to Your Project
 
-CombineCloudKit is a [Swift Package](https://developer.apple.com/documentation/swift_packages). Add a dependency on
-CombineCloudKit to your project using
+CombineCloudKit supports [Swift Package Manager](https://developer.apple.com/documentation/swift_packages) and
+[CocoaPods]((https://cocoapods.org/about)). You can use whichever you prefer.
+
+### Swift Package Manager
+
+Add a dependency on CombineCloudKit to your
+[`Package.swift`](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html) using
 [Xcode](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app) or the
-[Swift Package Manager](https://swift.org/package-manager/).
+[Swift Package Manager](https://swift.org/package-manager/). Specify a
+[version requirement](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#package-dependency-requirement).
 
 ```swift
-import PackageDescription
-
-let package = Package(
-    name: "MyApp",
-    dependencies: [
-        .package(name: "CombineCloudKit", url: "https://github.com/chris-araman/CombineCloudKit.git", .upToNextMajor(from: "0.0.1"))
-    ]
-)
+dependencies: [
+    .package(name: "CombineCloudKit", url: "https://github.com/chris-araman/CombineCloudKit.git", .upToNextMajor(from: "0.2.0"))
+]
 ```
+
+Then resolve the dependency:
+
+```bash
+swift package resolve
+```
+
+To update to the latest CombineCloudKit version compatible with your version requirement:
+
+```bash
+swift package update CombineCloudKit
+```
+
+### CocoaPods
+
+Add a [dependency](https://guides.cocoapods.org/using/using-cocoapods.html#adding-pods-to-an-xcode-project) on
+CombineCloudKit to your [`Podfile`](https://guides.cocoapods.org/using/the-podfile.html). Specify a
+[version requirement](https://guides.cocoapods.org/using/the-podfile.html#specifying-pod-versions).
+
+```ruby
+pod 'CombineCloudKit', '~>0.2'
+```
+
+Then [install](https://guides.cocoapods.org/using/pod-install-vs-update.html) the dependency:
+
+```bash
+pod install
+```
+
+To [update](https://guides.cocoapods.org/using/pod-install-vs-update.html) to the latest CombineCloudKit version
+compatible with your version requirement:
+
+```bash
+pod update CombineCloudKit
+```
+
+## Using CombineCloudKit in Your Project
 
 Combine allows you to chain value processing [Publishers](https://developer.apple.com/documentation/combine/publisher)
 for one or more [Subscribers](https://developer.apple.com/documentation/combine/subscriber). Here, we perform a query on
@@ -72,13 +110,13 @@ CombineCloudKit publisher is cancelled before it is finished emitting values, th
 when performing a query and processing only the first few results. However, failing to wait for completion of a `save`,
 `delete`, or `modify` operation may result in undesirable cancellation.
 
-## Building
+## Building CombineCloudKit
 
 ```bash
 swift build
 ```
 
-## Testing
+## Testing CombineCloudKit
 
 ```bash
 swift test
