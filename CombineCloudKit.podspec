@@ -6,6 +6,7 @@ Pod::Spec.new do |spec|
     CombineCloudKit exposes CloudKit operations as Combine publishers. Publishers can be used to process values over
     time, using Combine's declarative API.
   DESC
+  spec.documentation_url = 'https://chris-araman.github.io/CombineCloudKit/'
   spec.homepage = 'https://github.com/chris-araman/CombineCloudKit'
   spec.source   = { :git => 'https://github.com/chris-araman/CombineCloudKit.git', :tag => "#{spec.version}" }
   spec.license  = { :type => 'MIT', :file => 'LICENSE.md' }
