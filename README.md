@@ -14,20 +14,21 @@ time, using Combine's declarative API.
 
 ## Adding CombineCloudKit to Your Project
 
-CombineCloudKit supports [Swift Package Manager](https://developer.apple.com/documentation/swift_packages) and
-[CocoaPods]((https://cocoapods.org/about)). You can use whichever you prefer.
+CombineCloudKit supports [Swift Package Manager](https://developer.apple.com/documentation/swift_packages),
+[CocoaPods]((https://cocoapods.org/about)), and [Carthage](https://github.com/Carthage/Carthage). You can use whichever
+you prefer, but Swift Package Manager is most likely to be supported in the future.
 
 ### Swift Package Manager
 
 Add a dependency on CombineCloudKit to your
 [`Package.swift`](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html) using
 [Xcode](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app) or the
-[Swift Package Manager](https://swift.org/package-manager/). Specify a
+[Swift Package Manager](https://swift.org/package-manager/). Optionally, specify a
 [version requirement](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html#package-dependency-requirement).
 
 ```swift
 dependencies: [
-    .package(name: "CombineCloudKit", url: "https://github.com/chris-araman/CombineCloudKit.git", .upToNextMajor(from: "0.2.0"))
+  .package(url: "https://github.com/chris-araman/CombineCloudKit.git", from: "0.2.0")
 ]
 ```
 
@@ -46,7 +47,7 @@ swift package update CombineCloudKit
 ### CocoaPods
 
 Add a [dependency](https://guides.cocoapods.org/using/using-cocoapods.html#adding-pods-to-an-xcode-project) on
-CombineCloudKit to your [`Podfile`](https://guides.cocoapods.org/using/the-podfile.html). Specify a
+CombineCloudKit to your [`Podfile`](https://guides.cocoapods.org/using/the-podfile.html). Optionally, specify a
 [version requirement](https://guides.cocoapods.org/using/the-podfile.html#specifying-pod-versions).
 
 ```ruby
@@ -64,6 +65,34 @@ compatible with your version requirement:
 
 ```bash
 pod update CombineCloudKit
+```
+
+### Carthage
+
+Add a dependency on CombineCloudKit to your
+[`Cartfile`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+Optionally, specify a
+[version requirement](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#version-requirement).
+
+```ogdl
+github "chris-araman/CombineCloudKit" ~> 0.2
+```
+
+Because Carthage assumes dependencies are provided as shared frameworks, but Swift Package Manager builds only libraries
+or executables, we have to generate an `.xcodeproj` for Carthage to use.
+
+⚠️ The `generate-xcodeproj` command has been deprecated in Swift 5.4.
+
+```bash
+carthage bootstrap --no-build
+pushd Carthage/Checkouts/CombineCloudKit && swift package generate-xcodeproj && popd
+carthage bootstrap --use-xcframeworks
+```
+
+To update to the latest CombineCloudKit version compatible with your version requirement:
+
+```bash
+carthage update CombineCloudKit --use-xcframeworks
 ```
 
 ## Using CombineCloudKit in Your Project
