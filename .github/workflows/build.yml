@@ -7,12 +7,13 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build
+  build-test:
+    name: Build & Test
     runs-on: macos-10.15
     strategy:
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4, 5.5-dev]
+        platform: [macOS, iOS, tvOS, watchOS]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
@@ -25,34 +26,26 @@ jobs:
           - swift: 5.4
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
-          - swift: 5.5-dev
-            pkg: https://swift.org/builds/swift-5.5-branch/xcode/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-05-30-a-osx.pkg
-            toolchain: swift
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Select Xcode ${{ matrix.xcode }}
-      if: ${{ matrix.xcode }}
-      run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
     - name: Install Swift ${{ matrix.swift }}
       if: ${{ matrix.pkg }}
       run: |
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
+    - name: Build for ${{ matrix.platform }} with xcodebuild
+      uses: mxcl/xcodebuild@master
+      with:
+        platform: ${{ matrix.platform }}
+        xcode: ${{ matrix.xcode }}
     - name: Build for macOS with Swift Package Manager
+      if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift build --verbose
-    - name: Build for iOS
-      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=iOS'
-    - name: Build for tvOS
-      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=tvOS'
-    - name: Build for watchOS
-      # watchOS currently fails to build with a Swift toolchain that is newer than Xcode 12.4.
-      if: ${{ matrix.xcode }}
-      run: xcrun xcodebuild build -scheme CombineCloudKit -destination 'generic/platform=watchOS'
-  lint-test:
-    name: Lint & Test
+  lint-sanitize-coverage:
+    name: Lint, Sanitize, & Coverage
     runs-on: macos-10.15
     env:
       TOOLCHAINS: swift
@@ -65,17 +58,15 @@ jobs:
         sudo installer -pkg swift.pkg -target /
     - name: Lint
       run: script/lint
-    - name: Test
-      run: xcrun swift test --verbose
     - name: Address Sanitizer
-      run: xcrun swift test --verbose --sanitize=address
+      run: xcrun swift test --sanitize=address
     - name: Thread Sanitizer
-      run: xcrun swift test --verbose --sanitize=thread
+      run: xcrun swift test --sanitize=thread
     - name: Undefined Behavior Sanitizer
-      run: xcrun swift test --verbose --sanitize=undefined
+      run: xcrun swift test --sanitize=undefined
     - name: Coverage
       run: |
-        xcrun swift test --verbose --enable-code-coverage
+        xcrun swift test --enable-code-coverage
         cd .build/$(uname -m)-apple-macosx/debug
         xcrun llvm-cov show -use-color -instr-profile=codecov/default.profdata CombineCloudKitPackageTests.xctest/Contents/MacOS/CombineCloudKitPackageTests > coverage.txt
         bash <(curl -s https://codecov.io/bash) -f coverage.txt -Z
