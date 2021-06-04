@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name     = 'CombineCloudKit'
-  spec.version  = '0.1.0'
+  spec.version  = '0.2.0'
   spec.summary  = '🌤 Swift Combine extensions for asynchronous CloudKit record processing'
   spec.description = <<-DESC
     CombineCloudKit exposes CloudKit operations as Combine publishers. Publishers can be used to process values over
@@ -19,8 +19,4 @@ Pod::Spec.new do |spec|
   spec.swift_versions             = ['5.1', '5.2', '5.3', '5.4']
 
   spec.source_files  = 'Sources/CombineCloudKit'
-  # spec.test_spec 'Tests' do |test_spec|
-  #   test_spec.source_files = 'Tests/CombineCloudKitTests'
-  #   test_spec.dependency 'CombineExpectations'
-  # end
 end
