@@ -17,7 +17,7 @@
   class CombineCloudKitTests: XCTestCase {
     lazy var container = CKContainer(identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
 
-    #if SWIFT_PACKAGE
+    #if SWIFT_PACKAGE || COCOAPODS
       override func setUpWithError() throws {
         try super.setUpWithError()
 
