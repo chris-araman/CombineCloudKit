@@ -110,22 +110,6 @@ CombineCloudKit publisher is cancelled before it is finished emitting values, th
 when performing a query and processing only the first few results. However, failing to wait for completion of a `save`,
 `delete`, or `modify` operation may result in undesirable cancellation.
 
-## Building CombineCloudKit
-
-```bash
-swift build
-```
-
-## Testing CombineCloudKit
-
-```bash
-swift test
-```
-
-🚧 Because CloudKit entitlements are required in order to validate functionality, some considerable work remains to wire
-this up automatically to `swift test`. This is a work in progress. Once testing with entitlements is working, it is a
-goal to achieve > 90% code coverage.
-
 ## Documentation
 
 💯% [documented](https://chris-araman.github.io/CombineCloudKit/) using [Jazzy](https://github.com/realm/jazzy).
