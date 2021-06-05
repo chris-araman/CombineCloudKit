@@ -44,18 +44,18 @@ jobs:
           # The latest version of Xcode that supports each release of Swift.
           # https://developer.apple.com/support/xcode/
           - swift: '5.1'
-            xcode: ~11.3
+            xcode: '11.3'
             macos: '10.15'
             action: build
           - swift: '5.2'
-            xcode: ~11.7
+            xcode: '11.7'
             macos: latest
           - swift: '5.3'
-            xcode: ~12.4
+            xcode: '12.4'
             macos: latest
           # TODO: Enable this once we have access to macOS 11 and Xcode 12.5.
           # - swift: '5.4'
-          #   xcode: ~12.5
+          #   xcode: '12.5'
           #   macos: latest
     steps:
     - name: Clone
@@ -65,7 +65,7 @@ jobs:
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
-        xcode: ${{ matrix.xcode }}
+        xcode: ~${{ matrix.xcode }}
         quiet: false
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
