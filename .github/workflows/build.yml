@@ -39,8 +39,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Use Swift ${{ matrix.swift }}
       uses: fwal/setup-swift@v1
-        with:
-          swift-version: ${{ matrix.swift }}
+      with:
+        swift-version: ${{ matrix.swift }}
     - name: ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
@@ -60,8 +60,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Use Swift 5.4
       uses: fwal/setup-swift@v1
-        with:
-          swift-version: 5.4
+      with:
+        swift-version: 5.4
     - name: Lint
       run: script/lint
     - name: Address Sanitizer
