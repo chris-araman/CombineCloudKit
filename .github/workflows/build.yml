@@ -57,7 +57,7 @@ jobs:
         quiet: false
     - name: macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift $${{ matrix.action_build }}
+      run: xcrun swift ${{ matrix.action_build }}
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
