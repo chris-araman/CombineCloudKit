@@ -9,20 +9,20 @@ on:
 jobs:
   build-test:
     name: Build & Test
-    runs-on: macos-10.15
+    runs-on: macos-latest
     strategy:
       matrix:
-        swift: [5.1, 5.2, 5.3, 5.4, 5.5-dev]
+        swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
           - swift: 5.1
-            xcode: 11.3.1
+            xcode: ~11.3
           - swift: 5.2
-            xcode: 11.7
+            xcode: ~11.7
           - swift: 5.3
-            xcode: 12.4
+            xcode: ~12.4
           - swift: 5.4
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
@@ -36,17 +36,17 @@ jobs:
       run: |
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
-    - name: Build for ${{ matrix.platform }} with xcodebuild
-      uses: chris-araman/xcodebuild@master
+    - name: Build and Test for ${{ matrix.platform }} with xcodebuild
+      uses: mxcl/xcodebuild@v1
       with:
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
-    - name: Build for macOS with Swift Package Manager
+    - name: Build and Test for macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift build --verbose
+      run: xcrun swift test --verbose
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
-    runs-on: macos-10.15
+    runs-on: macos-latest
     env:
       TOOLCHAINS: swift
     steps:
