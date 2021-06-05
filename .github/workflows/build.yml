@@ -13,24 +13,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        swift: [5.1, 5.2, 5.3, 5.4]
+        swift: ['5.1', '5.2', '5.3', '5.4']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
           # The latest version of Xcode that supports each release of Swift.
           # https://developer.apple.com/support/xcode/
-          - swift: 5.1
+          - swift: '5.1'
             xcode: ~11.3
             action_spm: build
             action_xc: build
-          - swift: 5.2
+          - swift: '5.2'
             xcode: ~11.7
             action_spm: test
             action_xc:
-          - swift: 5.3
+          - swift: '5.3'
             xcode: ~12.4
             action_spm: test
             action_xc:
-          - swift: 5.4
+          - swift: '5.4'
             xcode: ^12
             action_spm: test
             action_xc:
