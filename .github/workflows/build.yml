@@ -44,7 +44,7 @@ jobs:
     - name: ${{ matrix.platform }} with xcodebuild
       uses: chris-araman/xcodebuild@debug
       with:
-        action: ${{ matirx.action }}
+        action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
