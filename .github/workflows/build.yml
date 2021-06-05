@@ -14,8 +14,9 @@ jobs:
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
-        action: [build]
         action_name: [Build]
+        action_spm: [build]
+        action_xc: [build]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
@@ -28,8 +29,9 @@ jobs:
           - swift: 5.4
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
-            action: test
             action_name: Build & Test
+            action_spm: test
+            action_xc:
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
@@ -43,12 +45,12 @@ jobs:
     - name: ${{ matrix.name }} for ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
-        action: ${{ matrix.action }}
+        action: ${{ matrix.action_xc }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
     - name: Build & Test for ${{ matrix.name}} for macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift test --verbose
+      run: xcrun swift ${{ matrix.action_spm }}
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
