@@ -47,6 +47,7 @@ jobs:
         action: ${{ matrix.action_xc }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
+        quiet: false
     - name: macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift ${{ matrix.action_build }}
