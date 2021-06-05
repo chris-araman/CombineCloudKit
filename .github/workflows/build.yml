@@ -49,12 +49,11 @@ jobs:
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
     - name: ${{ matrix.platform }} with xcodebuild
-      uses: chris-araman/xcodebuild@debug
+      uses: mxcl/xcodebuild@v1
       with:
         action: ${{ matrix.action_xc }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
-        quiet: false
     - name: macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift ${{ matrix.action_build }}
