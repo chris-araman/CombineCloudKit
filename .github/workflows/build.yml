@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        swift: ['5.1', '5.2', '5.3', '5.4']
+        swift: ['5.1', '5.2', '5.3']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
           # The latest version of Xcode that supports each release of Swift.
