@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build (${{ matrix.platform }}, Swift ${{ matrix.swift }})
+  build-test:
+    name: Build & Test (${{ matrix.platform }}, Swift ${{ matrix.swift }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -40,16 +40,15 @@ jobs:
       run: |
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
-    - name: Build for ${{ matrix.platform }} with xcodebuild
+    - name: ${{ matrix.platform }} with xcodebuild
       uses: chris-araman/xcodebuild@debug
       with:
-        action: build
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
-    - name: Build for ${{ matrix.name}} for macOS with Swift Package Manager
+    - name: macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift build
+      run: xcrun swift test
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
