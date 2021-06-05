@@ -62,19 +62,20 @@ jobs:
             macos: '10.15'
             action: build
             name: Build
-            name_watchos: Build
           - swift: '5.2'
             xcode: '11.7'
             macos: latest
             name: Build & Test
-            name_watchos: Build
+          - swift: '5.2'
+            platform: watchOS
+            name: Build
           - swift: '5.3'
             xcode: '12.4'
             macos: latest
             name: Build & Test
-            name_watchos: Build
-          - platform: watchOS
-            name: ${{ name_watchos }}
+          - swift: '5.3'
+            platform: watchOS
+            name: Build
           # TODO: Enable this once we have access to macOS 11 and Xcode 12.5.
           # - swift: '5.4'
           #   xcode: '12.5'
