@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
-    name: Build & Test (${{ matrix.platform }}, Swift ${{ matrix.swift }})
+  build:
+    name: Build (${{ matrix.platform }}, Swift ${{ matrix.swift }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -20,6 +20,7 @@ jobs:
           # https://developer.apple.com/support/xcode/
           - swift: 5.1
             xcode: ~11.3
+            action: build
           - swift: 5.2
             xcode: ~11.7
           - swift: 5.3
@@ -43,6 +44,7 @@ jobs:
     - name: ${{ matrix.platform }} with xcodebuild
       uses: chris-araman/xcodebuild@debug
       with:
+        action: ${{ matirx.action }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
