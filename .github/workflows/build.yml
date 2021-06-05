@@ -48,7 +48,7 @@ jobs:
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
-    - name: macOS with Swift Package Manager
+    - name: ${{ matrix.platform }} with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift ${{ matrix.action_build }}
   lint-sanitize-coverage:
