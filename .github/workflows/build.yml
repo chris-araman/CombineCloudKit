@@ -22,6 +22,8 @@ jobs:
             action_spm: test
           - swift: 5.3
             action_spm: test
+          - swift: 5.4
+            action_spm: build
         include:
           - action_spm: build
             action_xc: build
