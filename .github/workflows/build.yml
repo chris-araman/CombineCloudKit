@@ -32,7 +32,7 @@ jobs:
       with:
         fail_ci_if_error: true
   build-swift:
-    name: ${{ matrix.name }} (Swift ${{ matrix.swift }})
+    name: ${{ matrix.name }} (Swift ${{ matrix.swift }}, macOS)
     runs-on: macos-latest
     strategy:
       fail-fast: false
