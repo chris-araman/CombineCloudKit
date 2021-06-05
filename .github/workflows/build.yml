@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-test:
-    name: ${{ matrix.name }}
+    name: Build & Test
     runs-on: macos-latest
     strategy:
       matrix:
@@ -29,7 +29,7 @@ jobs:
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
             action: test
-            name: Build & Test
+            name: Test
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
@@ -40,13 +40,13 @@ jobs:
       run: |
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
-    - name: ${{ matrix.name}} ${{ matrix.platform }} with xcodebuild
+    - name: ${{ matrix.name }} for ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
-    - name: ${{ matrix.name}} for macOS with Swift Package Manager
+    - name: Build & Test for ${{ matrix.name}} for macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
       run: xcrun swift test --verbose
   lint-sanitize-coverage:
