@@ -7,9 +7,34 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build (${{ matrix.platform }}, Swift ${{ matrix.swift }})
+  build-swift-package:
+    name: Build ${{ matrix.platform }} with Swift Package Manager ${{ matrix.swift }}})
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        swift: ['5.1', '5.2', '5.3', '5.4']
+        include:
+          - swift: '5.1'
+            action: build
+          - swift: '5.2'
+            action: test
+          - swift: '5.3'
+            action: test
+          - swift: '5.4'
+            action: test
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Use Swift ${{ matrix.swift }}
+      uses: fwal/setup-swift@v1
+      with:
+        swift-version: ${{ matrix.swift }}
+    - name: macOS with Swift Package Manager
+      run: swift ${{ matrix.action }}
+  build-xcodebuild:
+    name: Build ${{ matrix.platform }} with Xcode ${{ matrix.xcode }}
+    runs-on: macos-${{ matrix.macos }}
     strategy:
       fail-fast: false
       matrix:
@@ -20,37 +45,28 @@ jobs:
           # https://developer.apple.com/support/xcode/
           - swift: '5.1'
             xcode: ~11.3
-            action_spm: build
-            action_xc: build
+            macos: '10.15'
+            action: build
           - swift: '5.2'
             xcode: ~11.7
-            action_spm: test
-            action_xc:
+            macos: latest
           - swift: '5.3'
             xcode: ~12.4
-            action_spm: test
-            action_xc:
-          - swift: '5.4'
-            xcode: ^12
-            action_spm: test
-            action_xc:
+            macos: latest
+          # TODO: Enable this once we have access to macOS 11 and Xcode 12.5.
+          # - swift: '5.4'
+          #   xcode: ~12.5
+          #   macos: latest
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Use Swift ${{ matrix.swift }}
-      uses: fwal/setup-swift@v1
-      with:
-        swift-version: ${{ matrix.swift }}
     - name: ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
-        action: ${{ matrix.action_xc }}
+        action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
-    - name: ${{ matrix.platform }} with Swift Package Manager
-      if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift ${{ matrix.action_build }}
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
