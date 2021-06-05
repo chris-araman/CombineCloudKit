@@ -14,8 +14,8 @@ jobs:
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
-        action: build
-        name: Build
+        action: [build]
+        name: [Build]
         # The latest version of Xcode that supports each release of Swift.
         # https://developer.apple.com/support/xcode/
         include:
