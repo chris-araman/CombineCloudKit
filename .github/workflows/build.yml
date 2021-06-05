@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-swift-package:
-    name: Build ${{ matrix.platform }} with Swift Package Manager ${{ matrix.swift }}
+  build-swift:
+    name: Build (Swift ${{ matrix.swift }}, ${{ matrix.platform }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -32,8 +32,8 @@ jobs:
         swift-version: ${{ matrix.swift }}
     - name: macOS with Swift Package Manager
       run: swift ${{ matrix.action }}
-  build-xcodebuild:
-    name: Build ${{ matrix.platform }} with Xcode ${{ matrix.xcode }}
+  build-xcode:
+    name: Build (Xcode ${{ matrix.xcode }}, ${{ matrix.platform }})
     runs-on: macos-${{ matrix.macos }}
     strategy:
       fail-fast: false
