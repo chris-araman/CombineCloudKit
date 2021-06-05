@@ -7,36 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
-    name: ${{ matrix.action_name }} (${{ matrix.platform }}, Swift ${{ matrix.swift }})
+  build:
+    name: Build (${{ matrix.platform }}, Swift ${{ matrix.swift }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
-        action_spm: [build, test]
-        exclude:
-          - swift: 5.1
-            action_spm: test
-          - swift: 5.2
-            action_spm: test
-          - swift: 5.3
-            action_spm: test
-          - swift: 5.4
-            action_spm: build
         include:
-          - action_spm: build
-            action_xc: build
-            action_name: Build
-          - action_spm: test
-            action_xc:
-            action_name: Build & Test
-          # TODO: We should be able to test watchOS with Swift 5.4, but we don't have access to Xcode 12.5 and macOS 11.
-          - action_spm: test
-            platform: watchOS
-            swift: 5.4
-            action_name: Build
           # The latest version of Xcode that supports each release of Swift.
           # https://developer.apple.com/support/xcode/
           - swift: 5.1
@@ -61,15 +40,15 @@ jobs:
       run: |
         curl -o swift.pkg '${{ matrix.pkg }}'
         sudo installer -pkg swift.pkg -target /
-    - name: ${{ matrix.name }} for ${{ matrix.platform }} with xcodebuild
+    - name: Build for ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
-        action: ${{ matrix.action_xc }}
+        action: build
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
-    - name: Build & Test for ${{ matrix.name}} for macOS with Swift Package Manager
+    - name: Build for ${{ matrix.name}} for macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift ${{ matrix.action_spm }}
+      run: xcrun swift build
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
