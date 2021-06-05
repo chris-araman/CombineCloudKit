@@ -11,6 +11,7 @@ jobs:
     name: ${{ matrix.action_name }} (${{ matrix.platform }}, Swift ${{ matrix.swift }})
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
