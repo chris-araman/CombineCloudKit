@@ -31,6 +31,7 @@ jobs:
           - action_spm: test
             action_xc:
             action_name: Build & Test
+          # TODO: We should be able to test watchOS with Swift 5.4, but we don't have access to Xcode 12.5 and macOS 11.
           - action_spm: test
             platform: watchOS
             swift: 5.4
@@ -44,6 +45,8 @@ jobs:
           - swift: 5.3
             xcode: ~12.4
           - swift: 5.4
+            # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
+            # xcode: ^12
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
     env:
@@ -51,6 +54,7 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
+    # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
     - name: Install Swift ${{ matrix.swift }}
       if: ${{ matrix.pkg }}
       run: |
@@ -73,6 +77,7 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
+    # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
     - name: Install Swift 5.4
       run: |
         curl -o swift.pkg 'https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg'
