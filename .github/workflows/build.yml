@@ -14,12 +14,27 @@ jobs:
       matrix:
         swift: [5.1, 5.2, 5.3, 5.4]
         platform: [macOS, iOS, tvOS, watchOS]
-        action_name: [Build]
-        action_spm: [build]
-        action_xc: [build]
-        # The latest version of Xcode that supports each release of Swift.
-        # https://developer.apple.com/support/xcode/
+        action_spm: [build, test]
+        exclude:
+          - swift: 5.1
+            action_spm: test
+          - swift: 5.2
+            action_spm: test
+          - swift: 5.3
+            action_spm: test
         include:
+          - action_spm: build
+            action_xc: build
+            action_name: Build
+          - action_spm: test
+            action_xc:
+            action_name: Build & Test
+          - action_spm: test
+            platform: watchOS
+            swift: 5.4
+            action_name: Build
+          # The latest version of Xcode that supports each release of Swift.
+          # https://developer.apple.com/support/xcode/
           - swift: 5.1
             xcode: ~11.3
           - swift: 5.2
@@ -29,9 +44,6 @@ jobs:
           - swift: 5.4
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
-            action_name: Build & Test
-            action_spm: test
-            action_xc:
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
