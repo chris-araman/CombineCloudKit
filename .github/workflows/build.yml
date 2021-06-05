@@ -74,7 +74,7 @@ jobs:
             name: Build & Test
             name_watchos: Build
           - platform: watchOS
-            name: ${{ matrix.name_watchos }}
+            name: ${{ name_watchos }}
           # TODO: Enable this once we have access to macOS 11 and Xcode 12.5.
           # - swift: '5.4'
           #   xcode: '12.5'
