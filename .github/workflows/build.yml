@@ -31,23 +31,16 @@ jobs:
             action_spm: test
             action_xc:
           - swift: 5.4
-            # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
-            # xcode: ^12
-            pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
-            toolchain: swift
+            xcode: ^12
             action_spm: test
             action_xc:
-    env:
-      TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
-    - name: Install Swift ${{ matrix.swift }}
-      if: ${{ matrix.pkg }}
-      run: |
-        curl -o swift.pkg '${{ matrix.pkg }}'
-        sudo installer -pkg swift.pkg -target /
+    - name: Use Swift ${{ matrix.swift }}
+      uses: fwal/setup-swift@v1
+        with:
+          swift-version: ${{ matrix.swift }}
     - name: ${{ matrix.platform }} with xcodebuild
       uses: mxcl/xcodebuild@v1
       with:
@@ -65,11 +58,10 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
-    - name: Install Swift 5.4
-      run: |
-        curl -o swift.pkg 'https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg'
-        sudo installer -pkg swift.pkg -target /
+    - name: Use Swift 5.4
+      uses: fwal/setup-swift@v1
+        with:
+          swift-version: 5.4
     - name: Lint
       run: script/lint
     - name: Address Sanitizer
