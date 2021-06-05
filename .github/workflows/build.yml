@@ -7,6 +7,16 @@ on:
     branches: [ main ]
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: macos-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Use Swift
+      uses: fwal/setup-swift@v1
+    - name: Lint
+      run: script/lint
   build-swift:
     name: ${{ matrix.name }} (Swift ${{ matrix.swift }})
     runs-on: macos-latest
@@ -91,24 +101,28 @@ jobs:
         platform: ${{ matrix.platform }}
         xcode: ~${{ matrix.xcode }}
         quiet: false
-  lint-sanitize-coverage:
-    name: Lint, Sanitize, & Coverage
+  sanitize:
+    name: Sanitize
     runs-on: macos-latest
-    env:
-      TOOLCHAINS: swift
     steps:
     - name: Clone
       uses: actions/checkout@v2
     - name: Use Swift
       uses: fwal/setup-swift@v1
-    - name: Lint
-      run: script/lint
     - name: Address Sanitizer
       run: xcrun swift test --sanitize=address
     - name: Thread Sanitizer
       run: xcrun swift test --sanitize=thread
     - name: Undefined Behavior Sanitizer
       run: xcrun swift test --sanitize=undefined
+  coverage:
+    name: Coverage
+    runs-on: macos-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Use Swift
+      uses: fwal/setup-swift@v1
     - name: Coverage
       run: |
         xcrun swift test --enable-code-coverage
