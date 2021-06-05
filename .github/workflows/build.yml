@@ -20,16 +20,23 @@ jobs:
           # https://developer.apple.com/support/xcode/
           - swift: 5.1
             xcode: ~11.3
-            action: build
+            action_spm: build
+            action_xc: build
           - swift: 5.2
             xcode: ~11.7
+            action_spm: test
+            action_xc:
           - swift: 5.3
             xcode: ~12.4
+            action_spm: test
+            action_xc:
           - swift: 5.4
             # TODO: Remove this once we have access to Xcode 12.5 and macOS 11.
             # xcode: ^12
             pkg: https://swift.org/builds/swift-5.4.1-release/xcode/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-osx.pkg
             toolchain: swift
+            action_spm: test
+            action_xc:
     env:
       TOOLCHAINS: ${{ matrix.toolchain }}
     steps:
@@ -44,13 +51,13 @@ jobs:
     - name: ${{ matrix.platform }} with xcodebuild
       uses: chris-araman/xcodebuild@debug
       with:
-        action: ${{ matrix.action }}
+        action: ${{ matrix.action_xc }}
         platform: ${{ matrix.platform }}
         xcode: ${{ matrix.xcode }}
         quiet: false
     - name: macOS with Swift Package Manager
       if: ${{ matrix.platform == 'macOS' }}
-      run: xcrun swift test
+      run: xcrun swift $${{ matrix.action_build }}
   lint-sanitize-coverage:
     name: Lint, Sanitize, & Coverage
     runs-on: macos-latest
