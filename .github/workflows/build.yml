@@ -15,13 +15,20 @@ jobs:
       matrix:
         swift: ['5.1', '5.2', '5.3', '5.4']
         include:
+          # The latest version of Xcode that supports each release of Swift.
+          # https://developer.apple.com/support/xcode/
           - swift: '5.1'
+            xcode: '11.3.1'
             action: build
           - swift: '5.2'
+            xcode: '11.7'
             action: test
           - swift: '5.3'
+            xcode: '12.4'
             action: test
           - swift: '5.4'
+            # TODO: Use '12.5' this once we have access to macOS 11 and Xcode 12.5.
+            xcode: '12.4'
             action: test
     steps:
     - name: Clone
@@ -30,6 +37,8 @@ jobs:
       uses: fwal/setup-swift@v1
       with:
         swift-version: ${{ matrix.swift }}
+    - name: Select Xcode ${{ matrix.xcode }}
+      run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
     - name: macOS with Swift Package Manager
       run: swift ${{ matrix.action }}
   build-xcode:
@@ -38,6 +47,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # TODO: Add '5.4' once we have access to macOS 11 and Xcode 12.5.
         swift: ['5.1', '5.2', '5.3']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
@@ -75,10 +85,8 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Use Swift 5.4
+    - name: Use Swift
       uses: fwal/setup-swift@v1
-      with:
-        swift-version: 5.4
     - name: Lint
       run: script/lint
     - name: Address Sanitizer
