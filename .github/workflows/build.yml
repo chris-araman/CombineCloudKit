@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-swift-package:
-    name: Build ${{ matrix.platform }} with Swift Package Manager ${{ matrix.swift }}})
+    name: Build ${{ matrix.platform }} with Swift Package Manager ${{ matrix.swift }}
     runs-on: macos-latest
     strategy:
       fail-fast: false
