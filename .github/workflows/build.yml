@@ -17,6 +17,20 @@ jobs:
       uses: fwal/setup-swift@v1
     - name: Lint
       run: script/lint
+  coverage:
+    name: Coverage
+    runs-on: macos-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Use Swift
+      uses: fwal/setup-swift@v1
+    - name: Coverage
+      run: swift test --enable-code-coverage
+    - name: Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
   build-swift:
     name: ${{ matrix.name }} (Swift ${{ matrix.swift }})
     runs-on: macos-latest
@@ -110,22 +124,8 @@ jobs:
     - name: Use Swift
       uses: fwal/setup-swift@v1
     - name: Address Sanitizer
-      run: xcrun swift test --sanitize=address
+      run: swift test --sanitize=address
     - name: Thread Sanitizer
-      run: xcrun swift test --sanitize=thread
+      run: swift test --sanitize=thread
     - name: Undefined Behavior Sanitizer
-      run: xcrun swift test --sanitize=undefined
-  coverage:
-    name: Coverage
-    runs-on: macos-latest
-    steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Use Swift
-      uses: fwal/setup-swift@v1
-    - name: Coverage
-      run: |
-        xcrun swift test --enable-code-coverage
-        cd .build/$(uname -m)-apple-macosx/debug
-        xcrun llvm-cov show -use-color -instr-profile=codecov/default.profdata CombineCloudKitPackageTests.xctest/Contents/MacOS/CombineCloudKitPackageTests > coverage.txt
-        bash <(curl -s https://codecov.io/bash) -f coverage.txt -Z
+      run: swift test --sanitize=undefined
