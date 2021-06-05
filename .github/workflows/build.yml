@@ -23,10 +23,11 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Use Swift
-      uses: fwal/setup-swift@v1
-    - name: Coverage
-      run: swift test --enable-code-coverage
+    - name: Test
+      uses: mxcl/xcodebuild@v1
+      with:
+        code-coverage: true
+        quiet: false
     - name: Coverage
       uses: codecov/codecov-action@v1
       with:
