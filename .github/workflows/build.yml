@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-swift:
-    name: Build (Swift ${{ matrix.swift }}, ${{ matrix.platform }})
+    name: Build (Swift ${{ matrix.swift }})
     runs-on: macos-latest
     strategy:
       fail-fast: false
