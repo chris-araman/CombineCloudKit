@@ -21,7 +21,7 @@ I welcome high quality pull requests from everyone! 🦄
 
 Pull requests are preferred over bug reports and feature requests. ✨
 
-Submit [pull requests](https://github.com/chris-araman/CombineCloudKit/compare?template=pull_request.md) from your fork of the repository. I may
+Submit [pull requests](https://github.com/chris-araman/CombineCloudKit/compare) from your fork of the repository. I may
 suggest some changes or improvements or alternatives. To increase the chance that your pull request is accepted:
 
 * Ensure your changes build, test, and lint successfully.
