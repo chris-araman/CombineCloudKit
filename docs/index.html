@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          CombineCloudKit 0.2.1-6-gc9bfc2a Docs
+          CombineCloudKit 0.3.0 Docs
         </a>
          (100% documented)
       </p>
@@ -88,10 +88,10 @@
 <p>CombineCloudKit exposes <a href="https://developer.apple.com/documentation/cloudkit">CloudKit</a> operations as
 <a href="https://developer.apple.com/documentation/combine">Combine</a> publishers. Publishers can be used to process values over
 time, using Combine&rsquo;s declarative API.</p>
-<h2 id='adding-combinecloudkit-to-your-project' class='heading'>Adding CombineCloudKit to Your Project</h2>
+<h2 id='adding-combinecloudkit-to-your-project' class='heading'>📦 Adding CombineCloudKit to Your Project</h2>
 
 <p>CombineCloudKit supports <a href="https://developer.apple.com/documentation/swift_packages">Swift Package Manager</a>,
-<a href="(https://cocoapods.org/about)">CocoaPods</a>, and <a href="https://github.com/Carthage/Carthage">Carthage</a>. You can use whichever
+<a href="https://cocoapods.org/about">CocoaPods</a>, and <a href="https://github.com/Carthage/Carthage">Carthage</a>. You can use whichever
 you prefer, but Swift Package Manager is most likely to be supported in the future.</p>
 <h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
 
@@ -150,7 +150,7 @@ Package Manager.</p>
 <p>To update to the latest CombineCloudKit version compatible with your version requirement:</p>
 <pre class="highlight shell"><code>carthage update CombineCloudKit <span class="nt">--use-xcframeworks</span>
 </code></pre>
-<h2 id='using-combinecloudkit-in-your-project' class='heading'>Using CombineCloudKit in Your Project</h2>
+<h2 id='using-combinecloudkit-in-your-project' class='heading'>🌤 Using CombineCloudKit in Your Project</h2>
 
 <p>Combine allows you to chain value processing <a href="https://developer.apple.com/documentation/combine/publisher">Publishers</a>
 for one or more <a href="https://developer.apple.com/documentation/combine/subscriber">Subscribers</a>. Here, we perform a query on
@@ -191,11 +191,14 @@ CombineCloudKit publisher is cancelled before it is finished emitting values, th
 <a href="https://developer.apple.com/documentation/cloudkit/ckoperation"><code>CKOperation</code></a> will be cancelled. This may be desirable
 when performing a query and processing only the first few results. However, failing to wait for completion of a <code>save</code>,
 <code>delete</code>, or <code>modify</code> operation may result in undesirable cancellation.</p>
-<h2 id='documentation' class='heading'>Documentation</h2>
+<h2 id='documentation' class='heading'>📘 Documentation</h2>
 
 <p>💯% <a href="https://combinecloudkit.hiddenplace.dev">documented</a> using <a href="https://github.com/realm/jazzy">Jazzy</a>.
 Hosted by <a href="https://pages.github.com">GitHub Pages</a>.</p>
-<h2 id='further-reading' class='heading'>Further Reading</h2>
+<h2 id='️-contributing' class='heading'>❤️ Contributing</h2>
+
+<p><a href="CONTRIBUTING.md">Contributions</a> are welcome!</p>
+<h2 id='further-reading' class='heading'>📚 Further Reading</h2>
 
 <p>To learn more about Combine and CloudKit, watch these videos from WWDC:</p>
 
@@ -211,7 +214,7 @@ Hosted by <a href="https://pages.github.com">GitHub Pages</a>.</p>
 <li><a href="https://developer.apple.com/documentation/cloudkit">CloudKit Documentation</a></li>
 <li><a href="https://developer.apple.com/documentation/combine">Combine Documentation</a></li>
 </ul>
-<h2 id='license' class='heading'>License</h2>
+<h2 id='license' class='heading'>📜 License</h2>
 
 <p>CombineCloudKit was created by <a href="https://github.com/chris-araman">Chris Araman</a>. It is published under the
 <a href="LICENSE.md">MIT license</a>.</p>
