@@ -13,8 +13,6 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Use Swift
-      uses: fwal/setup-swift@v1
     - name: Lint
       run: script/lint
   build-swift:
@@ -112,14 +110,13 @@ jobs:
   sanitize:
     name: Sanitize
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO: Add 'scudo' once it is supported by Swift.
+        sanitizer: [address, thread, undefined]
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: Use Swift
-      uses: fwal/setup-swift@v1
-    - name: Address Sanitizer
-      run: swift test --sanitize=address
-    - name: Thread Sanitizer
-      run: swift test --sanitize=thread
-    - name: Undefined Behavior Sanitizer
-      run: swift test --sanitize=undefined
+    - name: Sanitize
+      run: swift test --sanitize=${{ matrix.sanitizer }}
