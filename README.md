@@ -147,7 +147,7 @@ Hosted by [GitHub Pages](https://pages.github.com).
 
 ## ❤️ Contributing
 
-[Contributions](CONTRIBUTING.md) are welcome!
+[Contributions](https://github.com/chris-araman/CombineCloudKit/blob/main/CONTRIBUTING.md) are welcome!
 
 ## 📚 Further Reading
 
@@ -165,4 +165,4 @@ To learn more about Combine and CloudKit, watch these videos from WWDC:
 ## 📜 License
 
 CombineCloudKit was created by [Chris Araman](https://github.com/chris-araman). It is published under the
-[MIT license](LICENSE.md).
+[MIT license](https://github.com/chris-araman/CombineCloudKit/blob/main/LICENSE.md).
