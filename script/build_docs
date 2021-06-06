@@ -10,3 +10,7 @@ jazzy \
   --module-version $(git describe --tags) \
   --output docs \
   --theme fullwidth
+
+# Restore GitHub Pages CNAME file
+# https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages#cname-errors
+git checkout -- docs/CNAME

@@ -142,7 +142,7 @@ when performing a query and processing only the first few results. However, fail
 
 ## Documentation
 
-💯% [documented](https://chris-araman.github.io/CombineCloudKit/) using [Jazzy](https://github.com/realm/jazzy).
+💯% [documented](https://combinecloudkit.hiddenplace.dev) using [Jazzy](https://github.com/realm/jazzy).
 Hosted by [GitHub Pages](https://pages.github.com).
 
 ## Further Reading
