@@ -1,15 +1,22 @@
 //
-//  CKContainer.swift
+//  CCKContainer.swift
 //  CombineCloudKit
 //
-//  Created by Chris Araman on 2/18/21.
+//  Created by Chris Araman on 6/6/21.
 //  Copyright © 2021 Chris Araman. All rights reserved.
 //
 
 import CloudKit
 import Combine
 
-extension CKContainer {
+extension CKContainer: CCKContainer {
+}
+
+protocol CCKContainer {
+  func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void)
+}
+
+extension CCKContainer {
   private func publisherFrom<Output>(
     _ method: @escaping (@escaping (Output, Error?) -> Void) -> Void
   ) -> AnyPublisher<Output, Error> {
@@ -32,7 +39,7 @@ extension CKContainer {
   /// - Returns: A `Publisher` that emits a single `CKAccountStatus`, or an error if CombineCloudKit is unable to
   /// determine the account status.
   /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
-  public final func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
+  public func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
     publisherFrom(accountStatus)
   }
 }

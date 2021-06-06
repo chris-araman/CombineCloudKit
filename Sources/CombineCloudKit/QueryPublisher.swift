@@ -14,14 +14,14 @@ internal class QueryPublisher: Publisher {
   typealias Output = CKRecord
   typealias Failure = Error
 
-  private let database: CKDatabase
+  private let database: CCKDatabase
   private let query: CKQuery
   private let zoneID: CKRecordZone.ID?
   private let desiredKeys: [CKRecord.FieldKey]?
   private let configuration: CKOperation.Configuration?
 
   internal init(
-    database: CKDatabase,
+    database: CCKDatabase,
     _ query: CKQuery,
     _ zoneID: CKRecordZone.ID?,
     _ desiredKeys: [CKRecord.FieldKey]?,
@@ -109,7 +109,7 @@ internal class QueryPublisher: Publisher {
     }
 
     private func prepareOperation() {
-      operation.database = publisher.database
+      operation.database = publisher.database as? CKDatabase
       operation.desiredKeys = publisher.desiredKeys
       operation.zoneID = publisher.zoneID
       operation.resultsLimit = demand.max ?? CKQueryOperation.maximumResults

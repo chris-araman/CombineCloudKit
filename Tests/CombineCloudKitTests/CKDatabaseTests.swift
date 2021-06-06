@@ -1,8 +1,9 @@
 //
 //  CKDatabaseTests.swift
-//
+//  CombineCloudKit
 //
 //  Created by Chris Araman on 2/16/21.
+//  Copyright © 2021 Chris Araman. All rights reserved.
 //
 
 #if canImport(CombineExpectations) && canImport(XCTest)
@@ -16,47 +17,33 @@
   @testable import enum CombineCloudKit.Progress
 
   final class CKDatabaseTests: CombineCloudKitTests {
-    func testSaveFetchAndDelete() throws {
-      let record = CKRecord(recordType: "Test")
-      let database = container.privateCloudDatabase
-      let save = database.save(record: record)
-      let saved = try wait(for: \.single, from: save)
-      XCTAssertEqual(saved.recordID, record.recordID)
-
-      let fetch = database.fetch(recordID: saved.recordID)
-      let fetched = try wait(for: \.single, from: fetch)
-      XCTAssertEqual(fetched.recordID, record.recordID)
-
-      let delete = database.delete(recordID: saved.recordID)
-      let deleted = try wait(for: \.single, from: delete)
-      XCTAssertEqual(deleted, record.recordID)
+    func testSaveFetchAndDeleteRecord() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecord(recordType: "Test") },
+        { record in record.recordID },
+        { record in database.save(record: record) },
+        { recordID in database.fetch(recordID: recordID) },
+        { recordID in database.delete(recordID: recordID) }
+      )
     }
 
-    func testSaveFetchAndDeleteAtBackgroundPriority() throws {
-      let record = CKRecord(recordType: "Test")
-      let database = container.privateCloudDatabase
-      let save = database.saveAtBackgroundPriority(record: record)
-      let saved = try wait(for: \.single, from: save)
-      XCTAssertEqual(saved.recordID, record.recordID)
-
-      let fetch = database.fetchAtBackgroundPriority(withRecordID: saved.recordID)
-      let fetched = try wait(for: \.single, from: fetch)
-      XCTAssertEqual(fetched.recordID, record.recordID)
-
-      let delete = database.deleteAtBackgroundPriority(recordID: saved.recordID)
-      let deleted = try wait(for: \.single, from: delete)
-      XCTAssertEqual(deleted, record.recordID)
+    func testSaveFetchAndDeleteRecordAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecord(recordType: "Test") },
+        \.recordID,
+        database.saveAtBackgroundPriority,
+        database.fetchAtBackgroundPriority,
+        database.deleteAtBackgroundPriority)
     }
 
-    func testSaveFetchAndDeleteWithProgress() throws {
+    func testSaveFetchAndDeleteRecordWithProgress() throws {
       let record = CKRecord(recordType: "Test")
-      let database = container.privateCloudDatabase
       let save = database.saveWithProgress(record: record)
-      let saved = try validateProgressOfSingleRecord(from: save)
+      let saved = try validateSaveProgressOfSingleRecord(from: save)
       XCTAssertEqual(saved.recordID, record.recordID)
 
       let fetch = database.fetchWithProgress(recordID: saved.recordID)
-      let fetched = try validateProgressOfSingleRecord(from: fetch)
+      let fetched = try validateFetchProgressOfSingleRecord(from: fetch)
       XCTAssertEqual(fetched.recordID, record.recordID)
 
       let delete = database.delete(recordID: saved.recordID)
@@ -64,23 +51,60 @@
       XCTAssertEqual(deleted, record.recordID)
     }
 
-    private func validateProgressOfSingleRecord<P, T>(from publisher: P)
+    func testSaveFetchAndDeleteRecordZone() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecordZone(zoneName: "Test") },
+        \.zoneID,
+        database.save,
+        database.fetch,
+        database.delete)
+    }
+
+    func testSaveFetchAndDeleteRecordZoneAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecordZone(zoneName: "Test") },
+        \.zoneID,
+        database.saveAtBackgroundPriority,
+        database.fetchAtBackgroundPriority,
+        database.deleteAtBackgroundPriority)
+    }
+
+    func testSaveFetchAndDeleteSubscription() throws {
+      try validateSaveFetchAndDelete(
+        { CKDatabaseSubscription(subscriptionID: "Test") },
+        \.subscriptionID,
+        database.save,
+        database.fetch,
+        database.delete)
+    }
+
+    func testSaveFetchAndDeleteSubscriptionAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKDatabaseSubscription(subscriptionID: "Test") },
+        \.subscriptionID,
+        database.saveAtBackgroundPriority,
+        database.fetchAtBackgroundPriority,
+        database.deleteAtBackgroundPriority)
+    }
+
+    private func validateSaveProgressOfSingleRecord<P, T>(from publisher: P)
       throws -> T where P: Publisher, T: Hashable, P.Output == (T, Progress)
     {
-      let records = try validateProgress(from: publisher)
+      let records = try validateSaveProgress(from: publisher)
+      // FIXME: These two asserts occasionally fire.
       XCTAssertEqual(records.count, 1)
-      return records.first!
+      return try XCTUnwrap(records.first)
     }
 
-    private func validateProgressOfSingleRecord<P>(from publisher: P)
+    private func validateFetchProgressOfSingleRecord<P>(from publisher: P)
       throws -> CKRecord where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?)
     {
-      let records = try validateProgress(from: publisher)
+      let records = try validateFetchProgress(from: publisher)
       XCTAssertEqual(records.count, 1)
-      return records.first!
+      return try XCTUnwrap(records.first)
     }
 
-    private func validateProgress<P, T>(from publisher: P)
+    private func validateSaveProgress<P, T>(from publisher: P)
       throws -> [T] where P: Publisher, T: Hashable, P.Output == (T, Progress)
     {
       var recordProgress: [T: Progress] = [:]
@@ -102,7 +126,7 @@
       return Array(recordProgress.keys)
     }
 
-    private func validateProgress<P>(from publisher: P)
+    private func validateFetchProgress<P>(from publisher: P)
       throws -> [CKRecord] where P: Publisher, P.Output == ((CKRecord.ID, Progress)?, CKRecord?)
     {
       var records: [CKRecord] = []
@@ -138,6 +162,93 @@
         "Progress was reported for a different set of records than was output.")
 
       return records
+    }
+
+    func validateSaveFetchAndDelete<T, ID>(
+      _ create: () -> T,
+      _ id: (T) -> ID,
+      _ save: (T, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
+      _ fetch: (ID, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
+      _ delete: (ID, CKOperation.Configuration?) -> AnyPublisher<ID, Error>
+    ) throws where ID: Equatable {
+      // TODO: Test with configuration.
+      try validateSaveFetchAndDelete(
+        create,
+        id,
+        { item in save(item, nil) },
+        { itemID in fetch(itemID, nil) },
+        { itemID in delete(itemID, nil) }
+      )
+    }
+
+    func validateSaveFetchAndDelete<T, ID>(
+      _ create: () -> T,
+      _ id: (T) -> ID,
+      _ save: (T) -> AnyPublisher<T, Error>,
+      _ fetch: (ID) -> AnyPublisher<T, Error>,
+      _ delete: (ID) -> AnyPublisher<ID, Error>
+    ) throws where ID: Equatable {
+      let item = create()
+      let save = save(item)
+      let saved = try wait(for: \.single, from: save)
+      XCTAssertEqual(id(saved), id(item))
+
+      let fetch = fetch(id(saved))
+      let fetched = try wait(for: \.single, from: fetch)
+      XCTAssertEqual(id(fetched), id(item))
+
+      let delete = delete(id(saved))
+      let deleted = try wait(for: \.single, from: delete)
+      XCTAssertEqual(deleted, id(item))
+    }
+
+    func testFetchAllRecordZones() throws {
+      // TODO: Test with configuration.
+      try validateFetchAll(
+        (1...3).map { CKRecordZone(zoneName: "\($0)") },
+        database.save,
+        { () in database.fetchAllRecordZones(withConfiguration: nil) }
+      )
+    }
+
+    func testFetchAllRecordZonesAtBackgroundPriority() throws {
+      try validateFetchAll(
+        (1...3).map { CKRecordZone(zoneName: "\($0)") },
+        database.save,
+        database.fetchAllRecordZonesAtBackgroundPriority
+      )
+    }
+
+    func testFetchAllSubscriptions() throws {
+      // TODO: Test with configuration.
+      try validateFetchAll(
+        (1...3).map { CKDatabaseSubscription(subscriptionID: "\($0)") },
+        database.save,
+        { () in database.fetchAllSubscriptions(withConfiguration: nil) }
+      )
+    }
+
+    func testFetchAllSubscriptionsAtBackgroundPriority() throws {
+      try validateFetchAll(
+        (1...3).map { CKDatabaseSubscription(subscriptionID: "\($0)") },
+        database.save,
+        database.fetchAllSubscriptionsAtBackgroundPriority
+      )
+    }
+
+    func validateFetchAll<T>(
+      _ items: [T],
+      _ save: ([T], CKOperation.Configuration?) -> AnyPublisher<T, Error>,
+      _ fetch: () -> AnyPublisher<T, Error>
+    ) throws where T: Hashable {
+      // TODO: Test with configuration.
+      let save = save(items, nil)
+      let saved = try wait(for: \.elements, from: save)
+      XCTAssertEqual(Set(saved), Set(items))
+
+      let fetch = fetch()
+      let fetched = try wait(for: \.elements, from: fetch)
+      XCTAssertEqual(Set(fetched), Set(items))
     }
   }
 

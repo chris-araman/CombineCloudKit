@@ -1,8 +1,9 @@
 //
 //  CombineCloudKitTests.swift
-//
+//  CombineCloudKit
 //
 //  Created by Chris Araman on 5/7/21.
+//  Copyright © 2021 Chris Araman. All rights reserved.
 //
 
 #if canImport(CombineExpectations) && canImport(XCTest)
@@ -15,14 +16,18 @@
   @testable import CombineCloudKit
 
   class CombineCloudKitTests: XCTestCase {
-    lazy var container = CKContainer(identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
-
     #if SWIFT_PACKAGE || COCOAPODS
-      override func setUpWithError() throws {
-        try super.setUpWithError()
-
-        throw XCTSkip("Tests requiring CloudKit can not be run without app entitlements.")
+      // Unit tests with mocks
+      let container: CCKContainer = MockContainer()
+      let database: CCKDatabase = MockDatabase()
+      override func setUp() {
+        CombineCloudKit.operationFactory = MockOperationFactory(database as! MockDatabase)
       }
+    #else
+      // Integration tests with CloudKit
+      let container: CCKContainer = CKContainer(
+        identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
+      let database: CCKDatabase = container.privateCloudDatabase
     #endif
 
     func wait<P, R>(
@@ -30,6 +35,7 @@
       from publisher: P,
       timeout: TimeInterval = 1
     ) throws -> R.Output where P: Publisher, R: PublisherExpectation {
+      // FIXME: Occasionally throws notEnoughElements when called with a 'save' or 'delete' publisher.
       try wait(for: selector(publisher.record()), timeout: timeout)
     }
   }
