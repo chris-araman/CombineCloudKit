@@ -12,10 +12,10 @@ CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/clo
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
 time, using Combine's declarative API.
 
-## Adding CombineCloudKit to Your Project
+## 📦 Adding CombineCloudKit to Your Project
 
 CombineCloudKit supports [Swift Package Manager](https://developer.apple.com/documentation/swift_packages),
-[CocoaPods]((https://cocoapods.org/about)), and [Carthage](https://github.com/Carthage/Carthage). You can use whichever
+[CocoaPods](https://cocoapods.org/about), and [Carthage](https://github.com/Carthage/Carthage). You can use whichever
 you prefer, but Swift Package Manager is most likely to be supported in the future.
 
 ### Swift Package Manager
@@ -96,7 +96,7 @@ To update to the latest CombineCloudKit version compatible with your version req
 carthage update CombineCloudKit --use-xcframeworks
 ```
 
-## Using CombineCloudKit in Your Project
+## 🌤 Using CombineCloudKit in Your Project
 
 Combine allows you to chain value processing [Publishers](https://developer.apple.com/documentation/combine/publisher)
 for one or more [Subscribers](https://developer.apple.com/documentation/combine/subscriber). Here, we perform a query on
@@ -140,16 +140,16 @@ CombineCloudKit publisher is cancelled before it is finished emitting values, th
 when performing a query and processing only the first few results. However, failing to wait for completion of a `save`,
 `delete`, or `modify` operation may result in undesirable cancellation.
 
-## Documentation
+## 📘 Documentation
 
 💯% [documented](https://combinecloudkit.hiddenplace.dev) using [Jazzy](https://github.com/realm/jazzy).
 Hosted by [GitHub Pages](https://pages.github.com).
 
-## Contributing
+## ❤️ Contributing
 
 [Contributions](CONTRIBUTING.md) are welcome!
 
-## Further Reading
+## 📚 Further Reading
 
 To learn more about Combine and CloudKit, watch these videos from WWDC:
 
@@ -162,7 +162,7 @@ To learn more about Combine and CloudKit, watch these videos from WWDC:
 * [CloudKit Documentation](https://developer.apple.com/documentation/cloudkit)
 * [Combine Documentation](https://developer.apple.com/documentation/combine)
 
-## License
+## 📜 License
 
 CombineCloudKit was created by [Chris Araman](https://github.com/chris-araman). It is published under the
 [MIT license](LICENSE.md).
