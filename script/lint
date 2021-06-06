@@ -15,7 +15,7 @@ echo "  🧹 markdownlint"
 markdownlint --config .markdownlint.json --fix .github .
 
 echo "  🧹 pod"
-pod spec lint --silent CombineCloudKit.podspec
+pod lib lint --silent CombineCloudKit.podspec
 
 echo "  🧹 shfmt"
 shfmt -d -i 2 -l -w script/

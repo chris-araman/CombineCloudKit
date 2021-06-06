@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+echo "⚙️  Releasing CombineCloudKit CocoaPod..."
+
+pod trunk push CombineCloudKit.podspec
+
+echo "✅ Released!"

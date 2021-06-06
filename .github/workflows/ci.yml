@@ -15,96 +15,50 @@ jobs:
       uses: actions/checkout@v2
     - name: Lint
       run: script/lint
-  build-swift:
-    name: ${{ matrix.name }} (Swift ${{ matrix.swift }}, macOS)
-    runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        swift: ['5.1', '5.2', '5.3', '5.4']
-        include:
-          # The latest version of Xcode that supports each release of Swift.
-          # https://developer.apple.com/support/xcode/
-          - swift: '5.1'
-            xcode: '11.3.1'
-            action: build
-            name: Build
-          - swift: '5.2'
-            xcode: '11.7'
-            action: test
-            name: Build & Test
-          - swift: '5.3'
-            xcode: '12.4'
-            action: test
-            name: Build & Test
-          - swift: '5.4'
-            # TODO: Use '12.5' this once we have access to macOS 11 and Xcode 12.5.
-            xcode: '12.4'
-            action: test
-            name: Build & Test
-    steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Use Swift ${{ matrix.swift }}
-      uses: fwal/setup-swift@v1
-      with:
-        swift-version: ${{ matrix.swift }}
-    - name: Select Xcode ${{ matrix.xcode }}
-      run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
-    - name: ${{ matrix.name }}
-      run: swift ${{ matrix.action }}
-  build-xcode:
-    name: ${{ matrix.name }} (Xcode ${{ matrix.xcode }}, ${{ matrix.platform }})
-    runs-on: macos-${{ matrix.macos }}
+  build-test:
+    name: ${{ matrix.name || 'Build & Test' }} (Swift ${{ matrix.swift }}, ${{ matrix.platform }})
+    runs-on: macos-${{ matrix.macos || 'latest' }}
     strategy:
       fail-fast: false
       matrix:
         # TODO: Add '5.4' once we have access to macOS 11 and Xcode 12.5.
-        swift: ['5.1', '5.2', '5.3']
+        swift: ['5.3', '5.2', '5.1']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
-          # The latest version of Xcode that supports each release of Swift.
-          # https://developer.apple.com/support/xcode/
           - swift: '5.1'
-            xcode: '11.3'
+            # The macOS 11 environment no longer includes Swift 5.1.
             macos: '10.15'
+            # CombineExpectations requires Swift 5.2.
             action: build
             name: Build
-          - swift: '5.2'
-            xcode: '11.7'
-            macos: latest
-            name: Build & Test
+          # XCTest for watchOS requires Swift 5.4.
           - swift: '5.2'
             platform: watchOS
             name: Build
           - swift: '5.3'
-            xcode: '12.4'
-            macos: latest
-            name: Build & Test
-          - swift: '5.3'
             platform: watchOS
             name: Build
-          # TODO: Enable this once we have access to macOS 11 and Xcode 12.5.
+          # TODO: Add this once we have access to macOS 11 and Xcode 12.5.
+          # ...then TODO: Remove this once macos-latest >= 11
           # - swift: '5.4'
-          #   xcode: '12.5'
-          #   macos: latest
-          #   name: Build & Test
+          #  macos: '11'
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: ${{ matrix.name }}
+    - name: ${{ matrix.name || 'Build & Test' }}
       uses: mxcl/xcodebuild@v1
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
-        xcode: ~${{ matrix.xcode }}
+        swift: ~${{ matrix.swift }}
         code-coverage: true
         quiet: false
+        warnings-as-errors: true
     - name: Coverage
-      if: ${{ matrix.name == 'Build & Test' }}
+      if: ${{ matrix.name != 'Build' }}
       uses: codecov/codecov-action@v1
       with:
-        flags: ${{ matrix.platform }},swift${{ matrix.swift }},xcode${{ matrix.xcode }}
+        flags: ${{ matrix.platform }},swift${{ matrix.swift }}
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
   sanitize:

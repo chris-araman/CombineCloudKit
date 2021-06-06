@@ -10,7 +10,7 @@ import CloudKit
 import Combine
 
 extension Publisher {
-  func propagateCancellationTo(_ operation: CKOperation) -> AnyPublisher<Output, Failure> {
+  func propagateCancellationTo(_ operation: CCKOperation) -> AnyPublisher<Output, Failure> {
     handleEvents(receiveCancel: { operation.cancel() }).eraseToAnyPublisher()
   }
 }

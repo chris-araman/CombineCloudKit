@@ -1,5 +1,5 @@
 //
-//  CKSubscription.swift
+//  CCKDatabase+CKSubscription.swift
 //  CombineCloudKit
 //
 //  Created by Chris Araman on 2/16/21.
@@ -9,7 +9,7 @@
 import CloudKit
 import Combine
 
-extension CKDatabase {
+extension CCKDatabase {
   /// Saves a single subscription.
   ///
   /// - Parameters:
@@ -18,10 +18,10 @@ extension CKDatabase {
   /// happen immediately.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
-  public final func saveAtBackgroundPriority(
+  public func saveAtBackgroundPriority(
     subscription: CKSubscription
   ) -> AnyPublisher<CKSubscription, Error> {
-    publisherFrom(save, with: subscription)
+    publisherAtBackgroundPriorityFrom(save, with: subscription)
   }
 
   /// Saves a single subscription.
@@ -32,7 +32,7 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
-  public final func save(
+  public func save(
     subscription: CKSubscription,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
@@ -47,15 +47,15 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
-  public final func save(
+  public func save(
     subscriptions: [CKSubscription],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
-    let operation = CKModifySubscriptionsOperation(
+    let operation = operationFactory.createModifySubscriptionsOperation(
       subscriptionsToSave: subscriptions,
       subscriptionIDsToDelete: nil
     )
-    return publisherFrom(operation, configuration) { completion in
+    return publisherFromSave(operation, configuration) { completion in
       operation.modifySubscriptionsCompletionBlock = completion
     }
   }
@@ -68,10 +68,10 @@ extension CKDatabase {
   /// to happen immediately.
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
-  public final func deleteAtBackgroundPriority(
+  public func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription.ID, Error> {
-    publisherFrom(delete, with: subscriptionID)
+    publisherAtBackgroundPriorityFrom(delete, with: subscriptionID)
   }
 
   /// Deletes a single subscription.
@@ -83,7 +83,7 @@ extension CKDatabase {
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete
   /// it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
-  public final func delete(
+  public func delete(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription.ID, Error> {
@@ -99,15 +99,15 @@ extension CKDatabase {
   /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`s, or an error if CombineCloudKit can't delete
   /// them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
-  public final func delete(
+  public func delete(
     subscriptionIDs: [CKSubscription.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription.ID, Error> {
-    let operation = CKModifySubscriptionsOperation(
+    let operation = operationFactory.createModifySubscriptionsOperation(
       subscriptionsToSave: nil,
       subscriptionIDsToDelete: subscriptionIDs
     )
-    return publisherFrom(operation, configuration) { completion in
+    return publisherFromDelete(operation, configuration) { completion in
       operation.modifySubscriptionsCompletionBlock = completion
     }
   }
@@ -122,16 +122,16 @@ extension CKDatabase {
   /// - Returns: A `Publisher` that emits the saved `CKSubscription`s and the deleted `CKRecordZone.ID`s, or an
   ///   error if CombineCloudKit can't modify them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
-  public final func modify(
+  public func modify(
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<(CKSubscription?, CKSubscription.ID?), Error> {
-    let operation = CKModifySubscriptionsOperation(
+    let operation = operationFactory.createModifySubscriptionsOperation(
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
     )
-    return publisherFrom(
+    return publisherFromModify(
       operation,
       configuration,
       setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion }
@@ -146,10 +146,10 @@ extension CKDatabase {
   /// subscription immediately.
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
-  public final func fetchAtBackgroundPriority(
+  public func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
   ) -> AnyPublisher<CKSubscription, Error> {
-    publisherFrom(fetch, with: subscriptionID)
+    publisherAtBackgroundPriorityFrom(fetch, with: subscriptionID)
   }
 
   /// Fetches the subscription with the specified ID.
@@ -160,7 +160,7 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
-  public final func fetch(
+  public func fetch(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
@@ -175,12 +175,13 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
-  public final func fetch(
+  public func fetch(
     subscriptionIDs: [CKSubscription.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
-    let operation = CKFetchSubscriptionsOperation(subscriptionIDs: subscriptionIDs)
-    return publisherFrom(operation, configuration) { completion in
+    let operation = operationFactory.createFetchSubscriptionsOperation(
+      subscriptionIDs: subscriptionIDs)
+    return publisherFromFetch(operation, configuration) { completion in
       operation.fetchSubscriptionCompletionBlock = completion
     }
   }
@@ -191,10 +192,10 @@ extension CKDatabase {
   /// subscriptions immediately.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
-  public final func fetchAllSubscriptionsAtBackgroundPriority()
+  public func fetchAllSubscriptionsAtBackgroundPriority()
     -> AnyPublisher<CKSubscription, Error>
   {
-    publisherFrom(fetchAllSubscriptions)
+    publisherFromFetchAll(fetchAllSubscriptions)
   }
 
   /// Fetches the database's subscriptions.
@@ -204,11 +205,11 @@ extension CKDatabase {
   ///     the operation will use a default configuration.
   /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation/1515282-fetchallsubscriptionsoperation)
-  public final func fetchAllSubscriptions(
+  public func fetchAllSubscriptions(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
-    let operation = CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
-    return publisherFrom(operation, configuration) { completion in
+    let operation = operationFactory.createFetchAllSubscriptionsOperation()
+    return publisherFromFetch(operation, configuration) { completion in
       operation.fetchSubscriptionCompletionBlock = completion
     }
   }
