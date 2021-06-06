@@ -6,14 +6,14 @@ There are three ways in which you can contribute to the project.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-chris--araman-slateblue?logo=github&style=flat-square)](https://github.com/sponsors/chris-araman)
 
-Your sponsorship will enable me to spend more time contributing to open source projects. Thanks for your support! 
+Your sponsorship will enable me to spend more time contributing to open source projects. Thanks for your support!
 
 ## 🐛 Issues
 
 Submit [bug reports](https://github.com/chris-araman/CombineCloudKit/issues/new?template=bug_report.md) and
-[feature requests](https://github.com/chris-araman/CombineCloudKit/issues/new?template=feature_request.md) using the provided templates.
-I can't guarantee I can resolve everything reported, but I'd like the opportunity to try. Sponsorship can be quite
-motivating. 😊
+[feature requests](https://github.com/chris-araman/CombineCloudKit/issues/new?template=feature_request.md) using the
+provided templates. I can't guarantee I can resolve everything reported, but I'd like the opportunity to try.
+Sponsorship can be quite motivating. 😊
 
 ## 🧑🏽‍💻👩🏿‍💻👨🏻‍💻 Pull Requests
 

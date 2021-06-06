@@ -34,7 +34,7 @@ let package = Package(
       name: "CombineCloudKitTests",
       dependencies: [
         "CombineCloudKit",
-        "CombineExpectations"
+        "CombineExpectations",
       ]
     ),
   ],
