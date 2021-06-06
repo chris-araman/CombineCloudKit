@@ -145,6 +145,10 @@ when performing a query and processing only the first few results. However, fail
 💯% [documented](https://combinecloudkit.hiddenplace.dev) using [Jazzy](https://github.com/realm/jazzy).
 Hosted by [GitHub Pages](https://pages.github.com).
 
+## Contributing
+
+[Contributions](CONTRIBUTING.md) are welcome!
+
 ## Further Reading
 
 To learn more about Combine and CloudKit, watch these videos from WWDC:
