@@ -1,6 +1,14 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.2
 
 import PackageDescription
+
+#if swift(>=5.4)
+  let swiftBranch = "swift-5.4-branch"
+#elseif swift(>=5.3)
+  let swiftBranch = "swift-5.3-branch"
+#elseif swift(>=5.2)
+  let swiftBranch = "swift-5.2-branch"
+#endif
 
 let package = Package(
   name: "CombineCloudKit",
@@ -18,7 +26,7 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.8.0"),
-    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch")),
+    .package(url: "https://github.com/apple/swift-format", .branch(swiftBranch)),
   ],
   targets: [
     .target(name: "CombineCloudKit"),
@@ -26,11 +34,7 @@ let package = Package(
       name: "CombineCloudKitTests",
       dependencies: [
         "CombineCloudKit",
-        .product(
-          name: "CombineExpectations",
-          package: "CombineExpectations",
-          // CombineExpectations does not yet support watchOS.
-          condition: .when(platforms: [.iOS, .macOS, .tvOS])),
+        "CombineExpectations"
       ]
     ),
   ],
