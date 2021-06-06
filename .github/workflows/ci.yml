@@ -1,4 +1,4 @@
-name: Lint, Build, & Test
+name: Continuous Integration
 
 on:
   push:
@@ -17,21 +17,6 @@ jobs:
       uses: fwal/setup-swift@v1
     - name: Lint
       run: script/lint
-  coverage:
-    name: Coverage
-    runs-on: macos-latest
-    steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Test
-      uses: mxcl/xcodebuild@v1
-      with:
-        code-coverage: true
-        quiet: false
-    - name: Coverage
-      uses: codecov/codecov-action@v1
-      with:
-        fail_ci_if_error: true
   build-swift:
     name: ${{ matrix.name }} (Swift ${{ matrix.swift }}, macOS)
     runs-on: macos-latest
@@ -115,7 +100,15 @@ jobs:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
         xcode: ~${{ matrix.xcode }}
+        code-coverage: true
         quiet: false
+    - name: Coverage
+      if: ${{ matrix.name == 'Build & Test' }}
+      uses: codecov/codecov-action@v1
+      with:
+        flags: ${{ matrix.platform }},swift${{ matrix.swift }},xcode${{ matrix.xcode }}
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: true
   sanitize:
     name: Sanitize
     runs-on: macos-latest
