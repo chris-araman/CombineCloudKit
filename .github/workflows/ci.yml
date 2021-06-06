@@ -51,7 +51,7 @@ jobs:
         swift-version: ${{ matrix.swift }}
     - name: Select Xcode ${{ matrix.xcode }}
       run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app
-    - name: macOS with Swift Package Manager
+    - name: ${{ matrix.name }}
       run: swift ${{ matrix.action }}
   build-xcode:
     name: ${{ matrix.name }} (Xcode ${{ matrix.xcode }}, ${{ matrix.platform }})
@@ -92,7 +92,7 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: ${{ matrix.platform }} with xcodebuild
+    - name: ${{ matrix.name }}
       uses: mxcl/xcodebuild@v1
       with:
         action: ${{ matrix.action }}
@@ -108,13 +108,20 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
   sanitize:
-    name: Sanitize
+    name: ${{ matrix.name }} Sanitizer
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         # TODO: Add 'scudo' once it is supported by Swift.
         sanitizer: [address, thread, undefined]
+        include:
+          - sanitizer: address
+            name: Address
+          - sanitizer: thread
+            name: Thread
+          - sanitizer: undefined
+            name: Undefined Behavior
     steps:
     - name: Clone
       uses: actions/checkout@v2
