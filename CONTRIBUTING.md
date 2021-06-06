@@ -10,8 +10,8 @@ Your sponsorship will enable me to spend more time contributing to open source p
 
 ## 🐛 Issues
 
-Submit [bug reports](https://github.com/chris-araman/CombineCloudKit/issues/new/choose) and
-[feature requests](https://github.com/chris-araman/CombineCloudKit/issues/new/choose) using the provided templates.
+Submit [bug reports](https://github.com/chris-araman/CombineCloudKit/issues/new?template=bug_report.md) and
+[feature requests](https://github.com/chris-araman/CombineCloudKit/issues/new?template=feature_request.md) using the provided templates.
 I can't guarantee I can resolve everything reported, but I'd like the opportunity to try. Sponsorship can be quite
 motivating. 😊
 
@@ -21,7 +21,7 @@ I welcome high quality pull requests from everyone! 🦄
 
 Pull requests are preferred over bug reports and feature requests. ✨
 
-Submit [pull requests](https://github.com/chris-araman/CombineCloudKit/compare) from your fork of the repository. I may
+Submit [pull requests](https://github.com/chris-araman/CombineCloudKit/compare?template=pull_request.md) from your fork of the repository. I may
 suggest some changes or improvements or alternatives. To increase the chance that your pull request is accepted:
 
 * Ensure your changes build, test, and lint successfully.
