@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name     = 'CombineCloudKit'
-  spec.version  = '0.2.1'
+  spec.version  = '0.3.0'
   spec.summary  = '🌤 Swift Combine extensions for asynchronous CloudKit record processing'
   spec.description = <<-DESC
     CombineCloudKit exposes CloudKit operations as Combine publishers. Publishers can be used to process values over
