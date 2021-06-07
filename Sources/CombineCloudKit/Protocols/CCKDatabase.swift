@@ -93,9 +93,13 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    return Deferred { () -> PassthroughSubject<Output, Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 
   func publisherFromFetchAll<Output>(
@@ -104,17 +108,19 @@ extension CCKDatabase {
     Deferred { () -> PassthroughSubject<Output, Error> in
       let subject = PassthroughSubject<Output, Error>()
 
-      method { outputs, error in
-        guard let outputs = outputs, error == nil else {
-          subject.send(completion: .failure(error!))
-          return
-        }
+      DispatchQueue.main.async {
+        method { outputs, error in
+          guard let outputs = outputs, error == nil else {
+            subject.send(completion: .failure(error!))
+            return
+          }
 
-        for output in outputs {
-          subject.send(output)
-        }
+          for output in outputs {
+            subject.send(output)
+          }
 
-        subject.send(completion: .finished)
+          subject.send(completion: .finished)
+        }
       }
 
       return subject
@@ -143,9 +149,13 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    return Deferred { () -> PassthroughSubject<Output, Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 
   func publisherFromDelete<Output, Ignored>(
@@ -170,9 +180,13 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    return Deferred { () -> PassthroughSubject<Output, Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 
   func publisherFromModify<Output, OutputID>(
@@ -205,8 +219,12 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    return Deferred { () -> PassthroughSubject<(Output?, OutputID?), Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 }

@@ -254,9 +254,13 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    return Deferred { () -> PassthroughSubject<((CKRecord, Progress)?, CKRecord.ID?), Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 
   /// Fetches the record with the specified ID.
@@ -395,9 +399,14 @@ extension CCKDatabase {
       subject.send(completion: .finished)
     }
 
-    add(operation)
+    // TODO: Ensure we only add the operation once, for every place we do a deferred add.
+    return Deferred { () -> PassthroughSubject<((CKRecord.ID, Progress)?, CKRecord?), Error> in
+      DispatchQueue.main.async {
+        self.add(operation)
+      }
 
-    return subject.propagateCancellationTo(operation)
+      return subject
+    }.propagateCancellationTo(operation)
   }
 
   /// Fetches the current user record.

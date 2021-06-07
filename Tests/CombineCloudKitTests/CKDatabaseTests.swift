@@ -91,7 +91,6 @@
       throws -> T where P: Publisher, T: Hashable, P.Output == (T, Progress)
     {
       let records = try validateSaveProgress(from: publisher)
-      // FIXME: These two asserts occasionally fire.
       XCTAssertEqual(records.count, 1)
       return try XCTUnwrap(records.first)
     }
