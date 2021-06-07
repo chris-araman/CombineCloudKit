@@ -35,7 +35,6 @@
       from publisher: P,
       timeout: TimeInterval = 1
     ) throws -> R.Output where P: Publisher, R: PublisherExpectation {
-      // FIXME: Occasionally throws notEnoughElements when called with a 'save' or 'delete' publisher.
       try wait(for: selector(publisher.record()), timeout: timeout)
     }
   }
