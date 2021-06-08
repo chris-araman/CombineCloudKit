@@ -6,7 +6,8 @@ Swift Combine extensions for asynchronous CloudKit record processing. Designed f
 [![Platforms](https://img.shields.io/endpoint?label=platforms&logo=apple&style=flat-square&url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fchris-araman%2FCombineCloudKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/chris-araman/CombineCloudKit)
 [![License](https://img.shields.io/github/license/chris-araman/CombineCloudKit?style=flat-square&color=informational)](https://github.com/chris-araman/CombineCloudKit/blob/main/LICENSE.md)
 [![Release](https://img.shields.io/github/v/tag/chris-araman/CombineCloudKit?style=flat-square&color=informational&label=release&sort=semver)](https://github.com/chris-araman/CombineCloudKit/releases)
-[![Lint, Build, & Test](https://img.shields.io/github/workflow/status/chris-araman/CombineCloudKit/Lint,%20Build,%20&%20Test/main?style=flat-square&logo=github)](https://github.com/chris-araman/CombineCloudKit/actions/workflows/ci.yml?query=branch%3Amain)
+[![Lint | Build | Test](https://img.shields.io/github/workflow/status/chris-araman/CombineCloudKit/Continuous%20Integration/main?style=flat-square&logo=github&label=lint%20%7C%20build%20%7C%20test)](https://github.com/chris-araman/CombineCloudKit/actions/workflows/ci.yml?query=branch%3Amain)
+[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
 
 CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/cloudkit) operations as
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
