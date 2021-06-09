@@ -14,6 +14,9 @@ git diff --check
 echo "  🧹 markdownlint"
 markdownlint --config .markdownlint.json --fix .github .
 
+echo "  🧹 periphery"
+periphery scan --quiet
+
 echo "  🧹 pod"
 pod lib lint --silent CombineCloudKit.podspec
 
@@ -32,8 +35,5 @@ SOURCES=(
 )
 swift run --skip-build swift-format format --in-place --recursive "${SOURCES[@]}"
 swift run --skip-build swift-format lint --recursive "${SOURCES[@]}"
-
-echo "  🧹 periphery"
-periphery scan --retain-public --strict --quiet
 
 echo "✅ CombineCloudKit is free of lint!"
