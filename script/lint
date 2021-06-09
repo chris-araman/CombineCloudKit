@@ -17,6 +17,9 @@ markdownlint --config .markdownlint.json --fix .github .
 echo "  🧹 pod"
 pod lib lint --silent CombineCloudKit.podspec
 
+echo "  🧹 shellcheck"
+shellcheck --shell=bash script/*
+
 echo "  🧹 shfmt"
 shfmt -d -i 2 -l -w script/
 
@@ -27,8 +30,8 @@ SOURCES=(
   Sources
   Tests
 )
-swift run --skip-build swift-format format --in-place --recursive ${SOURCES[@]}
-swift run --skip-build swift-format lint --recursive ${SOURCES[@]}
+swift run --skip-build swift-format format --in-place --recursive "${SOURCES[@]}"
+swift run --skip-build swift-format lint --recursive "${SOURCES[@]}"
 
 echo "  🧹 periphery"
 periphery scan --retain-public --strict --quiet
