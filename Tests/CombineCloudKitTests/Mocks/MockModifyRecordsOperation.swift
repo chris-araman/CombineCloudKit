@@ -22,18 +22,10 @@ public class MockModifyRecordsOperation:
     super.init(
       database,
       { mockDatabase, operation in operation(&mockDatabase.records) },
-      { record in record.recordID },
+      \.recordID,
       recordsToSave,
       recordIDsToDelete
     )
-    super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
-      guard let completion = self.modifyRecordsCompletionBlock else {
-        // TODO: XCTFail
-        fatalError("modifyRecordsCompletionBlock not set.")
-      }
-
-      completion(itemsToSave, itemIDsToDelete, error)
-    }
     super.perItemCompletionBlock = { record, error in
       // TODO: Simulate progress before error.
       if let perRecordProgressBlock = self.perRecordProgressBlock, error == nil {
@@ -44,6 +36,14 @@ public class MockModifyRecordsOperation:
       if let perRecordCompletionBlock = self.perRecordCompletionBlock {
         perRecordCompletionBlock(record, error)
       }
+    }
+    super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
+      guard let completion = self.modifyRecordsCompletionBlock else {
+        // TODO: XCTFail
+        fatalError("modifyRecordsCompletionBlock not set.")
+      }
+
+      completion(itemsToSave, itemIDsToDelete, error)
     }
   }
 

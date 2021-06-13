@@ -10,41 +10,25 @@ import CloudKit
 
 @testable import CombineCloudKit
 
-public class MockFetchSubscriptionsOperation: MockDatabaseOperation, CCKFetchSubscriptionsOperation
+public class MockFetchSubscriptionsOperation: MockFetchOperation<CKSubscription, CKSubscription.ID>,
+  CCKFetchSubscriptionsOperation
 {
-  let subscriptionIDs: [CKSubscription.ID]?
-
   init(_ database: MockDatabase, _ subscriptionIDs: [CKSubscription.ID]? = nil) {
-    self.subscriptionIDs = subscriptionIDs
-    super.init(database)
+    super.init(
+      database,
+      { database, operation in operation(&database.subscriptions) },
+      subscriptionIDs
+    )
+    super.fetchItemsCompletionBlock = { items, error in
+      guard let completion = self.fetchSubscriptionCompletionBlock else {
+        // TODO: XCTFail
+        fatalError("fetchSubscriptionsCompletionBlock not set.")
+      }
+
+      completion(items, error)
+    }
   }
 
   public var fetchSubscriptionCompletionBlock:
     (([CKSubscription.ID: CKSubscription]?, Error?) -> Void)?
-
-  public override func start() {
-    guard let completion = fetchSubscriptionCompletionBlock else {
-      // TODO: XCTFail
-      fatalError("fetchSubscriptionCompletionBlock not set.")
-    }
-
-    mockDatabase.queue.async {
-      guard let subscriptionIDs = self.subscriptionIDs else {
-        completion(self.mockDatabase.subscriptions, nil)
-        return
-      }
-
-      guard subscriptionIDs.allSatisfy(self.mockDatabase.subscriptions.keys.contains) else {
-        completion(nil, MockError.doesNotExist)
-        return
-      }
-
-      let subscriptions = self.mockDatabase.subscriptions.filter { subscriptionID, _ in
-        subscriptionIDs.contains(subscriptionID)
-      }
-
-      // TODO: Simulate failures.
-      completion(subscriptions, nil)
-    }
-  }
 }

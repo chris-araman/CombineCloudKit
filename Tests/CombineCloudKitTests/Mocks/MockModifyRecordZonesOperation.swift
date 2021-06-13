@@ -25,7 +25,7 @@ public class MockModifyRecordZonesOperation:
     super.init(
       database,
       { mockDatabase, operation in operation(&mockDatabase.recordZones) },
-      { recordZone in recordZone.zoneID },
+      \.zoneID,
       recordZonesToSave,
       recordZoneIDsToDelete
     )

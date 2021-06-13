@@ -11,14 +11,36 @@ import XCTest
 
 @testable import CombineCloudKit
 
-public class MockFetchRecordsOperation: MockDatabaseOperation, CCKFetchRecordsOperation {
-  let recordIDs: [CKRecord.ID]
-
+public class MockFetchRecordsOperation: MockFetchOperation<CKRecord, CKRecord.ID>,
+  CCKFetchRecordsOperation
+{
   init(_ database: MockDatabase, _ recordIDs: [CKRecord.ID]) {
-    self.recordIDs = recordIDs
-    super.init(database)
+    super.init(
+      database,
+      { database, operation in operation(&database.records) },
+      recordIDs
+    )
+    super.perItemProgressBlock = { itemID, progress in
+      if let update = self.perRecordProgressBlock {
+        update(itemID, progress)
+      }
+    }
+    super.perItemCompletionBlock = { item, itemID, error in
+      if let completion = self.perRecordCompletionBlock {
+        completion(item, itemID, error)
+      }
+    }
+    super.fetchItemsCompletionBlock = { items, error in
+      guard let completion = self.fetchRecordsCompletionBlock else {
+        // TODO: XCTFail
+        fatalError("fetchRecordsCompletionBlock not set.")
+      }
+
+      completion(items, error)
+    }
   }
 
+  // TODO: Return only desired keys.
   public var desiredKeys: [CKRecord.FieldKey]?
 
   public var perRecordProgressBlock: ((CKRecord.ID, Double) -> Void)?
@@ -26,39 +48,4 @@ public class MockFetchRecordsOperation: MockDatabaseOperation, CCKFetchRecordsOp
   public var perRecordCompletionBlock: ((CKRecord?, CKRecord.ID?, Error?) -> Void)?
 
   public var fetchRecordsCompletionBlock: (([CKRecord.ID: CKRecord]?, Error?) -> Void)?
-
-  public override func start() {
-    guard let completion = fetchRecordsCompletionBlock else {
-      // TODO: XCTFail
-      fatalError("fetchRecordsCompletionBlock not set.")
-    }
-
-    mockDatabase.queue.async {
-      guard self.recordIDs.allSatisfy(self.mockDatabase.records.keys.contains) else {
-        completion(nil, MockError.doesNotExist)
-        return
-      }
-
-      let records = self.mockDatabase.records.filter { recordID, record in
-        guard self.recordIDs.contains(recordID) else {
-          return false
-        }
-
-        if let progress = self.perRecordProgressBlock {
-          // TODO: Use some other progress values.
-          progress(recordID, 1.0)
-        }
-
-        if let completion = self.perRecordCompletionBlock {
-          // TODO: Should this return CKRecord.ID on success?
-          completion(record, nil, nil)
-        }
-
-        return true
-      }
-
-      // TODO: Simulate failures.
-      completion(records, nil)
-    }
-  }
 }

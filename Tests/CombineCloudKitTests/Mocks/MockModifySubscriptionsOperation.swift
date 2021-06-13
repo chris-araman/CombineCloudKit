@@ -25,7 +25,7 @@ public class MockModifySubscriptionsOperation:
     super.init(
       database,
       { mockDatabase, operation in operation(&mockDatabase.subscriptions) },
-      { subscription in subscription.subscriptionID },
+      \.subscriptionID,
       subscriptionsToSave,
       subscriptionIDsToDelete
     )
