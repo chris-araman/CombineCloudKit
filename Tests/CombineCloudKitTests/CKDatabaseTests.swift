@@ -190,13 +190,13 @@
       _ fetch: (ID, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
       _ delete: (ID, CKOperation.Configuration?) -> AnyPublisher<ID, Error>
     ) throws where ID: Equatable {
-      // TODO: Test with configuration.
+      let configuration = CKOperation.Configuration()
       try validateSaveFetchAndDelete(
         create,
         id,
-        { item in save(item, nil) },
-        { itemID in fetch(itemID, nil) },
-        { itemID in delete(itemID, nil) }
+        { item in save(item, configuration) },
+        { itemID in fetch(itemID, configuration) },
+        { itemID in delete(itemID, configuration) }
       )
     }
 
@@ -222,11 +222,11 @@
     }
 
     func testFetchAllRecordZones() throws {
-      // TODO: Test with configuration.
+      let configuration = CKOperation.Configuration()
       try validateFetchAll(
         (1...3).map { CKRecordZone(zoneName: "\($0)") },
         database.save,
-        { () in database.fetchAllRecordZones(withConfiguration: nil) }
+        { () in database.fetchAllRecordZones(withConfiguration: configuration) }
       )
     }
 
@@ -245,19 +245,20 @@
       let saved = try wait(for: \.single, from: save)
       XCTAssertEqual(saved, userRecord)
 
-      // TODO: Test with configuration.
-      // TODO: Test with desired keys.
-      let fetch = database.fetchCurrentUserRecord(desiredKeys: nil, withConfiguration: nil)
+      let configuration = CKOperation.Configuration()
+      let desiredKeys = ["Key"]
+      let fetch = database.fetchCurrentUserRecord(
+        desiredKeys: desiredKeys, withConfiguration: configuration)
       let fetched = try wait(for: \.single, from: fetch)
       XCTAssertEqual(fetched, userRecord)
     }
 
     func testFetchAllSubscriptions() throws {
-      // TODO: Test with configuration.
+      let configuration = CKOperation.Configuration()
       try validateFetchAll(
         (1...3).map { CKDatabaseSubscription(subscriptionID: "\($0)") },
         database.save,
-        { () in database.fetchAllSubscriptions(withConfiguration: nil) }
+        { () in database.fetchAllSubscriptions(withConfiguration: configuration) }
       )
     }
 
@@ -274,8 +275,8 @@
       _ save: ([T], CKOperation.Configuration?) -> AnyPublisher<T, Error>,
       _ fetch: () -> AnyPublisher<T, Error>
     ) throws where T: Hashable {
-      // TODO: Test with configuration.
-      let save = save(items, nil)
+      let configuration = CKOperation.Configuration()
+      let save = save(items, configuration)
       let saved = try wait(for: \.elements, from: save)
       XCTAssertEqual(Set(saved), Set(items))
 

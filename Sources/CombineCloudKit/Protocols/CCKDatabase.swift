@@ -164,7 +164,7 @@ extension CCKDatabase {
   ) -> AnyPublisher<(Output?, OutputID?), Error> {
     let subject = PassthroughSubject<(Output?, OutputID?), Error>()
     if configuration != nil {
-      // FIXME: operation.configuration = configuration
+      operation.configuration = configuration
     }
     setCompletion { saved, deleted, error in
       guard error == nil else {
