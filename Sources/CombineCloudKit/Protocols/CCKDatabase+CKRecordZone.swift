@@ -51,7 +51,8 @@ extension CCKDatabase {
     recordZones: [CKRecordZone],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone, Error> {
-    modify(recordZonesToSave: recordZones, withConfiguration: configuration).compactMap { saved, _ in
+    modify(recordZonesToSave: recordZones, withConfiguration: configuration).compactMap {
+      saved, _ in
       saved
     }.eraseToAnyPublisher()
   }
@@ -99,7 +100,8 @@ extension CCKDatabase {
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    modify(recordZoneIDsToDelete: recordZoneIDs, withConfiguration: configuration).compactMap { _, deleted in
+    modify(recordZoneIDsToDelete: recordZoneIDs, withConfiguration: configuration).compactMap {
+      _, deleted in
       deleted
     }.eraseToAnyPublisher()
   }

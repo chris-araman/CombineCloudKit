@@ -51,7 +51,8 @@ extension CCKDatabase {
     subscriptions: [CKSubscription],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
-    modify(subscriptionsToSave: subscriptions, withConfiguration: configuration).compactMap { saved, _ in
+    modify(subscriptionsToSave: subscriptions, withConfiguration: configuration).compactMap {
+      saved, _ in
       saved
     }.eraseToAnyPublisher()
   }
@@ -99,7 +100,8 @@ extension CCKDatabase {
     subscriptionIDs: [CKSubscription.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription.ID, Error> {
-    modify(subscriptionIDsToDelete: subscriptionIDs, withConfiguration: configuration).compactMap { _, deleted in
+    modify(subscriptionIDsToDelete: subscriptionIDs, withConfiguration: configuration).compactMap {
+      _, deleted in
       deleted
     }.eraseToAnyPublisher()
   }
