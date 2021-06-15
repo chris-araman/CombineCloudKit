@@ -277,13 +277,7 @@ extension CCKDatabase {
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    fetchWithProgress(
-      recordID: recordID,
-      desiredKeys: desiredKeys,
-      withConfiguration: configuration
-    ).compactMap { _, record in
-      record
-    }.eraseToAnyPublisher()
+    fetch(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration)
   }
 
   /// Fetches multiple records.
