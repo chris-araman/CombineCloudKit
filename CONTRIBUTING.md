@@ -40,9 +40,12 @@ swift build
 
 ### ✅ Testing CombineCloudKit
 
-🚧 Because CloudKit entitlements are required in order to validate functionality, some considerable work remains to wire
-this up automatically to `swift test`. This is a work in progress. Once testing with entitlements is working, it is a
-goal to achieve > 90% code coverage.
+Unit testing is accomplished using mock CloudKit types.
+
+[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
+
+> 🚧 Integration testing against the CloudKit API and service will require app entitlements. Some work
+remains to wire this up automatically to `swift test`.
 
 Use the Swift Package Manager to test:
 
