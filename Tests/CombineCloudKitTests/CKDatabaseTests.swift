@@ -152,16 +152,17 @@
     }
 
     func testSaveFetchAndDeleteRecordWithProgress() throws {
+      let configuration = CKOperation.Configuration()
       let record = CKRecord(recordType: "Test")
-      let save = database.saveWithProgress(record: record)
+      let save = database.saveWithProgress(record: record, withConfiguration: configuration)
       let saved = try validateSaveProgressOfSingleRecord(from: save)
       XCTAssertEqual(saved.recordID, record.recordID)
 
-      let fetch = database.fetchWithProgress(recordID: saved.recordID)
+      let fetch = database.fetchWithProgress(recordID: saved.recordID, withConfiguration: configuration)
       let fetched = try validateFetchProgressOfSingleRecord(from: fetch)
       XCTAssertEqual(fetched.recordID, record.recordID)
 
-      let delete = database.delete(recordID: saved.recordID)
+      let delete = database.delete(recordID: saved.recordID, withConfiguration: configuration)
       let deleted = try wait(for: \.single, from: delete)
       XCTAssertEqual(deleted, record.recordID)
     }
