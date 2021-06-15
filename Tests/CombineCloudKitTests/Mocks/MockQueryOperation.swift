@@ -34,7 +34,8 @@ public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
     let fetched = try! XCTUnwrap(self.recordFetchedBlock)
     let completion = try! XCTUnwrap(self.queryCompletionBlock)
     mockDatabase.queue.async {
-      self.mockDatabase.perform(try! XCTUnwrap(self.query), inZoneWith: self.zoneID) { results, error in
+      self.mockDatabase.perform(try! XCTUnwrap(self.query), inZoneWith: self.zoneID) {
+        results, error in
         guard let results = results else {
           completion(nil, error!)
           return

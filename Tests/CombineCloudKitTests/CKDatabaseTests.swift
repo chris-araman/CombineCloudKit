@@ -158,7 +158,8 @@
       let saved = try validateSaveProgressOfSingleRecord(from: save)
       XCTAssertEqual(saved.recordID, record.recordID)
 
-      let fetch = database.fetchWithProgress(recordID: saved.recordID, withConfiguration: configuration)
+      let fetch = database.fetchWithProgress(
+        recordID: saved.recordID, withConfiguration: configuration)
       let fetched = try validateFetchProgressOfSingleRecord(from: fetch)
       XCTAssertEqual(fetched.recordID, record.recordID)
 
