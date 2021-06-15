@@ -17,6 +17,30 @@
   @testable import enum CombineCloudKit.Progress
 
   final class CKDatabaseTests: CombineCloudKitTests {
+    func testFetchRecordFailsWhenDoesNotExist() throws {
+      let record = CKRecord(recordType: "Test")
+      let fetch = database.fetch(recordID: record.recordID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchRecordWithProgressFailsWhenDoesNotExist() throws {
+      let record = CKRecord(recordType: "Test")
+      let fetch = database.fetchWithProgress(recordID: record.recordID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchRecordZoneFailsWhenDoesNotExist() throws {
+      let zone = CKRecordZone(zoneName: "Test")
+      let fetch = database.fetch(recordZoneID: zone.zoneID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchSubscriptionFailsWhenDoesNotExist() throws {
+      let subscription = CKDatabaseSubscription(subscriptionID: "Test")
+      let fetch = database.fetch(subscriptionID: subscription.subscriptionID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
     func testSaveFetchAndDeleteRecord() throws {
       try validateSaveFetchAndDelete(
         { CKRecord(recordType: "Test") },
