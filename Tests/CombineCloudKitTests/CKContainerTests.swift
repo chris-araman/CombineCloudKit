@@ -21,6 +21,11 @@
       let status = try wait(for: \.single, from: publisher)
       XCTAssertEqual(status, .available)
     }
+
+    func testAccountStatusPropagatesErrors() throws {
+      let publisher = MockContainer(.doesNotExist).accountStatus()
+      XCTAssertThrowsError(try wait(for: \.single, from: publisher))
+    }
   }
 
 #endif

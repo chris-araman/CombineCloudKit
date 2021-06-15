@@ -11,8 +11,18 @@ import CloudKit
 @testable import CombineCloudKit
 
 public class MockContainer: CCKContainer {
+  let error: MockError?
+
+  init(_ error: MockError? = nil) {
+    self.error = error
+  }
+
   public func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void) {
-    // TODO: Simulate failures.
+    if let error = error {
+      completionHandler(.couldNotDetermine, error)
+      return
+    }
+
     completionHandler(.available, nil)
   }
 }
