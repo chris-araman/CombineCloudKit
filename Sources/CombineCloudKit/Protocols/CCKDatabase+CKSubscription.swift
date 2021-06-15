@@ -131,11 +131,9 @@ extension CCKDatabase {
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
     )
-    return publisherFromModify(
-      operation,
-      configuration,
-      setCompletion: { completion in operation.modifySubscriptionsCompletionBlock = completion }
-    )
+    return publisherFromModify(operation, configuration) { completion in
+      operation.modifySubscriptionsCompletionBlock = completion
+    }
   }
 
   /// Fetches the subscription with the specified ID.

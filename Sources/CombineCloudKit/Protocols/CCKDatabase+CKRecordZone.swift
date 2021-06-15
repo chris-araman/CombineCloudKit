@@ -129,11 +129,9 @@ extension CCKDatabase {
       recordZonesToSave: recordZonesToSave,
       recordZoneIDsToDelete: recordZoneIDsToDelete
     )
-    return publisherFromModify(
-      operation,
-      configuration,
-      setCompletion: { completion in operation.modifyRecordZonesCompletionBlock = completion }
-    )
+    return publisherFromModify(operation, configuration) { completion in
+      operation.modifyRecordZonesCompletionBlock = completion
+    }
   }
 
   /// Fetches the record zone with the specified ID.
