@@ -40,16 +40,13 @@ extension CCKDatabase {
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    saveWithProgress(
-      records: records,
+    modify(
+      recordsToSave: records,
+      recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration
-    ).compactMap { record, progress in
-      guard case .complete = progress else {
-        return nil
-      }
-
-      return record
+    ).compactMap { saved, _ in
+      saved
     }.eraseToAnyPublisher()
   }
 
