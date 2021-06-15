@@ -102,12 +102,9 @@ extension CCKDatabase {
     recordZoneIDs: [CKRecordZone.ID],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecordZone.ID, Error> {
-    let operation = operationFactory.createModifyRecordZonesOperation(
-      recordZonesToSave: nil, recordZoneIDsToDelete: recordZoneIDs
-    )
-    return publisherFromDelete(operation, configuration) { completion in
-      operation.modifyRecordZonesCompletionBlock = completion
-    }
+    modify(recordZoneIDsToDelete: recordZoneIDs, withConfiguration: configuration).compactMap { _, deleted in
+      deleted
+    }.eraseToAnyPublisher()
   }
 
   /// Modifies one or more record zones.
