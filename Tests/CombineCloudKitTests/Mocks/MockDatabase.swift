@@ -133,15 +133,20 @@ public class MockDatabase: CCKDatabase {
     }
   }
 
-  // TODO: Simulate queries.
   public func perform(
-    _ _: CKQuery,
+    _ query: CKQuery,
     inZoneWith _: CKRecordZone.ID?,
     completionHandler: @escaping ([CKRecord]?, Error?) -> Void
   ) {
     queue.async {
+      // Our simulated queries will return only records of matching type.
+      // We will ignore the predicate and other CKQuery fields.
+      let results = self.records.compactMap { key, value in
+        value.recordType == query.recordType ? value : nil
+      }
+
       // TODO: Simulate failures.
-      completionHandler([], nil)
+      completionHandler(results, nil)
     }
   }
 

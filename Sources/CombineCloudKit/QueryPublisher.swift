@@ -50,7 +50,7 @@ internal class QueryPublisher: Publisher {
     private let dispatchQueue: DispatchQueue
     private var subscriber: Downstream?
     private var demand = Subscribers.Demand.none
-    private var operation: CKQueryOperation
+    private var operation: CCKQueryOperation
     private var operationIsQueued = false
 
     internal init(_ publisher: QueryPublisher, _ subscriber: Downstream) {
@@ -80,7 +80,8 @@ internal class QueryPublisher: Publisher {
         operationQueue.qualityOfService = qos
       }
 
-      operation = CKQueryOperation(query: publisher.query)
+      operation = operationFactory.createQueryOperation()
+      operation.query = publisher.query
       prepareOperation()
     }
 
@@ -149,7 +150,8 @@ internal class QueryPublisher: Publisher {
         }
 
         // Prepare to fetch the next page of results.
-        self.operation = CKQueryOperation(cursor: cursor)
+        self.operation = operationFactory.createQueryOperation()
+        self.operation.cursor = cursor
         self.prepareOperation()
         if self.demand == Subscribers.Demand.none {
           self.operationIsQueued = false

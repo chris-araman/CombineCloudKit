@@ -11,14 +11,6 @@ import XCTest
 
 @testable import CombineCloudKit
 
-public class MockOperation: CCKOperation {
+public class MockOperation: Operation, CCKOperation {
   public var configuration: CKOperation.Configuration!
-
-  open func start() {
-    fatalError("MockOperation start not implemented for \(String(describing: type(of: self))).")
-  }
-
-  public func cancel() {
-    // TODO:
-  }
 }

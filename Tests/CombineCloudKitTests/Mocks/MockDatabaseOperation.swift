@@ -16,4 +16,6 @@ public class MockDatabaseOperation: MockOperation, CCKDatabaseOperation {
   init(_ database: MockDatabase) {
     self.mockDatabase = database
   }
+
+  public var database: CKDatabase?
 }

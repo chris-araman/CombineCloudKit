@@ -55,11 +55,11 @@ public protocol CCKDatabase {
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
   func fetchAllSubscriptions(completionHandler: @escaping ([CKSubscription]?, Error?) -> Void)
 
-  // TODO:
-  // func perform(
-  //   _ query: CKQuery,
-  //   inZoneWith zoneID: CKRecordZone.ID?,
-  //   completionHandler: @escaping ([CKRecord]?, Error?) -> Void)
+  /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449127-perform)
+  func perform(
+    _ query: CKQuery,
+    inZoneWith zoneID: CKRecordZone.ID?,
+    completionHandler: @escaping ([CKRecord]?, Error?) -> Void)
 
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save)
   func save(_ record: CKRecord, completionHandler: @escaping (CKRecord?, Error?) -> Void)
@@ -76,6 +76,7 @@ extension CCKDatabase {
   func add(_ operation: CCKDatabaseOperation) {
     guard let database = self as? CKDatabase, let dbOperation = operation as? CKDatabaseOperation
     else {
+      // TODO: Use an OperationQueue.
       operation.start()
       return
     }

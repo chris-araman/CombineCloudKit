@@ -44,6 +44,8 @@ protocol OperationFactory {
     subscriptionsToSave: [CKSubscription]?,
     subscriptionIDsToDelete: [CKSubscription.ID]?
   ) -> CCKModifySubscriptionsOperation
+
+  func createQueryOperation() -> CCKQueryOperation
 }
 
 class CKOperationFactory: OperationFactory {
@@ -105,5 +107,9 @@ class CKOperationFactory: OperationFactory {
       subscriptionsToSave: subscriptionsToSave,
       subscriptionIDsToDelete: subscriptionIDsToDelete
     )
+  }
+
+  func createQueryOperation() -> CCKQueryOperation {
+    CKQueryOperation()
   }
 }

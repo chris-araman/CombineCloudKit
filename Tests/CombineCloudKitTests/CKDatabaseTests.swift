@@ -376,6 +376,18 @@
       let fetched = try wait(for: \.elements, from: fetch)
       XCTAssertEqual(Set(fetched), Set(items))
     }
+
+    func testQueryReturnsExpectedResults() throws {
+      let configuration = CKOperation.Configuration()
+      let records = (1...3).map { CKRecord(recordType: "Test\($0)") }
+      let save = database.save(records: records, withConfiguration: configuration)
+      let saved = try wait(for: \.elements, from: save)
+      XCTAssertEqual(Set(saved), Set(records))
+
+      let query = database.performQuery(ofType: "Test2", withConfiguration: configuration)
+      let queried = try wait(for: \.single, from: query)
+      XCTAssertEqual(queried, records[1])
+    }
   }
 
 #endif

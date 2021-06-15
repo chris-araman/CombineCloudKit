@@ -11,9 +11,6 @@ import CloudKit
 extension CKOperation: CCKOperation {
 }
 
-protocol CCKOperation: AnyObject {
+protocol CCKOperation: Operation {
   var configuration: CKOperation.Configuration! { get set }
-
-  func start()
-  func cancel()
 }

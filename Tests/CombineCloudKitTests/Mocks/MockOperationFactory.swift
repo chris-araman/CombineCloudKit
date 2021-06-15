@@ -67,4 +67,8 @@ public class MockOperationFactory: OperationFactory {
   ) -> CCKModifySubscriptionsOperation {
     MockModifySubscriptionsOperation(database, subscriptionsToSave, subscriptionIDsToDelete)
   }
+
+  public func createQueryOperation() -> CCKQueryOperation {
+    MockQueryOperation(database)
+  }
 }
