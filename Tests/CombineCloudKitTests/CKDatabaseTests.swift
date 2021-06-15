@@ -91,8 +91,45 @@
 
     func testFetchSubscriptionAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
-      let fetch = database.fetchAtBackgroundPriority(withSubscriptionID: subscription.subscriptionID)
+      let fetch = database.fetchAtBackgroundPriority(
+        withSubscriptionID: subscription.subscriptionID)
       XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchRecordsIncludesOnlyRequestedRecords() throws {
+      let records = (1...3).map { CKRecord(recordType: "Test\($0)") }
+      let save = database.save(records: records)
+      let saved = try wait(for: \.elements, from: save)
+      XCTAssertEqual(Set(saved), Set(records[0...2]))
+
+      let fetch = database.fetch(recordIDs: [records[0].recordID, records[1].recordID])
+      let fetched = try wait(for: \.elements, from: fetch)
+      XCTAssertEqual(Set(fetched), Set(records[0...1]))
+    }
+
+    func testFetchRecordZonesIncludesOnlyRequestedRecordZones() throws {
+      let zones = (1...3).map { CKRecordZone(zoneName: "Test\($0)") }
+      let save = database.save(recordZones: zones)
+      let saved = try wait(for: \.elements, from: save)
+      XCTAssertEqual(Set(saved), Set(zones[0...2]))
+
+      let fetch = database.fetch(recordZoneIDs: [zones[0].zoneID, zones[1].zoneID])
+      let fetched = try wait(for: \.elements, from: fetch)
+      XCTAssertEqual(Set(fetched), Set(zones[0...1]))
+    }
+
+    func testFetchSubscriptionsIncludesOnlyRequestedSubscriptions() throws {
+      let subscriptions = (1...3).map { CKDatabaseSubscription(subscriptionID: "Test\($0)") }
+      let save = database.save(subscriptions: subscriptions)
+      let saved = try wait(for: \.elements, from: save)
+      XCTAssertEqual(Set(saved), Set(subscriptions[0...2]))
+
+      let fetch = database.fetch(subscriptionIDs: [
+        subscriptions[0].subscriptionID,
+        subscriptions[1].subscriptionID,
+      ])
+      let fetched = try wait(for: \.elements, from: fetch)
+      XCTAssertEqual(Set(fetched), Set(subscriptions[0...1]))
     }
 
     func testSaveFetchAndDeleteRecord() throws {
