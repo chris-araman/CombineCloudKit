@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CKDatabase Extension Reference</title>
+    <title>CCKDatabase Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,14 +14,14 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Extension/CKDatabase" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/CCKDatabase" class="dashAnchor"></a>
 
-    <a title="CKDatabase Extension Reference"></a>
+    <a title="CCKDatabase Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          CombineCloudKit 0.3.0 Docs
+          CombineCloudKit 0.4.0-1-g2bd7053 Docs
         </a>
          (100% documented)
       </p>
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">CombineCloudKit Reference</a>
       <img class="carat" src="../img/carat.png" />
-      CKDatabase Extension Reference
+      CCKDatabase Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -62,10 +62,21 @@
             <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/CKContainer.html">CKContainer</a>
+                <a class="nav-group-task-link" href="../Extensions.html#/c:objc(cs)CKContainer">CKContainer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/CKDatabase.html">CKDatabase</a>
+                <a class="nav-group-task-link" href="../Extensions.html#/c:objc(cs)CKDatabase">CKDatabase</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CCKContainer.html">CCKContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CCKDatabase.html">CCKDatabase</a>
               </li>
             </ul>
           </li>
@@ -75,15 +86,28 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>CKDatabase</h1>
+            <h1>CCKDatabase</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CKDatabase</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CCKDatabase</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>A protocol used to abstract a <code>CKDatabase</code>. Invoke these functions on your <code>CKDatabase</code> instances in order to create <code>Publisher</code>s.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase"><code>CKDatabase</code></a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/combine"><code>Combine</code></a>
+
+</div>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L18-L68">Show on GitHub</a>
+              </div>
           </div>
         </section>
 
@@ -94,10 +118,398 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save6record17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGAK_So011CKOperationH0CSgtF"></a>
-                    <a name="//apple_ref/swift/Method/save(record:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save6record17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGAK_So011CKOperationH0CSgtF">save(record:<wbr>withConfiguration:<wbr>)</a>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP6delete12withRecordID17completionHandlerySo08CKRecordH0C_yAHSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(withRecordID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP6delete12withRecordID17completionHandlerySo08CKRecordH0C_yAHSg_s5Error_pSgtctF">delete(withRecordID:<wbr>completionHandler:<wbr>)</a>
                     </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete"><code>delete</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+  <span class="n">withRecordID</span> <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L20">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP6delete16withRecordZoneID17completionHandlerySo08CKRecordhI0C_yAHSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(withRecordZoneID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP6delete16withRecordZoneID17completionHandlerySo08CKRecordhI0C_yAHSg_s5Error_pSgtctF">delete(withRecordZoneID:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete"><code>delete</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+  <span class="n">withRecordZoneID</span> <span class="nv">zoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
+  <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP6delete18withSubscriptionID17completionHandlerySS_ySSSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(withSubscriptionID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP6delete18withSubscriptionID17completionHandlerySS_ySSSg_s5Error_pSgtctF">delete(withSubscriptionID:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete"><code>delete</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+  <span class="n">withSubscriptionID</span> <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
+  <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">String</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP5fetch12withRecordID17completionHandlerySo08CKRecordH0C_ySo0K0CSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(withRecordID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP5fetch12withRecordID17completionHandlerySo08CKRecordH0C_ySo0K0CSg_s5Error_pSgtctF">fetch(withRecordID:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch">fetch</a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+  <span class="n">withRecordID</span> <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecord</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L34">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP5fetch16withRecordZoneID17completionHandlerySo08CKRecordhI0C_ySo0lH0CSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(withRecordZoneID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP5fetch16withRecordZoneID17completionHandlerySo08CKRecordhI0C_ySo0lH0CSg_s5Error_pSgtctF">fetch(withRecordZoneID:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch">fetch</a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+  <span class="n">withRecordZoneID</span> <span class="nv">zoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
+  <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecordZone</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L38">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP5fetch18withSubscriptionID17completionHandlerySS_ySo14CKSubscriptionCSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(withSubscriptionID:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP5fetch18withSubscriptionID17completionHandlerySS_ySo14CKSubscriptionCSg_s5Error_pSgtctF">fetch(withSubscriptionID:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch">fetch</a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+  <span class="n">withSubscriptionID</span> <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
+  <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKSubscription</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L43">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP19fetchAllRecordZones17completionHandleryySaySo12CKRecordZoneCGSg_s5Error_pSgtc_tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchAllRecordZones(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP19fetchAllRecordZones17completionHandleryySaySo12CKRecordZoneCGSg_s5Error_pSgtc_tF">fetchAllRecordZones(completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449112-fetchallrecordzones">fetchAllRecordZones</a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAllRecordZones</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">CKRecordZone</span><span class="p">]?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L48">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP21fetchAllSubscriptions17completionHandleryySaySo14CKSubscriptionCGSg_s5Error_pSgtc_tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchAllSubscriptions(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP21fetchAllSubscriptions17completionHandleryySaySo14CKSubscriptionCGSg_s5Error_pSgtc_tF">fetchAllSubscriptions(completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions">fetchAllSubscriptions</a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAllSubscriptions</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">CKSubscription</span><span class="p">]?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L51">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo8CKRecordC_yAGSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/save(_:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo8CKRecordC_yAGSg_s5Error_pSgtctF">save(_:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save"><code>save</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="n">_</span> <span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecord</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L60">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo12CKRecordZoneC_yAGSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/save(_:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo12CKRecordZoneC_yAGSg_s5Error_pSgtctF">save(_:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save"><code>save</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="n">_</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKRecordZone</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L63">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo14CKSubscriptionC_yAGSg_s5Error_pSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/save(_:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabaseP4save_17completionHandlerySo14CKSubscriptionC_yAGSg_s5Error_pSgtctF">save(_:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save"><code>save</code></a>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+  <span class="n">_</span> <span class="nv">subscription</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKSubscription</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase.swift#L66">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save6record17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGAK_So011CKOperationH0CSgtF"></a>
+                    <a name="//apple_ref/swift/Method/save(record:withConfiguration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save6record17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGAK_So011CKOperationH0CSgtF">save(record:<wbr>withConfiguration:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -116,7 +528,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -160,7 +572,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L21-L26">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L21-L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -168,10 +580,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save7records10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSayALG_SbSo011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save7records10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSayALG_SbSo011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/save(records:atomically:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save7records10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSayALG_SbSo011CKOperationI0CSgtF">save(records:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save7records10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSayALG_SbSo011CKOperationI0CSgtF">save(records:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -190,7 +605,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">records</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="p">],</span>
   <span class="n">atomically</span> <span class="nv">isAtomic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -248,7 +663,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that the saved <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L38-L54">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L38-L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -256,10 +671,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority6record0B012AnyPublisherVySo8CKRecordCs5Error_pGAJ_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority6record0A012AnyPublisherVySo8CKRecordCs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/saveAtBackgroundPriority(record:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority6record0B012AnyPublisherVySo8CKRecordCs5Error_pGAJ_tF">saveAtBackgroundPriority(record:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority6record0A012AnyPublisherVySo8CKRecordCs5Error_pGAJ_tF">saveAtBackgroundPriority(record:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -283,7 +701,7 @@ happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span><span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span><span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -324,7 +742,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L66-L68">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L66-L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -332,10 +750,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE16saveWithProgress6record17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0Ots5Error_pGAK_So011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE16saveWithProgress6record17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0Ots5Error_pGAK_So011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/saveWithProgress(record:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE16saveWithProgress6record17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0Ots5Error_pGAK_So011CKOperationJ0CSgtF">saveWithProgress(record:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE16saveWithProgress6record17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0Ots5Error_pGAK_So011CKOperationJ0CSgtF">saveWithProgress(record:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -354,7 +775,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveWithProgress</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveWithProgress</span><span class="p">(</span>
   <span class="nv">record</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt"><a href="../Enums/Progress.html">Progress</a></span><span class="p">),</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -398,7 +819,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code><a href="../Enums/Progress.html">Progress</a></code> of the saved <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L78-L83">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L78-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -406,10 +827,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE16saveWithProgress7records10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0Ots5Error_pGSayALG_SbSo011CKOperationK0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE16saveWithProgress7records10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0Ots5Error_pGSayALG_SbSo011CKOperationK0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/saveWithProgress(records:atomically:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE16saveWithProgress7records10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0Ots5Error_pGSayALG_SbSo011CKOperationK0CSgtF">saveWithProgress(records:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE16saveWithProgress7records10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0Ots5Error_pGSayALG_SbSo011CKOperationK0CSgtF">saveWithProgress(records:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -428,7 +852,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveWithProgress</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveWithProgress</span><span class="p">(</span>
   <span class="nv">records</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="p">],</span>
   <span class="n">atomically</span> <span class="nv">isAtomic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -486,7 +910,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code><a href="../Enums/Progress.html">Progress</a></code> of the saved <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L95-L108">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L95-L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -494,10 +918,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete8recordID17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete8recordID17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(recordID:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete8recordID17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF">delete(recordID:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete8recordID17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF">delete(recordID:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -516,7 +943,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -561,7 +988,7 @@ the operation will use a default configuration.</p>
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L119-L124">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L119-L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -569,10 +996,13 @@ it.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete9recordIDs10atomically17withConfiguration0B012AnyPublisherVySo10CKRecordIDCs5Error_pGSayALG_SbSo011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete9recordIDs10atomically17withConfiguration0A012AnyPublisherVySo10CKRecordIDCs5Error_pGSayALG_SbSo011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(recordIDs:atomically:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete9recordIDs10atomically17withConfiguration0B012AnyPublisherVySo10CKRecordIDCs5Error_pGSayALG_SbSo011CKOperationJ0CSgtF">delete(recordIDs:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete9recordIDs10atomically17withConfiguration0A012AnyPublisherVySo10CKRecordIDCs5Error_pGSayALG_SbSo011CKOperationJ0CSgtF">delete(recordIDs:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -591,7 +1021,7 @@ it.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">recordIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="n">atomically</span> <span class="nv">isAtomic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -650,7 +1080,7 @@ the operation will use a default configuration.</p>
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L137-L150">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L137-L150">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -658,10 +1088,13 @@ them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority8recordID0B012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority8recordID0A012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/deleteAtBackgroundPriority(recordID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority8recordID0B012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF">deleteAtBackgroundPriority(recordID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority8recordID0A012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF">deleteAtBackgroundPriority(recordID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -685,7 +1118,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span><span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span><span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">)</span>
   <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -714,7 +1147,7 @@ to happen immediately.
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecord.ID</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L160-L164">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L160-L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -722,10 +1155,13 @@ to happen immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6modify13recordsToSave09recordIDsG6Delete10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordCSg_So0Q2IDCSgts5Error_pGSayAMGSg_SayAPGSgSbSo011CKOperationN0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6modify13recordsToSave09recordIDsG6Delete10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordCSg_So0Q2IDCSgts5Error_pGSayAMGSg_SayAPGSgSbSo011CKOperationN0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/modify(recordsToSave:recordIDsToDelete:atomically:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6modify13recordsToSave09recordIDsG6Delete10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordCSg_So0Q2IDCSgts5Error_pGSayAMGSg_SayAPGSgSbSo011CKOperationN0CSgtF">modify(recordsToSave:<wbr>recordIDsToDelete:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6modify13recordsToSave09recordIDsG6Delete10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordCSg_So0Q2IDCSgts5Error_pGSayAMGSg_SayAPGSgSbSo011CKOperationN0CSgtF">modify(recordsToSave:<wbr>recordIDsToDelete:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -744,7 +1180,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
   <span class="nv">recordsToSave</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">recordIDsToDelete</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">atomically</span> <span class="nv">isAtomic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
@@ -815,7 +1251,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that the saved <code>CKRecord</code>s and the deleted <code>CKRecord.ID</code>s.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L177-L202">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L177-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -823,10 +1259,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE18modifyWithProgress13recordsToSave09recordIDsI6Delete10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0OtSg_So0S2IDCSgts5Error_pGSayAMGSg_SayARGSgSbSo011CKOperationP0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE18modifyWithProgress13recordsToSave09recordIDsI6Delete10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0OtSg_So0S2IDCSgts5Error_pGSayAMGSg_SayARGSgSbSo011CKOperationP0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/modifyWithProgress(recordsToSave:recordIDsToDelete:atomically:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE18modifyWithProgress13recordsToSave09recordIDsI6Delete10atomically17withConfiguration0B012AnyPublisherVySo8CKRecordC_AC0G0OtSg_So0S2IDCSgts5Error_pGSayAMGSg_SayARGSgSbSo011CKOperationP0CSgtF">modifyWithProgress(recordsToSave:<wbr>recordIDsToDelete:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE18modifyWithProgress13recordsToSave09recordIDsI6Delete10atomically17withConfiguration0A012AnyPublisherVySo8CKRecordC_AA0G0OtSg_So0S2IDCSgts5Error_pGSayAMGSg_SayARGSgSbSo011CKOperationP0CSgtF">modifyWithProgress(recordsToSave:<wbr>recordIDsToDelete:<wbr>atomically:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -845,7 +1284,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">modifyWithProgress</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modifyWithProgress</span><span class="p">(</span>
   <span class="nv">recordsToSave</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">recordIDsToDelete</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">atomically</span> <span class="nv">isAtomic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
@@ -916,7 +1355,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code><a href="../Enums/Progress.html">Progress</a></code> of the saved <code>CKRecord</code>s, and the deleted <code>CKRecord.ID</code>s.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L215-L260">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L215-L264">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -924,10 +1363,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch8recordID11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo0nG0C_SaySSGSgSo011CKOperationK0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch8recordID11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSo0nG0C_SaySSGSgSo011CKOperationK0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(recordID:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch8recordID11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo0nG0C_SaySSGSgSo011CKOperationK0CSgtF">fetch(recordID:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch8recordID11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSo0nG0C_SaySSGSgSo011CKOperationK0CSgtF">fetch(recordID:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -946,7 +1388,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -1006,7 +1448,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the fetched <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L274-L286">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L278-L290">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1014,10 +1456,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch9recordIDs11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSaySo0N2IDCG_SaySSGSgSo011CKOperationK0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch9recordIDs11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSaySo0N2IDCG_SaySSGSgSo011CKOperationK0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(recordIDs:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch9recordIDs11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSaySo0N2IDCG_SaySSGSgSo011CKOperationK0CSgtF">fetch(recordIDs:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch9recordIDs11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSaySo0N2IDCG_SaySSGSgSo011CKOperationK0CSgtF">fetch(recordIDs:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1036,7 +1481,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">recordIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -1096,7 +1541,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the fetched <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L300-L312">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L304-L316">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1104,10 +1549,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority12withRecordID0B012AnyPublisherVySo8CKRecordCs5Error_pGSo0nK0C_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority12withRecordID0A012AnyPublisherVySo8CKRecordCs5Error_pGSo0nK0C_tF"></a>
                     <a name="//apple_ref/swift/Method/fetchAtBackgroundPriority(withRecordID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority12withRecordID0B012AnyPublisherVySo8CKRecordCs5Error_pGSo0nK0C_tF">fetchAtBackgroundPriority(withRecordID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority12withRecordID0A012AnyPublisherVySo8CKRecordCs5Error_pGSo0nK0C_tF">fetchAtBackgroundPriority(withRecordID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1131,7 +1579,7 @@ immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
   <span class="n">withRecordID</span> <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -1161,7 +1609,7 @@ immediately.
                         <p>A <code>Publisher</code> that emits the <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L322-L326">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L326-L330">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1169,10 +1617,13 @@ immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE17fetchWithProgress8recordID11desiredKeys17withConfiguration0B012AnyPublisherVySo08CKRecordI0C_AC0G0OtSg_So0P0CSgts5Error_pGAL_SaySSGSgSo011CKOperationM0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE17fetchWithProgress8recordID11desiredKeys17withConfiguration0A012AnyPublisherVySo08CKRecordI0C_AA0G0OtSg_So0P0CSgts5Error_pGAL_SaySSGSgSo011CKOperationM0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetchWithProgress(recordID:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE17fetchWithProgress8recordID11desiredKeys17withConfiguration0B012AnyPublisherVySo08CKRecordI0C_AC0G0OtSg_So0P0CSgts5Error_pGAL_SaySSGSgSo011CKOperationM0CSgtF">fetchWithProgress(recordID:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE17fetchWithProgress8recordID11desiredKeys17withConfiguration0A012AnyPublisherVySo08CKRecordI0C_AA0G0OtSg_So0P0CSgts5Error_pGAL_SaySSGSgSo011CKOperationM0CSgtF">fetchWithProgress(recordID:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1191,7 +1642,7 @@ immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchWithProgress</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchWithProgress</span><span class="p">(</span>
   <span class="nv">recordID</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -1252,7 +1703,7 @@ the operation will use a default configuration.</p>
 CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L341-L351">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L345-L355">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1260,10 +1711,13 @@ CombineCloudKit can&rsquo;t fetch it.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE17fetchWithProgress9recordIDs11desiredKeys17withConfiguration0B012AnyPublisherVySo10CKRecordIDC_AC0G0OtSg_So0P0CSgts5Error_pGSayALG_SaySSGSgSo011CKOperationM0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE17fetchWithProgress9recordIDs11desiredKeys17withConfiguration0A012AnyPublisherVySo10CKRecordIDC_AA0G0OtSg_So0P0CSgts5Error_pGSayALG_SaySSGSgSo011CKOperationM0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetchWithProgress(recordIDs:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE17fetchWithProgress9recordIDs11desiredKeys17withConfiguration0B012AnyPublisherVySo10CKRecordIDC_AC0G0OtSg_So0P0CSgts5Error_pGSayALG_SaySSGSgSo011CKOperationM0CSgtF">fetchWithProgress(recordIDs:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE17fetchWithProgress9recordIDs11desiredKeys17withConfiguration0A012AnyPublisherVySo10CKRecordIDC_AA0G0OtSg_So0P0CSgts5Error_pGSayALG_SaySSGSgSo011CKOperationM0CSgtF">fetchWithProgress(recordIDs:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1282,7 +1736,7 @@ CombineCloudKit can&rsquo;t fetch it.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchWithProgress</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchWithProgress</span><span class="p">(</span>
   <span class="nv">recordIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -1343,7 +1797,7 @@ the operation will use a default configuration.</p>
 CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L366-L401">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L370-L410">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1351,10 +1805,13 @@ CombineCloudKit can&rsquo;t fetch them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE22fetchCurrentUserRecord11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSaySSGSg_So011CKOperationL0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE22fetchCurrentUserRecord11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSaySSGSg_So011CKOperationL0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetchCurrentUserRecord(desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE22fetchCurrentUserRecord11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSaySSGSg_So011CKOperationL0CSgtF">fetchCurrentUserRecord(desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE22fetchCurrentUserRecord11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSaySSGSg_So011CKOperationL0CSgtF">fetchCurrentUserRecord(desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1373,7 +1830,7 @@ CombineCloudKit can&rsquo;t fetch them.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchCurrentUserRecord</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchCurrentUserRecord</span><span class="p">(</span>
   <span class="n">desiredKeys</span> <span class="nv">_</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecord</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -1420,7 +1877,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKRecord</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L414-L422">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L423-L431">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1428,10 +1885,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE12performQuery6ofType5where7orderBy10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSS_So11NSPredicateCSaySo16NSSortDescriptorCGSgSo0uM2IDCSgSaySSGSgSo011CKOperationR0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE12performQuery6ofType5where7orderBy10inZoneWith11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSS_So11NSPredicateCSaySo16NSSortDescriptorCGSgSo0uM2IDCSgSaySSGSgSo011CKOperationR0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/performQuery(ofType:where:orderBy:inZoneWith:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE12performQuery6ofType5where7orderBy10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSS_So11NSPredicateCSaySo16NSSortDescriptorCGSgSo0uM2IDCSgSaySSGSgSo011CKOperationR0CSgtF">performQuery(ofType:<wbr>where:<wbr>orderBy:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE12performQuery6ofType5where7orderBy10inZoneWith11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSS_So11NSPredicateCSaySo16NSSortDescriptorCGSgSo0uM2IDCSgSaySSGSgSo011CKOperationR0CSgtF">performQuery(ofType:<wbr>where:<wbr>orderBy:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1462,7 +1922,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">performQuery</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">performQuery</span><span class="p">(</span>
   <span class="n">ofType</span> <span class="nv">recordType</span><span class="p">:</span> <span class="kt">CKRecord</span><span class="o">.</span><span class="kt">RecordType</span><span class="p">,</span>
   <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kc">true</span><span class="p">),</span>
   <span class="n">orderBy</span> <span class="nv">sortDescriptors</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSSortDescriptor</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
@@ -1563,7 +2023,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits any matching <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t perform the query.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L444-L460">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L453-L469">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1571,10 +2031,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE7perform_10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE7perform_10inZoneWith11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/perform(_:inZoneWith:desiredKeys:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE7perform_10inZoneWith11desiredKeys17withConfiguration0B012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF">perform(_:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE7perform_10inZoneWith11desiredKeys17withConfiguration0A012AnyPublisherVySo8CKRecordCs5Error_pGSo7CKQueryC_So0oG2IDCSgSaySSGSgSo011CKOperationL0CSgtF">perform(_:<wbr>inZoneWith:<wbr>desiredKeys:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1605,7 +2068,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span>
   <span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt">CKQuery</span><span class="p">,</span>
   <span class="n">inZoneWith</span> <span class="nv">zoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">desiredKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecord</span><span class="o">.</span><span class="kt">FieldKey</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
@@ -1680,7 +2143,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits any matching <code>CKRecord</code>s, or an error if CombineCloudKit can&rsquo;t perform the query.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecord.swift#L480-L487">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecord.swift#L489-L496">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1688,10 +2151,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority10recordZone0B012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority10recordZone0A012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/saveAtBackgroundPriority(recordZone:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority10recordZone0B012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF">saveAtBackgroundPriority(recordZone:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority10recordZone0A012AnyPublisherVySo08CKRecordJ0Cs5Error_pGAJ_tF">saveAtBackgroundPriority(recordZone:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1715,7 +2181,7 @@ happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span>
   <span class="nv">recordZone</span><span class="p">:</span> <span class="kt">CKRecordZone</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -1745,7 +2211,7 @@ happen immediately.
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L21-L25">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1753,10 +2219,13 @@ happen immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save10recordZone17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save10recordZone17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/save(recordZone:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save10recordZone17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF">save(recordZone:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save10recordZone17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGAK_So011CKOperationI0CSgtF">save(recordZone:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1775,7 +2244,7 @@ happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">recordZone</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -1819,7 +2288,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L35-L40">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L35-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1827,10 +2296,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save11recordZones17withConfiguration0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGSayAKG_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save11recordZones17withConfiguration0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGSayAKG_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/save(recordZones:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save11recordZones17withConfiguration0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGSayAKG_So011CKOperationI0CSgtF">save(recordZones:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save11recordZones17withConfiguration0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGSayAKG_So011CKOperationI0CSgtF">save(recordZones:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1849,7 +2321,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">recordZones</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecordZone</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -1893,7 +2365,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L50-L60">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L50-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1901,10 +2373,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority12recordZoneID0B012AnyPublisherVySo08CKRecordjK0Cs5Error_pGAJ_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority12recordZoneID0A012AnyPublisherVySo08CKRecordjK0Cs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/deleteAtBackgroundPriority(recordZoneID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority12recordZoneID0B012AnyPublisherVySo08CKRecordjK0Cs5Error_pGAJ_tF">deleteAtBackgroundPriority(recordZoneID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority12recordZoneID0A012AnyPublisherVySo08CKRecordjK0Cs5Error_pGAJ_tF">deleteAtBackgroundPriority(recordZoneID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1928,7 +2403,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span>
   <span class="nv">recordZoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -1958,7 +2433,7 @@ to happen immediately.
                         <p>A <code>Publisher</code> that emits the saved <code>CKRecordZone.ID</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L70-L74">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L70-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1966,10 +2441,13 @@ to happen immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete12recordZoneID17withConfiguration0B012AnyPublisherVySo08CKRecordgH0Cs5Error_pGAK_So011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete12recordZoneID17withConfiguration0A012AnyPublisherVySo08CKRecordgH0Cs5Error_pGAK_So011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(recordZoneID:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete12recordZoneID17withConfiguration0B012AnyPublisherVySo08CKRecordgH0Cs5Error_pGAK_So011CKOperationJ0CSgtF">delete(recordZoneID:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete12recordZoneID17withConfiguration0A012AnyPublisherVySo08CKRecordgH0Cs5Error_pGAK_So011CKOperationJ0CSgtF">delete(recordZoneID:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1988,7 +2466,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">recordZoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2033,7 +2511,7 @@ the operation will use a default configuration.</p>
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L85-L90">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L85-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2041,10 +2519,13 @@ it.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete13recordZoneIDs17withConfiguration0B012AnyPublisherVySo08CKRecordG2IDCs5Error_pGSayAKG_So011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete13recordZoneIDs17withConfiguration0A012AnyPublisherVySo08CKRecordG2IDCs5Error_pGSayAKG_So011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(recordZoneIDs:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete13recordZoneIDs17withConfiguration0B012AnyPublisherVySo08CKRecordG2IDCs5Error_pGSayAKG_So011CKOperationJ0CSgtF">delete(recordZoneIDs:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete13recordZoneIDs17withConfiguration0A012AnyPublisherVySo08CKRecordG2IDCs5Error_pGSayAKG_So011CKOperationJ0CSgtF">delete(recordZoneIDs:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2063,7 +2544,7 @@ it.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">recordZoneIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2108,7 +2589,7 @@ the operation will use a default configuration.</p>
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L101-L111">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L101-L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2116,10 +2597,13 @@ them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6modify17recordZonesToSave0f7ZoneIDsH6Delete17withConfiguration0B012AnyPublisherVySo08CKRecordJ0CSg_So0qJ2IDCSgts5Error_pGSayALGSg_SayAOGSgSo011CKOperationN0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6modify17recordZonesToSave0f7ZoneIDsH6Delete17withConfiguration0A012AnyPublisherVySo08CKRecordJ0CSg_So0qJ2IDCSgts5Error_pGSayALGSg_SayAOGSgSo011CKOperationN0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/modify(recordZonesToSave:recordZoneIDsToDelete:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6modify17recordZonesToSave0f7ZoneIDsH6Delete17withConfiguration0B012AnyPublisherVySo08CKRecordJ0CSg_So0qJ2IDCSgts5Error_pGSayALGSg_SayAOGSgSo011CKOperationN0CSgtF">modify(recordZonesToSave:<wbr>recordZoneIDsToDelete:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6modify17recordZonesToSave0f7ZoneIDsH6Delete17withConfiguration0A012AnyPublisherVySo08CKRecordJ0CSg_So0qJ2IDCSgts5Error_pGSayALGSg_SayAOGSgSo011CKOperationN0CSgtF">modify(recordZonesToSave:<wbr>recordZoneIDsToDelete:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2138,7 +2622,7 @@ them.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
   <span class="nv">recordZonesToSave</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecordZone</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">recordZoneIDsToDelete</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -2196,7 +2680,7 @@ the operation will use a default configuration.</p>
 error if CombineCloudKit can&rsquo;t modify them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L123-L137">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L123-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2204,10 +2688,13 @@ error if CombineCloudKit can&rsquo;t modify them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority16withRecordZoneID0B012AnyPublisherVySo08CKRecordK0Cs5Error_pGSo0okL0C_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority16withRecordZoneID0A012AnyPublisherVySo08CKRecordK0Cs5Error_pGSo0okL0C_tF"></a>
                     <a name="//apple_ref/swift/Method/fetchAtBackgroundPriority(withRecordZoneID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority16withRecordZoneID0B012AnyPublisherVySo08CKRecordK0Cs5Error_pGSo0okL0C_tF">fetchAtBackgroundPriority(withRecordZoneID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority16withRecordZoneID0A012AnyPublisherVySo08CKRecordK0Cs5Error_pGSo0okL0C_tF">fetchAtBackgroundPriority(withRecordZoneID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2231,7 +2718,7 @@ zone immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
   <span class="n">withRecordZoneID</span> <span class="nv">recordZoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -2261,7 +2748,7 @@ zone immediately.
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L147-L151">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L147-L151">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2269,10 +2756,13 @@ zone immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch12recordZoneID17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGSo0mgH0C_So011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch12recordZoneID17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGSo0mgH0C_So011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(recordZoneID:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch12recordZoneID17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGSo0mgH0C_So011CKOperationJ0CSgtF">fetch(recordZoneID:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch12recordZoneID17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGSo0mgH0C_So011CKOperationJ0CSgtF">fetch(recordZoneID:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2291,7 +2781,7 @@ zone immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">recordZoneID</span><span class="p">:</span> <span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2335,7 +2825,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L161-L166">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L161-L166">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2343,10 +2833,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch13recordZoneIDs17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGSaySo0mG2IDCG_So011CKOperationJ0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch13recordZoneIDs17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGSaySo0mG2IDCG_So011CKOperationJ0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(recordZoneIDs:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch13recordZoneIDs17withConfiguration0B012AnyPublisherVySo08CKRecordG0Cs5Error_pGSaySo0mG2IDCG_So011CKOperationJ0CSgtF">fetch(recordZoneIDs:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch13recordZoneIDs17withConfiguration0A012AnyPublisherVySo08CKRecordG0Cs5Error_pGSaySo0mG2IDCG_So011CKOperationJ0CSgtF">fetch(recordZoneIDs:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2365,7 +2858,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">recordZoneIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKRecordZone</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2409,7 +2902,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L176-L184">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L176-L184">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2417,10 +2910,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE39fetchAllRecordZonesAtBackgroundPriority0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGyF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE39fetchAllRecordZonesAtBackgroundPriority0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGyF"></a>
                     <a name="//apple_ref/swift/Method/fetchAllRecordZonesAtBackgroundPriority()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE39fetchAllRecordZonesAtBackgroundPriority0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGyF">fetchAllRecordZonesAtBackgroundPriority()</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE39fetchAllRecordZonesAtBackgroundPriority0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGyF">fetchAllRecordZonesAtBackgroundPriority()</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2444,7 +2940,7 @@ zones immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAllRecordZonesAtBackgroundPriority</span><span class="p">()</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAllRecordZonesAtBackgroundPriority</span><span class="p">()</span>
   <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -2454,7 +2950,7 @@ zones immediately.
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L192-L196">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L192-L196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2462,10 +2958,13 @@ zones immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE19fetchAllRecordZones17withConfiguration0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGSo011CKOperationJ0CSg_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE19fetchAllRecordZones17withConfiguration0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGSo011CKOperationJ0CSg_tF"></a>
                     <a name="//apple_ref/swift/Method/fetchAllRecordZones(withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE19fetchAllRecordZones17withConfiguration0B012AnyPublisherVySo12CKRecordZoneCs5Error_pGSo011CKOperationJ0CSg_tF">fetchAllRecordZones(withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE19fetchAllRecordZones17withConfiguration0A012AnyPublisherVySo12CKRecordZoneCs5Error_pGSo011CKOperationJ0CSg_tF">fetchAllRecordZones(withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2484,7 +2983,7 @@ zones immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAllRecordZones</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAllRecordZones</span><span class="p">(</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKRecordZone</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -2515,7 +3014,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKRecordZone</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKRecordZone.swift#L205-L212">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKRecordZone.swift#L205-L212">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2523,10 +3022,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority12subscription0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGAJ_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority12subscription0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/saveAtBackgroundPriority(subscription:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE24saveAtBackgroundPriority12subscription0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGAJ_tF">saveAtBackgroundPriority(subscription:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE24saveAtBackgroundPriority12subscription0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGAJ_tF">saveAtBackgroundPriority(subscription:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2550,7 +3052,7 @@ happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveAtBackgroundPriority</span><span class="p">(</span>
   <span class="nv">subscription</span><span class="p">:</span> <span class="kt">CKSubscription</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -2580,7 +3082,7 @@ happen immediately.
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L21-L25">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2588,10 +3090,13 @@ happen immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save12subscription17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGAK_So011CKOperationH0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save12subscription17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGAK_So011CKOperationH0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/save(subscription:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save12subscription17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGAK_So011CKOperationH0CSgtF">save(subscription:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save12subscription17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGAK_So011CKOperationH0CSgtF">save(subscription:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2610,7 +3115,7 @@ happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">subscription</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2654,7 +3159,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t save it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L35-L40">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L35-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2662,10 +3167,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE4save13subscriptions17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSayAKG_So011CKOperationH0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE4save13subscriptions17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSayAKG_So011CKOperationH0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/save(subscriptions:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE4save13subscriptions17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSayAKG_So011CKOperationH0CSgtF">save(subscriptions:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE4save13subscriptions17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSayAKG_So011CKOperationH0CSgtF">save(subscriptions:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2684,7 +3192,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
   <span class="nv">subscriptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKSubscription</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2728,7 +3236,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the saved <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t save them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L50-L61">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L50-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2736,10 +3244,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority14subscriptionID0B012AnyPublisherVySSs5Error_pGSS_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority14subscriptionID0A012AnyPublisherVySSs5Error_pGSS_tF"></a>
                     <a name="//apple_ref/swift/Method/deleteAtBackgroundPriority(subscriptionID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE26deleteAtBackgroundPriority14subscriptionID0B012AnyPublisherVySSs5Error_pGSS_tF">deleteAtBackgroundPriority(subscriptionID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE26deleteAtBackgroundPriority14subscriptionID0A012AnyPublisherVySSs5Error_pGSS_tF">deleteAtBackgroundPriority(subscriptionID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2763,7 +3274,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteAtBackgroundPriority</span><span class="p">(</span>
   <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -2793,7 +3304,7 @@ to happen immediately.
                         <p>A <code>Publisher</code> that emits the deleted <code>CKSubscriptionID</code>, or an error if CombineCloudKit can&rsquo;t delete it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L71-L75">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L71-L75">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2801,10 +3312,13 @@ to happen immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete14subscriptionID17withConfiguration0B012AnyPublisherVySSs5Error_pGSS_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete14subscriptionID17withConfiguration0A012AnyPublisherVySSs5Error_pGSS_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(subscriptionID:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete14subscriptionID17withConfiguration0B012AnyPublisherVySSs5Error_pGSS_So011CKOperationI0CSgtF">delete(subscriptionID:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete14subscriptionID17withConfiguration0A012AnyPublisherVySSs5Error_pGSS_So011CKOperationI0CSgtF">delete(subscriptionID:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2823,7 +3337,7 @@ to happen immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2868,7 +3382,7 @@ the operation will use a default configuration.</p>
 it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L86-L91">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L86-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2876,10 +3390,13 @@ it.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6delete15subscriptionIDs17withConfiguration0B012AnyPublisherVySSs5Error_pGSaySSG_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6delete15subscriptionIDs17withConfiguration0A012AnyPublisherVySSs5Error_pGSaySSG_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/delete(subscriptionIDs:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6delete15subscriptionIDs17withConfiguration0B012AnyPublisherVySSs5Error_pGSaySSG_So011CKOperationI0CSgtF">delete(subscriptionIDs:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6delete15subscriptionIDs17withConfiguration0A012AnyPublisherVySSs5Error_pGSaySSG_So011CKOperationI0CSgtF">delete(subscriptionIDs:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2898,7 +3415,7 @@ it.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
   <span class="nv">subscriptionIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -2943,7 +3460,7 @@ the operation will use a default configuration.</p>
 them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L102-L113">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L102-L113">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2951,10 +3468,13 @@ them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE6modify19subscriptionsToSave015subscriptionIDsG6Delete17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCSg_SSSgts5Error_pGSayALGSg_SaySSGSgSo011CKOperationM0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE6modify19subscriptionsToSave015subscriptionIDsG6Delete17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCSg_SSSgts5Error_pGSayALGSg_SaySSGSgSo011CKOperationM0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/modify(subscriptionsToSave:subscriptionIDsToDelete:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE6modify19subscriptionsToSave015subscriptionIDsG6Delete17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCSg_SSSgts5Error_pGSayALGSg_SaySSGSgSo011CKOperationM0CSgtF">modify(subscriptionsToSave:<wbr>subscriptionIDsToDelete:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE6modify19subscriptionsToSave015subscriptionIDsG6Delete17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCSg_SSSgts5Error_pGSayALGSg_SaySSGSgSo011CKOperationM0CSgtF">modify(subscriptionsToSave:<wbr>subscriptionIDsToDelete:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2973,7 +3493,7 @@ them.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">modify</span><span class="p">(</span>
   <span class="nv">subscriptionsToSave</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKSubscription</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">subscriptionIDsToDelete</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
@@ -3031,7 +3551,7 @@ the operation will use a default configuration.</p>
 error if CombineCloudKit can&rsquo;t modify them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L125-L139">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L125-L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3039,10 +3559,13 @@ error if CombineCloudKit can&rsquo;t modify them.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority18withSubscriptionID0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority18withSubscriptionID0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_tF"></a>
                     <a name="//apple_ref/swift/Method/fetchAtBackgroundPriority(withSubscriptionID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE25fetchAtBackgroundPriority18withSubscriptionID0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_tF">fetchAtBackgroundPriority(withSubscriptionID:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE25fetchAtBackgroundPriority18withSubscriptionID0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_tF">fetchAtBackgroundPriority(withSubscriptionID:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -3066,7 +3589,7 @@ subscription immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAtBackgroundPriority</span><span class="p">(</span>
   <span class="n">withSubscriptionID</span> <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -3096,7 +3619,7 @@ subscription immediately.
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L149-L153">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L149-L153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3104,10 +3627,13 @@ subscription immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch14subscriptionID17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch14subscriptionID17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(subscriptionID:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch14subscriptionID17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_So011CKOperationI0CSgtF">fetch(subscriptionID:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch14subscriptionID17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSS_So011CKOperationI0CSgtF">fetch(subscriptionID:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -3126,7 +3652,7 @@ subscription immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">subscriptionID</span><span class="p">:</span> <span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">,</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -3170,7 +3696,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>, or an error if CombineCloudKit can&rsquo;t fetch it.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L163-L168">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L163-L168">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3178,10 +3704,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE5fetch15subscriptionIDs17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSaySSG_So011CKOperationI0CSgtF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE5fetch15subscriptionIDs17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSaySSG_So011CKOperationI0CSgtF"></a>
                     <a name="//apple_ref/swift/Method/fetch(subscriptionIDs:withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE5fetch15subscriptionIDs17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSaySSG_So011CKOperationI0CSgtF">fetch(subscriptionIDs:<wbr>withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE5fetch15subscriptionIDs17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSaySSG_So011CKOperationI0CSgtF">fetch(subscriptionIDs:<wbr>withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -3200,7 +3729,7 @@ the operation will use a default configuration.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
   <span class="nv">subscriptionIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CKSubscription</span><span class="o">.</span><span class="kt">ID</span><span class="p">],</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
@@ -3244,7 +3773,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L178-L186">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L178-L187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3252,10 +3781,13 @@ the operation will use a default configuration.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE41fetchAllSubscriptionsAtBackgroundPriority0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGyF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE41fetchAllSubscriptionsAtBackgroundPriority0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGyF"></a>
                     <a name="//apple_ref/swift/Method/fetchAllSubscriptionsAtBackgroundPriority()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE41fetchAllSubscriptionsAtBackgroundPriority0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGyF">fetchAllSubscriptionsAtBackgroundPriority()</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE41fetchAllSubscriptionsAtBackgroundPriority0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGyF">fetchAllSubscriptionsAtBackgroundPriority()</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -3279,7 +3811,7 @@ subscriptions immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAllSubscriptionsAtBackgroundPriority</span><span class="p">()</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAllSubscriptionsAtBackgroundPriority</span><span class="p">()</span>
   <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -3289,7 +3821,7 @@ subscriptions immediately.
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L194-L198">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L195-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3297,10 +3829,13 @@ subscriptions immediately.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So10CKDatabaseC15CombineCloudKitE21fetchAllSubscriptions17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSo011CKOperationI0CSg_tF"></a>
+                    <a name="/s:15CombineCloudKit11CCKDatabasePAAE21fetchAllSubscriptions17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSo011CKOperationI0CSg_tF"></a>
                     <a name="//apple_ref/swift/Method/fetchAllSubscriptions(withConfiguration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So10CKDatabaseC15CombineCloudKitE21fetchAllSubscriptions17withConfiguration0B012AnyPublisherVySo14CKSubscriptionCs5Error_pGSo011CKOperationI0CSg_tF">fetchAllSubscriptions(withConfiguration:<wbr>)</a>
+                    <a class="token" href="#/s:15CombineCloudKit11CCKDatabasePAAE21fetchAllSubscriptions17withConfiguration0A012AnyPublisherVySo14CKSubscriptionCs5Error_pGSo011CKOperationI0CSg_tF">fetchAllSubscriptions(withConfiguration:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -3319,7 +3854,7 @@ subscriptions immediately.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fetchAllSubscriptions</span><span class="p">(</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchAllSubscriptions</span><span class="p">(</span>
   <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt">CKOperation</span><span class="o">.</span><span class="kt">Configuration</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKSubscription</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -3350,7 +3885,7 @@ the operation will use a default configuration.</p>
                         <p>A <code>Publisher</code> that emits the <code>CKSubscription</code>s, or an error if CombineCloudKit can&rsquo;t fetch them.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/f8a4a6173f1e1d6a2f001328aaced72a396a069f/Sources/CombineCloudKit/Extensions/CKDatabase+CKSubscription.swift#L207-L214">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKDatabase+CKSubscription.swift#L208-L215">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3363,7 +3898,7 @@ the operation will use a default configuration.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://github.com/chris-araman" target="_blank" rel="external">Chris Araman</a>. All rights reserved. (Last updated: 2021-06-05)</p>
+      <p>&copy; 2021 <a class="link" href="https://github.com/chris-araman" target="_blank" rel="external">Chris Araman</a>. All rights reserved. (Last updated: 2021-06-14)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

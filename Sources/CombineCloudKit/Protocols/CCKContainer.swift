@@ -12,7 +12,11 @@ import Combine
 extension CKContainer: CCKContainer {
 }
 
-protocol CCKContainer {
+/// A protocol used to abstract a `CKContainer`. Invoke these functions on your `CKContainer` instances in order to create `Publisher`s.
+/// - SeeAlso: [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
+/// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
+public protocol CCKContainer {
+  /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
   func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void)
 }
 

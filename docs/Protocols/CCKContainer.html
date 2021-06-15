@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Progress Enumeration Reference</title>
+    <title>CCKContainer Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Progress" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/CCKContainer" class="dashAnchor"></a>
 
-    <a title="Progress Enumeration Reference"></a>
+    <a title="CCKContainer Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">CombineCloudKit Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Progress Enumeration Reference
+      CCKContainer Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -86,19 +86,27 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>Progress</h1>
+            <h1>CCKContainer</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Progress</span></code></pre>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Progress</span><span class="p">:</span> <span class="kt">Comparable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CCKContainer</span></code></pre>
 
                 </div>
               </div>
-            <p>Represents the completion progress of a <code>CKRecord</code> save or fetch operation.</p>
+            <p>A protocol used to abstract a <code>CKContainer</code>. Invoke these functions on your <code>CKContainer</code> instances in order to create <code>Publisher</code>s.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckcontainer"><code>CKContainer</code></a>
+
+</div><div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/combine"><code>Combine</code></a>
+
+</div>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Progress.swift#L10-L16">Show on GitHub</a>
+                <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKContainer.swift#L18-L21">Show on GitHub</a>
               </div>
           </div>
         </section>
@@ -110,9 +118,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15CombineCloudKit8ProgressO8completeyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/complete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15CombineCloudKit8ProgressO8completeyA2CmF">complete</a>
+                    <a name="/s:15CombineCloudKit12CCKContainerP13accountStatus17completionHandleryySo09CKAccountF0V_s5Error_pSgtc_tF"></a>
+                    <a name="//apple_ref/swift/Method/accountStatus(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit12CCKContainerP13accountStatus17completionHandleryySo09CKAccountF0V_s5Error_pSgtc_tF">accountStatus(completionHandler:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -120,19 +128,23 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The save or fetch operation is complete.</p>
+                        <div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus"><code>accountStatus</code></a>
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">complete</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">accountStatus</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">CKAccountStatus</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Progress.swift#L12">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKContainer.swift#L20">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -140,58 +152,42 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15CombineCloudKit8ProgressO10incompleteyACSd_tcACmF"></a>
-                    <a name="//apple_ref/swift/Element/incomplete(percent:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15CombineCloudKit8ProgressO10incompleteyACSd_tcACmF">incomplete(percent:<wbr>)</a>
+                    <a name="/s:15CombineCloudKit12CCKContainerPAAE13accountStatus0A012AnyPublisherVySo09CKAccountF0Vs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/accountStatus()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15CombineCloudKit12CCKContainerPAAE13accountStatus0A012AnyPublisherVySo09CKAccountF0Vs5Error_pGyF">accountStatus()</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The save or fetch operation is incomplete. <code>percent</code> is a value indicating progress between unstarted (0.0) and complete (1.0), exclusive.</p>
+                        <p>Determines whether the system can access the user’s iCloud account.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <a href="https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus"><code>accountStatus</code></a>
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">incomplete</span><span class="p">(</span><span class="nv">percent</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">accountStatus</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">CKAccountStatus</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Progress.swift#L15">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:SL1loiySbx_xtFZ"></a>
-                    <a name="//apple_ref/swift/Method/&lt;(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SL1loiySbx_xtFZ"><(_:<wbr>_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nv">left</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>Publisher</code> that emits a single <code>CKAccountStatus</code>, or an error if CombineCloudKit is unable to
+determine the account status.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Progress.swift#L19-L33">Show on GitHub</a>
+                        <a href="https://github.com/chris-araman/CombineCloudKit/tree/2bd7053664c35e15fcdf34dcd8a70f6bea126137/Sources/CombineCloudKit/Protocols/CCKContainer.swift#L46-L48">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
