@@ -9,10 +9,15 @@
 import CloudKit
 import Combine
 
+/// An extension that declares `CKDatabase` conforms to the `CCKDatabase` protocol provided by CombineCloudKit.
+/// - SeeAlso: [`CCKDatabase`](../Protocols/CCKDatabase.html)
+/// - SeeAlso: [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
+/// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 extension CKDatabase: CCKDatabase {
 }
 
-/// A protocol used to abstract a `CKDatabase`. Invoke these functions on your `CKDatabase` instances in order to create `Publisher`s.
+/// A protocol used to abstract a `CKDatabase`. Invoke the extension methods on your `CKDatabase` instances in order to create `Publisher`s.
+/// - SeeAlso: [`CKDatabase`](../Extensions.html#/c:objc\(cs\)CKDatabase)
 /// - SeeAlso: [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
 /// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 public protocol CCKDatabase {

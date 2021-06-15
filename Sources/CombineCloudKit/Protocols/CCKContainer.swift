@@ -9,10 +9,15 @@
 import CloudKit
 import Combine
 
+/// An extension that declares `CKContainer` conforms to the `CCKContainer` protocol provided by CombineCloudKit.
+/// - SeeAlso: [`CCKContainer`](../Protocols/CCKContainer.html)
+/// - SeeAlso: [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
+/// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 extension CKContainer: CCKContainer {
 }
 
-/// A protocol used to abstract a `CKContainer`. Invoke these functions on your `CKContainer` instances in order to create `Publisher`s.
+/// A protocol used to abstract a `CKContainer`. Invoke the extension methods on your `CKContainer` instances in order to create `Publisher`s.
+/// - SeeAlso: [`CKContainer`](../Extensions.html#/c:objc\(cs\)CKContainer)
 /// - SeeAlso: [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
 /// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 public protocol CCKContainer {
