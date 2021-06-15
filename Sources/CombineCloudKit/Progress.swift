@@ -8,6 +8,11 @@
 
 /// Represents the completion progress of a `CKRecord` save or fetch operation.
 public enum Progress {
+  /// Initializes a `Progress` instance from a percentage expressed as a `Double` in the range [0.0, 100.0].
+  ///
+  /// - Parameters:
+  ///   - percent: A `Double` in the range [0.0, 100.0]. Values are clamped to this range.
+  /// - Returns: The `Progress`.
   public init(percent: Double) {
     self.init(rawValue: percent / 100.0)
   }
