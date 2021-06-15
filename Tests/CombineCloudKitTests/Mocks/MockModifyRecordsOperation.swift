@@ -29,7 +29,7 @@ public class MockModifyRecordsOperation:
     super.perItemCompletionBlock = { record, error in
       // TODO: Simulate progress before error.
       if let perRecordProgressBlock = self.perRecordProgressBlock, error == nil {
-        // TODO: Should use some other progress values.
+        perRecordProgressBlock(record, 0.7)
         perRecordProgressBlock(record, 1.0)
       }
 

@@ -54,7 +54,7 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
           }
 
           if let progress = self.perItemProgressBlock {
-            // TODO: Use some other progress values.
+            progress(itemID, 0.7)
             progress(itemID, 1.0)
           }
 
