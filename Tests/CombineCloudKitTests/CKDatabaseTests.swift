@@ -17,6 +17,42 @@
   @testable import enum CombineCloudKit.Progress
 
   final class CKDatabaseTests: CombineCloudKitTests {
+    func testDeleteRecordFailsWhenDoesNotExist() throws {
+      let record = CKRecord(recordType: "Test")
+      let delete = database.delete(recordID: record.recordID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
+    func testDeleteRecordZoneFailsWhenDoesNotExist() throws {
+      let zone = CKRecordZone(zoneName: "Test")
+      let delete = database.delete(recordZoneID: zone.zoneID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
+    func testDeleteSubscriptionFailsWhenDoesNotExist() throws {
+      let subscription = CKDatabaseSubscription(subscriptionID: "Test")
+      let delete = database.delete(subscriptionID: subscription.subscriptionID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
+    func testDeleteRecordAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let record = CKRecord(recordType: "Test")
+      let delete = database.deleteAtBackgroundPriority(recordID: record.recordID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
+    func testDeleteRecordZoneAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let zone = CKRecordZone(zoneName: "Test")
+      let delete = database.deleteAtBackgroundPriority(recordZoneID: zone.zoneID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
+    func testDeleteSubscriptionAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let subscription = CKDatabaseSubscription(subscriptionID: "Test")
+      let delete = database.deleteAtBackgroundPriority(subscriptionID: subscription.subscriptionID)
+      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+    }
+
     func testFetchRecordFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let fetch = database.fetch(recordID: record.recordID)
@@ -38,6 +74,24 @@
     func testFetchSubscriptionFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
       let fetch = database.fetch(subscriptionID: subscription.subscriptionID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchRecordAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let record = CKRecord(recordType: "Test")
+      let fetch = database.fetchAtBackgroundPriority(withRecordID: record.recordID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchRecordZoneAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let zone = CKRecordZone(zoneName: "Test")
+      let fetch = database.fetchAtBackgroundPriority(withRecordZoneID: zone.zoneID)
+      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+    }
+
+    func testFetchSubscriptionAtBackgroundPriorityFailsWhenDoesNotExist() throws {
+      let subscription = CKDatabaseSubscription(subscriptionID: "Test")
+      let fetch = database.fetchAtBackgroundPriority(withSubscriptionID: subscription.subscriptionID)
       XCTAssertThrowsError(try wait(for: \.single, from: fetch))
     }
 
