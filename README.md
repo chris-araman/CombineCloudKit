@@ -29,7 +29,7 @@ Add a dependency on CombineCloudKit to your
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/chris-araman/CombineCloudKit.git", from: "0.2.0")
+  .package(url: "https://github.com/chris-araman/CombineCloudKit.git", from: "0.4.1")
 ]
 ```
 
@@ -52,7 +52,7 @@ CombineCloudKit to your [`Podfile`](https://guides.cocoapods.org/using/the-podfi
 [version requirement](https://guides.cocoapods.org/using/the-podfile.html#specifying-pod-versions).
 
 ```ruby
-pod 'CombineCloudKit', '~>0.2'
+pod 'CombineCloudKit', '~>0.4'
 ```
 
 Then [install](https://guides.cocoapods.org/using/pod-install-vs-update.html) the dependency:
@@ -76,7 +76,7 @@ Optionally, specify a
 [version requirement](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#version-requirement).
 
 ```ogdl
-github "chris-araman/CombineCloudKit" ~> 0.2
+github "chris-araman/CombineCloudKit" ~> 0.4
 ```
 
 Because Carthage assumes dependencies are provided as shared frameworks, but Swift Package Manager builds only libraries
