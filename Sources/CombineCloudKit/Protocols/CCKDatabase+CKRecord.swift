@@ -223,9 +223,10 @@ extension CCKDatabase {
       operation.configuration = configuration
     }
     operation.isAtomic = isAtomic
-    operation.perRecordProgressBlock = { record, percent in
-      if percent < 1.0 {
-        subject.send(((record, .incomplete(percent: percent)), nil))
+    operation.perRecordProgressBlock = { record, rawProgress in
+      let progress = Progress(rawValue: rawProgress)
+      if progress != .complete {
+        subject.send(((record, progress), nil))
       }
     }
     operation.perRecordCompletionBlock = { record, error in
@@ -369,8 +370,8 @@ extension CCKDatabase {
       operation.configuration = configuration
     }
     operation.desiredKeys = desiredKeys
-    operation.perRecordProgressBlock = { recordID, percent in
-      let progress = percent < 1.0 ? Progress.incomplete(percent: percent) : Progress.complete
+    operation.perRecordProgressBlock = { recordID, rawProgress in
+      let progress = Progress(rawValue: rawProgress)
       subject.send(((recordID, progress), nil))
     }
     operation.perRecordCompletionBlock = { record, _, error in

@@ -8,27 +8,42 @@
 
 /// Represents the completion progress of a `CKRecord` save or fetch operation.
 public enum Progress {
+  public init(percent: Double) {
+    self.init(rawValue: percent / 100.0)
+  }
+
   /// The save or fetch operation is complete.
   case complete
 
-  /// The save or fetch operation is incomplete. `percent` is a value indicating progress between unstarted (0.0) and complete (1.0), exclusive.
+  /// The save or fetch operation is incomplete. `percent` is a value indicating progress in the range \[0.0, 100.0\).
   case incomplete(percent: Double)
+}
+
+extension Progress: RawRepresentable {
+  public var rawValue: Double {
+    switch self {
+    case .complete:
+      return 1.0
+    case .incomplete(let percent):
+      return percent / 100.0
+    }
+  }
+
+  public typealias RawValue = Double
+
+  public init(rawValue: Double) {
+    if rawValue >= 1.0 {
+      self = .complete
+    } else if rawValue >= 0.0 {
+      self = .incomplete(percent: rawValue * 100.0)
+    } else {
+      self = .incomplete(percent: 0.0)
+    }
+  }
 }
 
 extension Progress: Comparable {
   public static func < (left: Progress, right: Progress) -> Bool {
-    switch left {
-    case .complete:
-      return false
-
-    case .incomplete(let left):
-      switch right {
-      case .complete:
-        return true
-
-      case .incomplete(let right):
-        return left < right
-      }
-    }
+    left.rawValue < right.rawValue
   }
 }
