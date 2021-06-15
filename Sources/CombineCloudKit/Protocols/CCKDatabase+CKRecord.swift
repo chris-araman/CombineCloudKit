@@ -415,7 +415,7 @@ extension CCKDatabase {
     desiredKeys _: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    let operation = CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
+    let operation = operationFactory.createFetchCurrentUserRecordOperation()
     return publisherFromFetch(operation, configuration) { completion in
       operation.fetchRecordsCompletionBlock = completion
     }

@@ -25,6 +25,12 @@ public class MockOperationFactory: OperationFactory {
     MockFetchSubscriptionsOperation(database)
   }
 
+  public static let currentUserRecordID = CKRecord.ID(recordName: "CurrentUserRecord")
+
+  public func createFetchCurrentUserRecordOperation() -> CCKFetchRecordsOperation {
+    MockFetchRecordsOperation(database, [MockOperationFactory.currentUserRecordID])
+  }
+
   public func createFetchRecordsOperation(recordIDs: [CKRecord.ID]) -> CCKFetchRecordsOperation {
     MockFetchRecordsOperation(database, recordIDs)
   }

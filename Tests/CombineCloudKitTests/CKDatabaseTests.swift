@@ -218,6 +218,20 @@
       )
     }
 
+    func testFetchCurrentUserRecord() throws {
+      let userRecord = CKRecord(
+        recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
+      let save = database.save(record: userRecord)
+      let saved = try wait(for: \.single, from: save)
+      XCTAssertEqual(saved, userRecord)
+
+      // TODO: Test with configuration.
+      // TODO: Test with desired keys.
+      let fetch = database.fetchCurrentUserRecord(desiredKeys: nil, withConfiguration: nil)
+      let fetched = try wait(for: \.single, from: fetch)
+      XCTAssertEqual(fetched, userRecord)
+    }
+
     func testFetchAllSubscriptions() throws {
       // TODO: Test with configuration.
       try validateFetchAll(

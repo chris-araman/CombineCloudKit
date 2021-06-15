@@ -16,6 +16,8 @@ protocol OperationFactory {
 
   func createFetchAllSubscriptionsOperation() -> CCKFetchSubscriptionsOperation
 
+  func createFetchCurrentUserRecordOperation() -> CCKFetchRecordsOperation
+
   func createFetchRecordsOperation(
     recordIDs: [CKRecord.ID]
   ) -> CCKFetchRecordsOperation
@@ -51,6 +53,10 @@ class CKOperationFactory: OperationFactory {
 
   func createFetchAllSubscriptionsOperation() -> CCKFetchSubscriptionsOperation {
     CKFetchSubscriptionsOperation.fetchAllSubscriptionsOperation()
+  }
+
+  func createFetchCurrentUserRecordOperation() -> CCKFetchRecordsOperation {
+    CKFetchRecordsOperation.fetchCurrentUserRecordOperation()
   }
 
   func createFetchRecordsOperation(
