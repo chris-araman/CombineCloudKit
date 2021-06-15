@@ -7,6 +7,7 @@
 //
 
 import CloudKit
+import XCTest
 
 @testable import CombineCloudKit
 
@@ -34,11 +35,7 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
   var perItemCompletionBlock: ((T, Error?) -> Void)?
 
   public override func start() {
-    guard let completion = self.modifyItemsCompletionBlock else {
-      // TODO: XCTFail
-      fatalError("modifyItemsCompletionBlock not set.")
-    }
-
+    let completion = try! XCTUnwrap(self.modifyItemsCompletionBlock)
     mockDatabase.queue.async(flags: .barrier) {
       self.databaseItemsSelector(self.mockDatabase) { databaseItems in
         if let itemIDsToDelete = self.itemIDsToDelete {

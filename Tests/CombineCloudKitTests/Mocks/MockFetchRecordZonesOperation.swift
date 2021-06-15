@@ -7,6 +7,7 @@
 //
 
 import CloudKit
+import XCTest
 
 @testable import CombineCloudKit
 
@@ -20,11 +21,7 @@ public class MockFetchRecordZonesOperation: MockFetchOperation<CKRecordZone, CKR
       recordZoneIDs
     )
     super.fetchItemsCompletionBlock = { items, error in
-      guard let completion = self.fetchRecordZonesCompletionBlock else {
-        // TODO: XCTFail
-        fatalError("fetchRecordZonesCompletionBlock not set.")
-      }
-
+      let completion = try! XCTUnwrap(self.fetchRecordZonesCompletionBlock)
       completion(items, error)
     }
   }

@@ -7,6 +7,7 @@
 //
 
 import CloudKit
+import XCTest
 
 @testable import CombineCloudKit
 
@@ -20,11 +21,7 @@ public class MockFetchSubscriptionsOperation: MockFetchOperation<CKSubscription,
       subscriptionIDs
     )
     super.fetchItemsCompletionBlock = { items, error in
-      guard let completion = self.fetchSubscriptionCompletionBlock else {
-        // TODO: XCTFail
-        fatalError("fetchSubscriptionsCompletionBlock not set.")
-      }
-
+      let completion = try! XCTUnwrap(self.fetchSubscriptionCompletionBlock)
       completion(items, error)
     }
   }

@@ -31,11 +31,7 @@ public class MockFetchRecordsOperation: MockFetchOperation<CKRecord, CKRecord.ID
       }
     }
     super.fetchItemsCompletionBlock = { items, error in
-      guard let completion = self.fetchRecordsCompletionBlock else {
-        // TODO: XCTFail
-        fatalError("fetchRecordsCompletionBlock not set.")
-      }
-
+      let completion = try! XCTUnwrap(self.fetchRecordsCompletionBlock)
       completion(items, error)
     }
   }

@@ -32,11 +32,7 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
   public var fetchItemsCompletionBlock: (([ID: T]?, Error?) -> Void)?
 
   public override func start() {
-    guard let completion = fetchItemsCompletionBlock else {
-      // TODO: XCTFail
-      fatalError("fetchItemsCompletionBlock not set.")
-    }
-
+    let completion = try! XCTUnwrap(self.fetchItemsCompletionBlock)
     mockDatabase.queue.async {
       self.databaseItemsSelector(self.mockDatabase) { databaseItems in
         if let itemIDs = self.itemIDs {

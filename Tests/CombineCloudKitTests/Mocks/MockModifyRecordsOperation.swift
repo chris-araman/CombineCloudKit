@@ -7,6 +7,7 @@
 //
 
 import CloudKit
+import XCTest
 
 @testable import CombineCloudKit
 
@@ -38,11 +39,7 @@ public class MockModifyRecordsOperation:
       }
     }
     super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
-      guard let completion = self.modifyRecordsCompletionBlock else {
-        // TODO: XCTFail
-        fatalError("modifyRecordsCompletionBlock not set.")
-      }
-
+      let completion = try! XCTUnwrap(self.modifyRecordsCompletionBlock)
       completion(itemsToSave, itemIDsToDelete, error)
     }
   }

@@ -133,11 +133,7 @@
       let elements = try wait(for: \.elements, from: publisher)
       for (update, record) in elements {
         guard let record = record else {
-          guard let (recordID, progress) = update else {
-            XCTFail("Output received with neither a progress update nor a record.")
-            continue
-          }
-
+          let (recordID, progress) = try XCTUnwrap(update)
           if let latest = recordProgress[recordID] {
             XCTAssertGreaterThan(
               progress, latest,
