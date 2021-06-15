@@ -82,7 +82,7 @@ github "chris-araman/CombineCloudKit" ~> 0.4
 Because Carthage assumes dependencies are provided as shared frameworks, but Swift Package Manager builds only libraries
 or executables, we have to generate an `.xcodeproj` for Carthage to use.
 
-⚠️ The `generate-xcodeproj` command has been deprecated. This solution may stop working in a future release of the Swift
+> ⚠️ The `generate-xcodeproj` command has been deprecated. This solution may stop working in a future release of the Swift
 Package Manager.
 
 ```bash
