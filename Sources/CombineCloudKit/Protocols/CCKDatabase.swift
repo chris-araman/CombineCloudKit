@@ -157,37 +157,6 @@ extension CCKDatabase {
     }.eraseToAnyPublisher()
   }
 
-  func publisherFromSave<Output, Ignored>(
-    _ operation: CCKDatabaseOperation,
-    _ configuration: CKOperation.Configuration? = nil,
-    _ setCompletion: (@escaping ([Output]?, Ignored, Error?) -> Void) -> Void
-  ) -> AnyPublisher<Output, Error> {
-    let subject = PassthroughSubject<Output, Error>()
-    if configuration != nil {
-      // FIXME: operation.configuration = configuration
-    }
-    setCompletion { outputs, _, error in
-      guard let outputs = outputs, error == nil else {
-        subject.send(completion: .failure(error!))
-        return
-      }
-
-      for output in outputs {
-        subject.send(output)
-      }
-
-      subject.send(completion: .finished)
-    }
-
-    return Deferred { () -> PassthroughSubject<Output, Error> in
-      DispatchQueue.main.async {
-        self.add(operation)
-      }
-
-      return subject
-    }.propagateCancellationTo(operation)
-  }
-
   func publisherFromModify<Output, OutputID>(
     _ operation: CCKDatabaseOperation,
     _ configuration: CKOperation.Configuration? = nil,

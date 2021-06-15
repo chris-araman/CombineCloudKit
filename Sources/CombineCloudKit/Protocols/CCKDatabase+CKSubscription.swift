@@ -51,13 +51,9 @@ extension CCKDatabase {
     subscriptions: [CKSubscription],
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {
-    let operation = operationFactory.createModifySubscriptionsOperation(
-      subscriptionsToSave: subscriptions,
-      subscriptionIDsToDelete: nil
-    )
-    return publisherFromSave(operation, configuration) { completion in
-      operation.modifySubscriptionsCompletionBlock = completion
-    }
+    modify(subscriptionsToSave: subscriptions, withConfiguration: configuration).compactMap { saved, _ in
+      saved
+    }.eraseToAnyPublisher()
   }
 
   /// Deletes a single subscription.
