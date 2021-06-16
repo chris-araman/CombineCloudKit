@@ -12,7 +12,7 @@ import CloudKit
 
 public class MockOperationFactory: OperationFactory {
   let database: MockDatabase
-  let space: DecisionSpace?
+  var space: DecisionSpace?
 
   init(_ database: MockDatabase, _ space: DecisionSpace? = nil) {
     self.database = database

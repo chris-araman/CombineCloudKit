@@ -11,7 +11,7 @@ import CloudKit
 @testable import CombineCloudKit
 
 public class MockContainer: CCKContainer {
-  let space: DecisionSpace?
+  var space: DecisionSpace?
 
   init(_ space: DecisionSpace? = nil) {
     self.space = space

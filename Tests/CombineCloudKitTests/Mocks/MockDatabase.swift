@@ -12,7 +12,7 @@ import Foundation
 @testable import CombineCloudKit
 
 public class MockDatabase: CCKDatabase {
-  let space: DecisionSpace?
+  var space: DecisionSpace?
   let queue: DispatchQueue
 
   init(_ space: DecisionSpace? = nil) {

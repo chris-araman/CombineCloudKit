@@ -16,10 +16,12 @@ import XCTest
 
   class ErrorInjectionTests: CombineCloudKitTests {
     func testAccountStatusPropagatesErrors() throws {
-      try verifyErrorPropagation { container, _ in
-        let publisher = container.accountStatus()
-        return try wait(for: \.completion, from: publisher)
-      }
+      try verifyErrorPropagation(
+        simulation: { container, _ in
+          let publisher = container.accountStatus()
+          return try wait(for: \.completion, from: publisher)
+        }
+      )
     }
 
     func testFetchAllRecordZones() throws {
@@ -39,16 +41,19 @@ import XCTest
     }
 
     func testFetchCurrentUserRecord() throws {
-      try verifyErrorPropagation() { _, database in
-        let userRecord = CKRecord(
-          recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
-        let save = database.save(record: userRecord)
-        try wait(for: \.finished, from: save)
-
-        let desiredKeys = ["Key"]
-        let fetch = database.fetchCurrentUserRecord(desiredKeys: desiredKeys)
-        return try wait(for: \.completion, from: fetch)
-      }
+      try verifyErrorPropagation(
+        prepare: { _, database in
+          let userRecord = CKRecord(
+            recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
+          let save = database.save(record: userRecord)
+          try wait(for: \.finished, from: save)
+        },
+        simulation: { _, database in
+          let desiredKeys = ["Key"]
+          let fetch = database.fetchCurrentUserRecord(desiredKeys: desiredKeys)
+          return try wait(for: \.completion, from: fetch)
+        }
+      )
     }
 
     func testFetchAllSubscriptions() throws {
@@ -72,35 +77,51 @@ import XCTest
       _ save: (CCKDatabase) -> (([T], CKOperation.Configuration?) -> AnyPublisher<T, Error>),
       _ fetch: (CCKDatabase) -> (() -> AnyPublisher<T, Error>)
     ) throws where T: Hashable {
-      try verifyErrorPropagation() { _, database in
-        let save = save(database)(items, nil)
-        try wait(for: \.finished, from: save)
-
-        let fetch = fetch(database)()
-        return try wait(for: \.completion, from: fetch)
-      }
+      try verifyErrorPropagation(
+        prepare: { _, database in
+          let save = save(database)(items, nil)
+          try wait(for: \.finished, from: save)
+        },
+        simulation: { _, database in
+          let fetch = fetch(database)()
+          return try wait(for: \.completion, from: fetch)
+        }
+      )
     }
 
     func testQueryPropagatesErrors() throws {
-      try verifyErrorPropagation { _, database in
-        let record = CKRecord(recordType: "Test")
-        let save = database.save(record: record)
-        try wait(for: \.finished, from: save)
-
-        let query = database.performQuery(ofType: "Test")
-        return try wait(for: \.completion, from: query)
-      }
+      try verifyErrorPropagation(
+        prepare: { _, database in
+          let record = CKRecord(recordType: "Test")
+          let save = database.save(record: record)
+          try wait(for: \.finished, from: save)
+        },
+        simulation: { _, database in
+          let query = database.performQuery(ofType: "Test")
+          return try wait(for: \.completion, from: query)
+        }
+      )
     }
 
     private func verifyErrorPropagation(
+      prepare: ((CCKContainer, CCKDatabase) throws -> Void) = { _, _ in },
       simulation: ((CCKContainer, CCKDatabase) throws -> Subscribers.Completion<Error>)
     ) rethrows {
       let space = DecisionSpace()
       repeat {
-        let container = MockContainer(space)
-        let database = MockDatabase(space)
-        CombineCloudKit.operationFactory = MockOperationFactory(database, space)
+        let container = MockContainer()
+        let database = MockDatabase()
+        let factory = MockOperationFactory(database)
+        CombineCloudKit.operationFactory = factory
 
+        // Prepare without error injection.
+        try prepare(container, database)
+
+        container.space = space
+        database.space = space
+        factory.space = space
+
+        // Simulate the test scenario with error injection.
         let completion = try simulation(container, database)
         if case .failure(let error) = completion,
           let mockError = error as? MockError,
