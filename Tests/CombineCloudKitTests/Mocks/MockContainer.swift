@@ -11,15 +11,15 @@ import CloudKit
 @testable import CombineCloudKit
 
 public class MockContainer: CCKContainer {
-  let error: MockError?
+  let space: DecisionSpace?
 
-  init(_ error: MockError? = nil) {
-    self.error = error
+  init(_ space: DecisionSpace? = nil) {
+    self.space = space
   }
 
   public func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void) {
-    if let error = error {
-      completionHandler(.couldNotDetermine, error)
+    if let space = space, space.decide() {
+      completionHandler(.couldNotDetermine, MockError.doesNotExist)
       return
     }
 

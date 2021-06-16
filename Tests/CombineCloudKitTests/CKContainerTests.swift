@@ -23,8 +23,16 @@
     }
 
     func testAccountStatusPropagatesErrors() throws {
-      let publisher = MockContainer(.doesNotExist).accountStatus()
-      XCTAssertThrowsError(try wait(for: \.single, from: publisher))
+      let space = DecisionSpace()
+      repeat {
+        let publisher = MockContainer(space).accountStatus()
+        let completion = try wait(for: \.completion, from: publisher)
+        if case .failure = completion {
+          XCTAssert(space.decidedAffirmatively())
+        } else {
+          XCTAssertFalse(space.decidedAffirmatively())
+        }
+      } while space.reset()
     }
   }
 
