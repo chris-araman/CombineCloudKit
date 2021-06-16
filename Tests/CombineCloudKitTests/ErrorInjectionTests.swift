@@ -61,13 +61,14 @@ import XCTest
     ) throws where ID: Equatable {
       try verifyErrorPropagation { _, database in
         let item = create()
+        let itemID = id(item)
         let save = save(database)(item, nil)
         try wait(for: \.finished, from: save)
 
-        let fetch = fetch(database)(id(item), nil)
+        let fetch = fetch(database)(itemID, nil)
         try wait(for: \.finished, from: fetch)
 
-        let delete = delete(database)(id(item), nil)
+        let delete = delete(database)(itemID, nil)
         try wait(for: \.finished, from: delete)
       }
     }

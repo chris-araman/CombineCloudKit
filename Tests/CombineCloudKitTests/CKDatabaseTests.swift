@@ -301,17 +301,18 @@
       _ delete: (ID) -> AnyPublisher<ID, Error>
     ) throws where ID: Equatable {
       let item = create()
+      let itemID = id(item)
       let save = save(item)
       let saved = try wait(for: \.single, from: save)
-      XCTAssertEqual(id(saved), id(item))
+      XCTAssertEqual(id(saved), itemID)
 
-      let fetch = fetch(id(saved))
+      let fetch = fetch(itemID)
       let fetched = try wait(for: \.single, from: fetch)
-      XCTAssertEqual(id(fetched), id(item))
+      XCTAssertEqual(id(fetched), itemID)
 
-      let delete = delete(id(saved))
+      let delete = delete(itemID)
       let deleted = try wait(for: \.single, from: delete)
-      XCTAssertEqual(deleted, id(item))
+      XCTAssertEqual(deleted, itemID)
     }
 
     func testFetchAllRecordZones() throws {
