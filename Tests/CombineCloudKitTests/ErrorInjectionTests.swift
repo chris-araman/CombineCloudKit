@@ -181,7 +181,7 @@ import XCTest
             space.decidedAffirmatively() else
           {
             XCTFail("Simulation failed with unexpected error: \(error.localizedDescription)")
-            continue
+            break
           }
         }
       } while space.reset()
