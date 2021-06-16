@@ -31,13 +31,15 @@ extension CCKContainer {
   ) -> AnyPublisher<Output, Error> {
     Deferred {
       Future { promise in
-        method { item, error in
-          guard error == nil else {
-            promise(.failure(error!))
-            return
-          }
+        DispatchQueue.main.async {
+          method { item, error in
+            guard error == nil else {
+              promise(.failure(error!))
+              return
+            }
 
-          promise(.success(item))
+            promise(.success(item))
+          }
         }
       }
     }.eraseToAnyPublisher()

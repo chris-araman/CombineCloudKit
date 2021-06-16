@@ -90,13 +90,15 @@ extension CCKDatabase {
   ) -> AnyPublisher<Output, Error> {
     Deferred {
       Future { promise in
-        method(input) { output, error in
-          guard let output = output, error == nil else {
-            promise(.failure(error!))
-            return
-          }
+        DispatchQueue.main.async {
+          method(input) { output, error in
+            guard let output = output, error == nil else {
+              promise(.failure(error!))
+              return
+            }
 
-          promise(.success(output))
+            promise(.success(output))
+          }
         }
       }
     }.eraseToAnyPublisher()
