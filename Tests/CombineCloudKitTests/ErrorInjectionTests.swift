@@ -22,6 +22,56 @@ import XCTest
       }
     }
 
+    func testSaveFetchAndDeleteRecords() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecord(recordType: "Test") },
+        \.recordID,
+        { $0.save },
+        { database in { recordID, _ in database.fetch(recordID: recordID) }},
+        { $0.delete }
+      )
+    }
+
+    func testSaveFetchAndDeleteRecordZones() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecordZone(zoneName: "Test") },
+        \.zoneID,
+        { $0.save },
+        { $0.fetch },
+        { $0.delete }
+      )
+    }
+
+    func testSaveFetchAndDeleteSubscriptions() throws {
+      try validateSaveFetchAndDelete(
+        { CKDatabaseSubscription(subscriptionID: "Test") },
+        \.subscriptionID,
+        { $0.save },
+        { $0.fetch },
+        { $0.delete }
+      )
+    }
+
+    private func validateSaveFetchAndDelete<T, ID>(
+      _ create: () -> T,
+      _ id: (T) -> ID,
+      _ save: (CCKDatabase) -> ((T, CKOperation.Configuration?) -> AnyPublisher<T, Error>),
+      _ fetch: (CCKDatabase) -> ((ID, CKOperation.Configuration?) -> AnyPublisher<T, Error>),
+      _ delete: (CCKDatabase) -> ((ID, CKOperation.Configuration?) -> AnyPublisher<ID, Error>)
+    ) throws where ID: Equatable {
+      try verifyErrorPropagation { _, database in
+        let item = create()
+        let save = save(database)(item, nil)
+        try wait(for: \.finished, from: save)
+
+        let fetch = fetch(database)(id(item), nil)
+        try wait(for: \.finished, from: fetch)
+
+        let delete = delete(database)(id(item), nil)
+        try wait(for: \.finished, from: delete)
+      }
+    }
+
     func testFetchAllRecordZones() throws {
       try validateFetchAll(
         (1...3).map { CKRecordZone(zoneName: "\($0)") },
