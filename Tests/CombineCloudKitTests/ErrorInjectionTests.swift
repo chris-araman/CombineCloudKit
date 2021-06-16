@@ -16,12 +16,10 @@ import XCTest
 
   class ErrorInjectionTests: CombineCloudKitTests {
     func testAccountStatusPropagatesErrors() throws {
-      try verifyErrorPropagation(
-        simulation: { container, _ in
-          let publisher = container.accountStatus()
-          return try wait(for: \.completion, from: publisher)
-        }
-      )
+      try verifyErrorPropagation { container, _ in
+        let publisher = container.accountStatus()
+        try wait(for: \.finished, from: publisher)
+      }
     }
 
     func testFetchAllRecordZones() throws {
@@ -51,7 +49,7 @@ import XCTest
         simulation: { _, database in
           let desiredKeys = ["Key"]
           let fetch = database.fetchCurrentUserRecord(desiredKeys: desiredKeys)
-          return try wait(for: \.completion, from: fetch)
+          try wait(for: \.finished, from: fetch)
         }
       )
     }
@@ -84,7 +82,7 @@ import XCTest
         },
         simulation: { _, database in
           let fetch = fetch(database)()
-          return try wait(for: \.completion, from: fetch)
+          try wait(for: \.finished, from: fetch)
         }
       )
     }
@@ -98,14 +96,14 @@ import XCTest
         },
         simulation: { _, database in
           let query = database.performQuery(ofType: "Test")
-          return try wait(for: \.completion, from: query)
+          try wait(for: \.finished, from: query)
         }
       )
     }
 
     private func verifyErrorPropagation(
       prepare: ((CCKContainer, CCKDatabase) throws -> Void) = { _, _ in },
-      simulation: ((CCKContainer, CCKDatabase) throws -> Subscribers.Completion<Error>)
+      simulation: ((CCKContainer, CCKDatabase) throws -> Void)
     ) rethrows {
       let space = DecisionSpace()
       repeat {
@@ -115,6 +113,7 @@ import XCTest
         CombineCloudKit.operationFactory = factory
 
         // Prepare without error injection.
+        // An error thrown here indicates a test defect.
         try prepare(container, database)
 
         container.space = space
@@ -122,14 +121,18 @@ import XCTest
         factory.space = space
 
         // Simulate the test scenario with error injection.
-        let completion = try simulation(container, database)
-        if case .failure(let error) = completion,
-          let mockError = error as? MockError,
-          case MockError.simulated = mockError
-        {
-          XCTAssert(space.decidedAffirmatively())
-        } else {
-          XCTAssertFalse(space.decidedAffirmatively())
+        // An error thrown here should have been injected or else the test has failed.
+        do {
+          try simulation(container, database)
+          XCTAssertFalse(space.decidedAffirmatively(), "Simulation was expected to fail with injected error.")
+        } catch {
+          guard let mockError = error as? MockError,
+            case MockError.simulated = mockError,
+            space.decidedAffirmatively() else
+          {
+            XCTFail("Simulation failed with unexpected error: \(error.localizedDescription)")
+            continue
+          }
         }
       } while space.reset()
     }
