@@ -14,9 +14,14 @@ import XCTest
 public class MockFetchRecordsOperation: MockFetchOperation<CKRecord, CKRecord.ID>,
   CCKFetchRecordsOperation
 {
-  init(_ database: MockDatabase, _ recordIDs: [CKRecord.ID]) {
+  init(
+    _ database: MockDatabase,
+    _ space: DecisionSpace?,
+    _ recordIDs: [CKRecord.ID]
+  ) {
     super.init(
       database,
+      space,
       { database, operation in operation(&database.records) },
       recordIDs
     )

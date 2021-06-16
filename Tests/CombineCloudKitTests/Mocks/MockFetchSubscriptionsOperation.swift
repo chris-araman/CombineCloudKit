@@ -14,9 +14,14 @@ import XCTest
 public class MockFetchSubscriptionsOperation: MockFetchOperation<CKSubscription, CKSubscription.ID>,
   CCKFetchSubscriptionsOperation
 {
-  init(_ database: MockDatabase, _ subscriptionIDs: [CKSubscription.ID]? = nil) {
+  init(
+    _ database: MockDatabase,
+    _ space: DecisionSpace?,
+    _ subscriptionIDs: [CKSubscription.ID]? = nil
+  ) {
     super.init(
       database,
+      space,
       { database, operation in operation(&database.subscriptions) },
       subscriptionIDs
     )

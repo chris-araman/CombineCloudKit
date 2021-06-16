@@ -21,19 +21,6 @@
       let status = try wait(for: \.single, from: publisher)
       XCTAssertEqual(status, .available)
     }
-
-    func testAccountStatusPropagatesErrors() throws {
-      let space = DecisionSpace()
-      repeat {
-        let publisher = MockContainer(space).accountStatus()
-        let completion = try wait(for: \.completion, from: publisher)
-        if case .failure = completion {
-          XCTAssert(space.decidedAffirmatively())
-        } else {
-          XCTAssertFalse(space.decidedAffirmatively())
-        }
-      } while space.reset()
-    }
   }
 
 #endif

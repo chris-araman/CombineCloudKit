@@ -8,4 +8,5 @@
 
 enum MockError: Error {
   case doesNotExist
+  case simulated
 }

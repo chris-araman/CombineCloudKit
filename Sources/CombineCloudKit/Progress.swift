@@ -36,6 +36,11 @@ extension Progress: RawRepresentable {
 
   public typealias RawValue = Double
 
+  /// Initializes a `Progress` instance from a percentage expressed as a `Double` in the range [0.0, 1.0].
+  ///
+  /// - Parameters:
+  ///   - percent: A `Double` in the range [0.0, 1.0]. Values are clamped to this range.
+  /// - Returns: The `Progress`.
   public init(rawValue: Double) {
     if rawValue >= 1.0 {
       self = .complete

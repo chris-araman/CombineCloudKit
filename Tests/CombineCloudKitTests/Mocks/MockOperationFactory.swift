@@ -12,39 +12,41 @@ import CloudKit
 
 public class MockOperationFactory: OperationFactory {
   let database: MockDatabase
+  let space: DecisionSpace?
 
-  public init(_ database: MockDatabase) {
+  init(_ database: MockDatabase, _ space: DecisionSpace? = nil) {
     self.database = database
+    self.space = space
   }
 
   public func createFetchAllRecordZonesOperation() -> CCKFetchRecordZonesOperation {
-    MockFetchRecordZonesOperation(database)
+    MockFetchRecordZonesOperation(database, space)
   }
 
   public func createFetchAllSubscriptionsOperation() -> CCKFetchSubscriptionsOperation {
-    MockFetchSubscriptionsOperation(database)
+    MockFetchSubscriptionsOperation(database, space)
   }
 
   public static let currentUserRecordID = CKRecord.ID(recordName: "CurrentUserRecord")
 
   public func createFetchCurrentUserRecordOperation() -> CCKFetchRecordsOperation {
-    MockFetchRecordsOperation(database, [MockOperationFactory.currentUserRecordID])
+    MockFetchRecordsOperation(database, space, [MockOperationFactory.currentUserRecordID])
   }
 
   public func createFetchRecordsOperation(recordIDs: [CKRecord.ID]) -> CCKFetchRecordsOperation {
-    MockFetchRecordsOperation(database, recordIDs)
+    MockFetchRecordsOperation(database, space, recordIDs)
   }
 
   public func createFetchRecordZonesOperation(recordZoneIDs: [CKRecordZone.ID])
     -> CCKFetchRecordZonesOperation
   {
-    MockFetchRecordZonesOperation(database, recordZoneIDs)
+    MockFetchRecordZonesOperation(database, space, recordZoneIDs)
   }
 
   public func createFetchSubscriptionsOperation(
     subscriptionIDs: [CKSubscription.ID]
   ) -> CCKFetchSubscriptionsOperation {
-    MockFetchSubscriptionsOperation(database, subscriptionIDs)
+    MockFetchSubscriptionsOperation(database, space, subscriptionIDs)
   }
 
   public func createModifyRecordsOperation(
@@ -52,23 +54,23 @@ public class MockOperationFactory: OperationFactory {
   )
     -> CCKModifyRecordsOperation
   {
-    MockModifyRecordsOperation(database, recordsToSave, recordIDsToDelete)
+    MockModifyRecordsOperation(database, space, recordsToSave, recordIDsToDelete)
   }
 
   public func createModifyRecordZonesOperation(
     recordZonesToSave: [CKRecordZone]?, recordZoneIDsToDelete: [CKRecordZone.ID]?
   ) -> CCKModifyRecordZonesOperation {
-    MockModifyRecordZonesOperation(database, recordZonesToSave, recordZoneIDsToDelete)
+    MockModifyRecordZonesOperation(database, space, recordZonesToSave, recordZoneIDsToDelete)
   }
 
   public func createModifySubscriptionsOperation(
     subscriptionsToSave: [CKSubscription]? = nil,
     subscriptionIDsToDelete: [CKSubscription.ID]? = nil
   ) -> CCKModifySubscriptionsOperation {
-    MockModifySubscriptionsOperation(database, subscriptionsToSave, subscriptionIDsToDelete)
+    MockModifySubscriptionsOperation(database, space, subscriptionsToSave, subscriptionIDsToDelete)
   }
 
   public func createQueryOperation() -> CCKQueryOperation {
-    MockQueryOperation(database)
+    MockQueryOperation(database, space)
   }
 }

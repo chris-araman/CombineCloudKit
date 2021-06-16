@@ -17,18 +17,19 @@ public class MockModifyRecordsOperation:
 {
   init(
     _ database: MockDatabase,
+    _ space: DecisionSpace?,
     _ recordsToSave: [CKRecord]? = nil,
     _ recordIDsToDelete: [CKRecord.ID]? = nil
   ) {
     super.init(
       database,
+      space,
       { mockDatabase, operation in operation(&mockDatabase.records) },
       \.recordID,
       recordsToSave,
       recordIDsToDelete
     )
     super.perItemCompletionBlock = { record, error in
-      // TODO: Simulate progress before error.
       if let perRecordProgressBlock = self.perRecordProgressBlock, error == nil {
         perRecordProgressBlock(record, 0.7)
         perRecordProgressBlock(record, 1.0)

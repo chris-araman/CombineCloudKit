@@ -19,6 +19,7 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
 
   init(
     _ database: MockDatabase,
+    _ space: DecisionSpace?,
     _ databaseItemsSelector: @escaping (MockDatabase, (inout [ID: T]) -> Void) -> Void,
     _ id: @escaping (T) -> ID,
     _ itemsToSave: [T]? = nil,
@@ -28,7 +29,7 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
     self.id = id
     self.itemsToSave = itemsToSave
     self.itemIDsToDelete = itemIDsToDelete
-    super.init(database)
+    super.init(database, space)
   }
 
   var modifyItemsCompletionBlock: (([T]?, [ID]?, Error?) -> Void)?
@@ -37,6 +38,11 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
   public override func start() {
     let completion = try! XCTUnwrap(self.modifyItemsCompletionBlock)
     mockDatabase.queue.async(flags: .barrier) {
+      if let space = self.space, space.decide() {
+        completion(nil, nil, MockError.simulated)
+        return
+      }
+
       self.databaseItemsSelector(self.mockDatabase) { databaseItems in
         if let itemIDsToDelete = self.itemIDsToDelete {
           guard itemIDsToDelete.allSatisfy(databaseItems.keys.contains) else {
@@ -57,13 +63,15 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
             databaseItems[id] = item
 
             if let perItemCompletion = self.perItemCompletionBlock {
-              // TODO: Simulate failures.
-              perItemCompletion(item, nil)
+              if let space = self.space, space.decide() {
+                perItemCompletion(item, MockError.simulated)
+              } else {
+                perItemCompletion(item, nil)
+              }
             }
           }
         }
 
-        // TODO: Simulate failures.
         completion(self.itemsToSave, self.itemIDsToDelete, nil)
       }
     }

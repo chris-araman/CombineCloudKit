@@ -17,12 +17,13 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
 
   init(
     _ database: MockDatabase,
+    _ space: DecisionSpace?,
     _ databaseItemsSelector: @escaping (MockDatabase, (inout [ID: T]) -> Void) -> Void,
     _ itemIDs: [ID]?
   ) {
     self.databaseItemsSelector = databaseItemsSelector
     self.itemIDs = itemIDs
-    super.init(database)
+    super.init(database, space)
   }
 
   public var perItemProgressBlock: ((ID, Double) -> Void)?
@@ -34,6 +35,11 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
   public override func start() {
     let completion = try! XCTUnwrap(self.fetchItemsCompletionBlock)
     mockDatabase.queue.async {
+      if let space = self.space, space.decide() {
+        completion(nil, MockError.simulated)
+        return
+      }
+
       self.databaseItemsSelector(self.mockDatabase) { databaseItems in
         if let itemIDs = self.itemIDs {
           guard itemIDs.allSatisfy(databaseItems.keys.contains) else {
@@ -55,14 +61,17 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
           }
 
           if let completion = self.perItemCompletionBlock {
-            // TODO: Should this return the ID on success?
-            completion(item, nil, nil)
+            if let space = self.space, space.decide() {
+              completion(nil, nil, MockError.simulated)
+            } else {
+              // TODO: Should this return the ID on success?
+              completion(item, nil, nil)
+            }
           }
 
           return true
         }
 
-        // TODO: Simulate failures.
         completion(items, nil)
       }
     }

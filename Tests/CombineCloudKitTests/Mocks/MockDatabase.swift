@@ -12,15 +12,14 @@ import Foundation
 @testable import CombineCloudKit
 
 public class MockDatabase: CCKDatabase {
-  enum MockError: Error {
-    case doesNotExist
-  }
-
-  public init() {
-    queue = DispatchQueue(label: String(describing: type(of: self)), attributes: [.concurrent])
-  }
-
+  let space: DecisionSpace?
   let queue: DispatchQueue
+
+  init(_ space: DecisionSpace? = nil) {
+    self.space = space
+    self.queue = DispatchQueue(label: String(describing: type(of: self)), attributes: [.concurrent])
+  }
+
   var records = [CKRecord.ID: CKRecord]()
   var recordZones = [CKRecordZone.ID: CKRecordZone]()
   var subscriptions = [CKSubscription.ID: CKSubscription]()
@@ -29,13 +28,17 @@ public class MockDatabase: CCKDatabase {
     withRecordID recordID: CKRecord.ID, completionHandler: @escaping (CKRecord.ID?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       let removed = self.records.removeValue(forKey: recordID)
       guard let removedID = removed?.recordID else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(removedID, nil)
     }
   }
@@ -45,13 +48,17 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping (CKRecordZone.ID?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       let removed = self.recordZones.removeValue(forKey: zoneID)
       guard let removedID = removed?.zoneID else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(removedID, nil)
     }
   }
@@ -61,13 +68,17 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping (String?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       let removed = self.subscriptions.removeValue(forKey: subscriptionID)
       guard let removedID = removed?.subscriptionID else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(removedID, nil)
     }
   }
@@ -77,12 +88,16 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping (CKRecord?, Error?) -> Void
   ) {
     queue.async {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       guard let record = self.records[recordID] else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(record, nil)
     }
   }
@@ -92,12 +107,16 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping (CKRecordZone?, Error?) -> Void
   ) {
     queue.async {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       guard let recordZone = self.recordZones[zoneID] else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(recordZone, nil)
     }
   }
@@ -107,19 +126,27 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping (CKSubscription?, Error?) -> Void
   ) {
     queue.async {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       guard let subscription = self.subscriptions[subscriptionID] else {
         completionHandler(nil, MockError.doesNotExist)
         return
       }
 
-      // TODO: Simulate failures.
       completionHandler(subscription, nil)
     }
   }
 
   public func fetchAllRecordZones(completionHandler: @escaping ([CKRecordZone]?, Error?) -> Void) {
     queue.async {
-      // TODO: Simulate failures.
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       completionHandler(Array(self.recordZones.values), nil)
     }
   }
@@ -128,7 +155,11 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping ([CKSubscription]?, Error?) -> Void
   ) {
     queue.async {
-      // TODO: Simulate failures.
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       completionHandler(Array(self.subscriptions.values), nil)
     }
   }
@@ -139,13 +170,17 @@ public class MockDatabase: CCKDatabase {
     completionHandler: @escaping ([CKRecord]?, Error?) -> Void
   ) {
     queue.async {
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       // Our simulated queries will return only records of matching type.
       // We will ignore the predicate and other CKQuery fields.
       let results = self.records.compactMap { key, value in
         value.recordType == query.recordType ? value : nil
       }
 
-      // TODO: Simulate failures.
       completionHandler(results, nil)
     }
   }
@@ -154,7 +189,11 @@ public class MockDatabase: CCKDatabase {
     _ record: CKRecord, completionHandler: @escaping (CKRecord?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
-      // TODO: Simulate failures.
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       self.records[record.recordID] = record
       completionHandler(record, nil)
     }
@@ -164,7 +203,11 @@ public class MockDatabase: CCKDatabase {
     _ zone: CKRecordZone, completionHandler: @escaping (CKRecordZone?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
-      // TODO: Simulate failures.
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       self.recordZones[zone.zoneID] = zone
       completionHandler(zone, nil)
     }
@@ -174,7 +217,11 @@ public class MockDatabase: CCKDatabase {
     _ subscription: CKSubscription, completionHandler: @escaping (CKSubscription?, Error?) -> Void
   ) {
     queue.async(flags: .barrier) {
-      // TODO: Simulate failures.
+      if let space = self.space, space.decide() {
+        completionHandler(nil, MockError.simulated)
+        return
+      }
+
       self.subscriptions[subscription.subscriptionID] = subscription
       completionHandler(subscription, nil)
     }

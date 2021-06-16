@@ -14,9 +14,14 @@ import XCTest
 public class MockFetchRecordZonesOperation: MockFetchOperation<CKRecordZone, CKRecordZone.ID>,
   CCKFetchRecordZonesOperation
 {
-  init(_ database: MockDatabase, _ recordZoneIDs: [CKRecordZone.ID]? = nil) {
+  init(
+    _ database: MockDatabase,
+    _ space: DecisionSpace?,
+    _ recordZoneIDs: [CKRecordZone.ID]? = nil
+  ) {
     super.init(
       database,
+      space,
       { database, operation in operation(&database.recordZones) },
       recordZoneIDs
     )

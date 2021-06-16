@@ -12,8 +12,8 @@ import XCTest
 @testable import CombineCloudKit
 
 public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
-  override init(_ database: MockDatabase) {
-    super.init(database)
+  override init(_ database: MockDatabase, _ space: DecisionSpace?) {
+    super.init(database, space)
   }
 
   public var query: CKQuery?
@@ -36,6 +36,11 @@ public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
     mockDatabase.queue.async {
       self.mockDatabase.perform(try! XCTUnwrap(self.query), inZoneWith: self.zoneID) {
         results, error in
+        if let space = self.space, space.decide() {
+          completion(nil, MockError.simulated)
+          return
+        }
+
         guard let results = results else {
           completion(nil, error!)
           return

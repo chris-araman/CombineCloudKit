@@ -20,11 +20,13 @@ public class MockModifySubscriptionsOperation:
 
   init(
     _ database: MockDatabase,
+    _ space: DecisionSpace?,
     _ subscriptionsToSave: [CKSubscription]? = nil,
     _ subscriptionIDsToDelete: [CKSubscription.ID]? = nil
   ) {
     super.init(
       database,
+      space,
       { mockDatabase, operation in operation(&mockDatabase.subscriptions) },
       \.subscriptionID,
       subscriptionsToSave,

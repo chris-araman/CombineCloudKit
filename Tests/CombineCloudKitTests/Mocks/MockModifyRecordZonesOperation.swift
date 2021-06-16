@@ -20,11 +20,13 @@ public class MockModifyRecordZonesOperation:
 
   init(
     _ database: MockDatabase,
+    _ space: DecisionSpace?,
     _ recordZonesToSave: [CKRecordZone]? = nil,
     _ recordZoneIDsToDelete: [CKRecordZone.ID]? = nil
   ) {
     super.init(
       database,
+      space,
       { mockDatabase, operation in operation(&mockDatabase.recordZones) },
       \.zoneID,
       recordZonesToSave,

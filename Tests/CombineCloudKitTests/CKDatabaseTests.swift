@@ -276,7 +276,7 @@
       return records
     }
 
-    func validateSaveFetchAndDelete<T, ID>(
+    private func validateSaveFetchAndDelete<T, ID>(
       _ create: () -> T,
       _ id: (T) -> ID,
       _ save: (T, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
@@ -293,7 +293,7 @@
       )
     }
 
-    func validateSaveFetchAndDelete<T, ID>(
+    private func validateSaveFetchAndDelete<T, ID>(
       _ create: () -> T,
       _ id: (T) -> ID,
       _ save: (T) -> AnyPublisher<T, Error>,
@@ -363,7 +363,7 @@
       )
     }
 
-    func validateFetchAll<T>(
+    private func validateFetchAll<T>(
       _ items: [T],
       _ save: ([T], CKOperation.Configuration?) -> AnyPublisher<T, Error>,
       _ fetch: () -> AnyPublisher<T, Error>

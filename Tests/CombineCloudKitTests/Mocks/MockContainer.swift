@@ -19,7 +19,7 @@ public class MockContainer: CCKContainer {
 
   public func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void) {
     if let space = space, space.decide() {
-      completionHandler(.couldNotDetermine, MockError.doesNotExist)
+      completionHandler(.couldNotDetermine, MockError.simulated)
       return
     }
 
