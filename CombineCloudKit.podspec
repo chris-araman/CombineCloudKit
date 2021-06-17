@@ -27,8 +27,7 @@ Pod::Spec.new do |spec|
     test_spec.ios.deployment_target      = '13.0'
     test_spec.osx.deployment_target      = '10.15'
     test_spec.tvos.deployment_target     = '13.0'
-    # TODO: Enable this once we have access to Xcode 12.5 in GitHub Actions.
     # XCTest was not available until watchOS 7.4.
-    # test_spec.watchos.deployment_target  = '7.4'
+    test_spec.watchos.deployment_target  = '7.4'
   end
 end
