@@ -21,8 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Add '5.4' once we have access to macOS 11 and Xcode 12.5.
-        swift: ['5.3', '5.2', '5.1']
+        swift: ['5.4', '5.3', '5.2', '5.1']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
           - swift: '5.1'
@@ -38,10 +37,9 @@ jobs:
           - swift: '5.3'
             platform: watchOS
             name: Build
-          # TODO: Add this once we have access to macOS 11 and Xcode 12.5.
-          # ...then TODO: Remove this once macos-latest >= 11
-          # - swift: '5.4'
-          #  macos: '11'
+          # TODO: Remove this once macos-latest >= 11
+          - swift: '5.4'
+            macos: '11'
     steps:
     - name: Clone
       uses: actions/checkout@v2
