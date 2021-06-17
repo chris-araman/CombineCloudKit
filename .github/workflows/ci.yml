@@ -35,9 +35,11 @@ jobs:
           # XCTest for watchOS requires Swift 5.4.
           - swift: '5.2'
             platform: watchOS
+            action: build
             name: Build
           - swift: '5.3'
             platform: watchOS
+            action: build
             name: Build
           # TODO: Remove this once macos-latest >= 11.
           - swift: '5.4'
