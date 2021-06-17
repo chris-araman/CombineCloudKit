@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        swift: ['5.1', '5.2', '5.3', '5.4']
+        swift: ['5.1', '5.2', '5.3', '5.4', '5.5']
         platform: [macOS, iOS, tvOS, watchOS]
         include:
           - swift: '5.1'
@@ -40,6 +40,8 @@ jobs:
           # TODO: Remove this once macos-latest >= 11
           - swift: '5.4'
             macos: '11'
+          - swift: '5.5'
+            macos: '11'
           # TODO: Remove these once mxcl/xcodebuild#29 is resolved or Swift 5.4.1 is released.
           - swift: '5.1'
             semver_prefix: '~'
@@ -48,6 +50,8 @@ jobs:
           - swift: '5.3'
             semver_prefix: '~'
           - swift: '5.4'
+            semver_prefix: ''
+          - swift: '5.5'
             semver_prefix: ''
     steps:
     - name: Clone
