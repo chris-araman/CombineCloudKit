@@ -23,6 +23,7 @@ jobs:
       matrix:
         swift: ['5.4', '5.3', '5.2', '5.1']
         platform: [macOS, iOS, tvOS, watchOS]
+        semver_prefix: ['~']
         include:
           - swift: '5.1'
             # The macOS 11 environment no longer includes Swift 5.1.
@@ -40,6 +41,8 @@ jobs:
           # TODO: Remove this once macos-latest >= 11
           - swift: '5.4'
             macos: '11'
+            # TODO: Remove this once mxcl/xcodebuild#29 is resolved or Swift 5.4.1 is released.
+            semver_prefix:
     steps:
     - name: Clone
       uses: actions/checkout@v2
@@ -48,7 +51,7 @@ jobs:
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
-        swift: ~${{ matrix.swift }}
+        swift: ${{ matrix.semver_prefix }}${{ matrix.swift }}
         code-coverage: true
         quiet: false
         warnings-as-errors: true
