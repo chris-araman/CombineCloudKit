@@ -18,7 +18,7 @@ echo "  🧹 periphery"
 periphery scan --quiet
 
 echo "  🧹 pod"
-pod lib lint --verbose CombineCloudKit.podspec
+pod lib lint --silent CombineCloudKit.podspec
 
 echo "  🧹 shellcheck"
 shellcheck --shell=bash script/*
