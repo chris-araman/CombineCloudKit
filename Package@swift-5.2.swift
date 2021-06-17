@@ -25,7 +25,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.9.0"),
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
     .package(url: "https://github.com/apple/swift-format", .branch(swiftBranch)),
   ],
   targets: [
