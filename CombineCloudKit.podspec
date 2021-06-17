@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.osx.deployment_target      = '10.15'
   spec.tvos.deployment_target     = '13.0'
   spec.watchos.deployment_target  = '6.0'
-  spec.swift_versions             = ['5.1', '5.2', '5.3', '5.4']
+  spec.swift_versions             = ['5.1', '5.2', '5.3', '5.4', '5.5']
 
   spec.source_files   = 'Sources/**/*.swift'
   spec.test_spec 'Tests' do |test_spec|
