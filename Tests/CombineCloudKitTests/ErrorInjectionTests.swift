@@ -26,9 +26,9 @@ import XCTest
       try validateSaveFetchAndDelete(
         { CKRecord(recordType: "Test") },
         \.recordID,
-        { $0.save },
-        { database in { recordID, _ in database.fetch(recordID: recordID) }},
-        { $0.delete }
+        { database in { record in database.save(record: record) } },
+        { database in { recordID in database.fetch(recordID: recordID) } },
+        { database in { recordID in database.delete(recordID: recordID) } }
       )
     }
 
@@ -36,9 +36,9 @@ import XCTest
       try validateSaveFetchAndDelete(
         { CKRecordZone(zoneName: "Test") },
         \.zoneID,
-        { $0.save },
-        { $0.fetch },
-        { $0.delete }
+        { database in { zone in database.save(recordZone: zone) } },
+        { database in { zoneID in database.fetch(recordZoneID: zoneID) } },
+        { database in { zoneID in database.delete(recordZoneID: zoneID) } }
       )
     }
 
@@ -46,29 +46,59 @@ import XCTest
       try validateSaveFetchAndDelete(
         { CKDatabaseSubscription(subscriptionID: "Test") },
         \.subscriptionID,
-        { $0.save },
-        { $0.fetch },
-        { $0.delete }
+        { database in { subscription in database.save(subscription: subscription) } },
+        { database in { subscriptionID in database.fetch(subscriptionID: subscriptionID) } },
+        { database in { subscriptionID in database.delete(subscriptionID: subscriptionID) } }
+      )
+    }
+
+    func testSaveFetchAndDeleteRecordsAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecord(recordType: "Test") },
+        \.recordID,
+        { $0.saveAtBackgroundPriority },
+        { $0.fetchAtBackgroundPriority },
+        { $0.deleteAtBackgroundPriority }
+      )
+    }
+
+    func testSaveFetchAndDeleteRecordZonesAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKRecordZone(zoneName: "Test") },
+        \.zoneID,
+        { $0.saveAtBackgroundPriority },
+        { $0.fetchAtBackgroundPriority },
+        { $0.deleteAtBackgroundPriority }
+      )
+    }
+
+    func testSaveFetchAndDeleteSubscriptionsAtBackgroundPriority() throws {
+      try validateSaveFetchAndDelete(
+        { CKDatabaseSubscription(subscriptionID: "Test") },
+        \.subscriptionID,
+        { $0.saveAtBackgroundPriority },
+        { $0.fetchAtBackgroundPriority },
+        { $0.deleteAtBackgroundPriority }
       )
     }
 
     private func validateSaveFetchAndDelete<T, ID>(
       _ create: () -> T,
       _ id: (T) -> ID,
-      _ save: (CCKDatabase) -> ((T, CKOperation.Configuration?) -> AnyPublisher<T, Error>),
-      _ fetch: (CCKDatabase) -> ((ID, CKOperation.Configuration?) -> AnyPublisher<T, Error>),
-      _ delete: (CCKDatabase) -> ((ID, CKOperation.Configuration?) -> AnyPublisher<ID, Error>)
+      _ save: (CCKDatabase) -> ((T) -> AnyPublisher<T, Error>),
+      _ fetch: (CCKDatabase) -> ((ID) -> AnyPublisher<T, Error>),
+      _ delete: (CCKDatabase) -> ((ID) -> AnyPublisher<ID, Error>)
     ) throws where ID: Equatable {
       try verifyErrorPropagation { _, database in
         let item = create()
         let itemID = id(item)
-        let save = save(database)(item, nil)
+        let save = save(database)(item)
         try wait(for: \.finished, from: save)
 
-        let fetch = fetch(database)(itemID, nil)
+        let fetch = fetch(database)(itemID)
         try wait(for: \.finished, from: fetch)
 
-        let delete = delete(database)(itemID, nil)
+        let delete = delete(database)(itemID)
         try wait(for: \.finished, from: delete)
       }
     }
@@ -93,13 +123,12 @@ import XCTest
       try verifyErrorPropagation(
         prepare: { _, database in
           let userRecord = CKRecord(
-            recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
+            recordType: "Test", recordID: MockOperationFactory.currentUserRecordID)
           let save = database.save(record: userRecord)
           try wait(for: \.finished, from: save)
         },
         simulation: { _, database in
-          let desiredKeys = ["Key"]
-          let fetch = database.fetchCurrentUserRecord(desiredKeys: desiredKeys)
+          let fetch = database.fetchCurrentUserRecord()
           try wait(for: \.finished, from: fetch)
         }
       )
@@ -175,17 +204,23 @@ import XCTest
         // An error thrown here should have been injected or else the test has failed.
         do {
           try simulation(container, database)
-          XCTAssertFalse(space.decidedAffirmatively(), "Simulation was expected to fail with injected error.")
+          XCTAssertFalse(
+            space.hasDecidedAffirmatively(), "Simulation was expected to fail with injected error.")
         } catch {
           guard let mockError = error as? MockError,
             case MockError.simulated = mockError,
-            space.decidedAffirmatively() else
-          {
+            space.hasDecidedAffirmatively()
+          else {
             XCTFail("Simulation failed with unexpected error: \(error.localizedDescription)")
             break
           }
         }
-      } while space.reset()
+
+        if !space.hasDecided() {
+          XCTFail("Simulation did not make any decisions.")
+          break
+        }
+      } while space.next()
     }
   }
 

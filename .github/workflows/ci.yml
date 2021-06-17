@@ -39,7 +39,7 @@ jobs:
           - swift: '5.3'
             platform: watchOS
             name: Build
-          # TODO: Remove this once macos-latest >= 11
+          # TODO: Remove this once macos-latest >= 11.
           - swift: '5.4'
             macos: '11'
           - swift: '5.5'

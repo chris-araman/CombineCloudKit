@@ -35,6 +35,7 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
   var modifyItemsCompletionBlock: (([T]?, [ID]?, Error?) -> Void)?
   var perItemCompletionBlock: ((T, Error?) -> Void)?
 
+  // TODO: Support atomicity.
   public override func start() {
     let completion = try! XCTUnwrap(self.modifyItemsCompletionBlock)
     mockDatabase.queue.async(flags: .barrier) {

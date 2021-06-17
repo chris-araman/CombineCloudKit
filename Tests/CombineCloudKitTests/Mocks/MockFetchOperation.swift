@@ -48,6 +48,7 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
           }
         }
 
+        var perItemError: MockError?
         let items = databaseItems.filter { itemID, item in
           if let itemIDs = self.itemIDs {
             guard itemIDs.contains(itemID) else {
@@ -62,17 +63,18 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
 
           if let completion = self.perItemCompletionBlock {
             if let space = self.space, space.decide() {
-              completion(nil, nil, MockError.simulated)
+              perItemError = MockError.simulated
+              completion(nil, itemID, perItemError)
+              return false
             } else {
-              // TODO: Should this return the ID on success?
-              completion(item, nil, nil)
+              completion(item, itemID, nil)
             }
           }
 
           return true
         }
 
-        completion(items, nil)
+        completion(items, perItemError)
       }
     }
   }
