@@ -74,7 +74,12 @@ public class MockFetchOperation<T, ID>: MockDatabaseOperation where ID: Hashable
           return true
         }
 
-        completion(items, perItemError)
+        guard perItemError == nil else {
+          completion(nil, perItemError)
+          return
+        }
+
+        completion(items, nil)
       }
     }
   }
