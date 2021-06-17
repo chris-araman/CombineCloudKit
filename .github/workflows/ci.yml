@@ -50,9 +50,9 @@ jobs:
           - swift: '5.3'
             semver_prefix: '~'
           - swift: '5.4'
-            semver_prefix: ''
+            semver_prefix: '='
           - swift: '5.5'
-            semver_prefix: ''
+            semver_prefix: '='
     steps:
     - name: Clone
       uses: actions/checkout@v2
