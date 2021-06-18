@@ -475,18 +475,15 @@
         queue.sync {
           records.removeAll()
           assert(expectation == nil)
-          expectation = testCase.expectation(description: "Paginator")
-
-          subscription?.request(.max(pageSize))
-
-          if subscription == nil || pageSize == 0 {
-            if let expect = expectation {
-              expect.fulfill()
-              testCase.wait(for: [expect], timeout: 0)
-              expectation = nil
-            }
+          guard let subscription = subscription else {
+            return
           }
 
+          if pageSize != 0 {
+            expectation = testCase.expectation(description: "Paginator")
+          }
+
+          subscription.request(.max(pageSize))
           expect = expectation
         }
 
