@@ -48,8 +48,9 @@ public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
 
         var resultsReturned = 0
         for record in results {
-          guard self.resultsLimit == CKQueryOperation.maximumResults ||
-            resultsReturned < self.resultsLimit
+          guard
+            self.resultsLimit == CKQueryOperation.maximumResults
+              || resultsReturned < self.resultsLimit
           else {
             // FIXME: We can't actually create a Cursor.
             completion(nil, nil)

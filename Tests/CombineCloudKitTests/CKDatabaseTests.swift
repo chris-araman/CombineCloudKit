@@ -410,7 +410,9 @@
 
     func testQueryReturnsExpectedResults() throws {
       let configuration = CKOperation.Configuration()
-      let records = (0...9).map { CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)")) }
+      let records = (0...9).map {
+        CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)"))
+      }
       let save = database.save(records: records, withConfiguration: configuration)
       try wait(for: \.finished, from: save)
 
@@ -481,7 +483,9 @@
     }
 
     func testQueryWithPaginationReturnsExpectedResults() throws {
-      let records = (0...9).map { CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)")) }
+      let records = (0...9).map {
+        CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)"))
+      }
       let save = database.save(records: records)
       try wait(for: \.finished, from: save)
 
