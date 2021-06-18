@@ -29,8 +29,8 @@ let package = Package(
   swiftLanguageVersions: [.v5]
 )
 
-#if swift(>=5.5)
-  // Test improvements for Xcode 13 beta.
+#if swift(>=5.4)
+  // Test improvements for Xcode 12.5 and 13 beta.
   package.dependencies += [
     .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
   ]
