@@ -394,21 +394,17 @@
       let save = database.save(record: CKRecord(recordType: "Test"))
       try wait(for: \.finished, from: save)
 
-      // CKOperation.Configuration requires that .qualityOfService is
-      // at least as high as that of the current DispatchQueue.
-      try DispatchQueue.global(qos: .userInteractive).sync {
-        for qos in [
-          QualityOfService.userInteractive,
-          QualityOfService.userInitiated,
-          QualityOfService.utility,
-          QualityOfService.background,
-          QualityOfService.default,
-        ] {
-          let configuration = CKOperation.Configuration()
-          configuration.qualityOfService = qos
-          let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
-          try wait(for: \.finished, from: query)
-        }
+      for qos in [
+        QualityOfService.userInteractive,
+        QualityOfService.userInitiated,
+        QualityOfService.utility,
+        QualityOfService.background,
+        QualityOfService.default,
+      ] {
+        let configuration = CKOperation.Configuration()
+        configuration.qualityOfService = qos
+        let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
+        try wait(for: \.finished, from: query)
       }
     }
 
