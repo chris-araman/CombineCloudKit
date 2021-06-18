@@ -467,9 +467,9 @@
         defer { expectation = nil }
 
         self.pageSize = pageSize
-        self.subscription!.request(.max(pageSize))
+        self.subscription?.request(.max(pageSize))
 
-        if self.pageSize == 0 {
+        if self.subscription == nil || self.pageSize == 0 {
           expectation!.fulfill()
         }
 
@@ -506,11 +506,11 @@
       XCTAssertEqual(try paginator.next(0), [])
     }
 
-    func testQueryAfterCancellationReturnsNoRecords() throws {
+    func testQueryAfterCancellationReturnsNoRecords() {
       let paginator = Paginator(testCase: self)
       let query = database.performQuery(ofType: "Test")
-      paginator.cancel()
       query.receive(subscriber: paginator)
+      paginator.cancel()
       XCTAssertEqual(try paginator.next(1), [])
     }
   }
