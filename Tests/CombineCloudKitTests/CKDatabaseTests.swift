@@ -512,6 +512,29 @@
       paginator.cancel()
       XCTAssertEqual(try paginator.next(1), [])
     }
+
+    func testCKOperationFactory() {
+      let factory = CKOperationFactory()
+      _ = factory.createFetchAllRecordZonesOperation()
+      _ = factory.createFetchAllSubscriptionsOperation()
+      _ = factory.createFetchCurrentUserRecordOperation()
+      _ = factory.createFetchRecordsOperation(recordIDs: [])
+      _ = factory.createFetchRecordZonesOperation(recordZoneIDs: [])
+      _ = factory.createFetchSubscriptionsOperation(subscriptionIDs: [])
+      _ = factory.createModifyRecordsOperation(
+        recordsToSave: nil,
+        recordIDsToDelete: nil
+      )
+      _ = factory.createModifyRecordZonesOperation(
+        recordZonesToSave: nil,
+        recordZoneIDsToDelete: nil
+      )
+      _ = factory.createModifySubscriptionsOperation(
+        subscriptionsToSave: nil,
+        subscriptionIDsToDelete: nil
+      )
+      _ = factory.createQueryOperation()
+    }
   }
 
 #endif
