@@ -8,7 +8,8 @@ let package = Package(
     .iOS(.v13),
     .macOS(.v10_15),
     .tvOS(.v13),
-    .watchOS(.v6),
+    // XCTest requires watchOS 7.4.
+    .watchOS("7.4"),
   ],
   products: [
     .library(
@@ -16,8 +17,27 @@ let package = Package(
       targets: ["CombineCloudKit"]
     )
   ],
+  dependencies: [
+    // Test improvements for Xcode 13 beta.
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
+  ],
   targets: [
-    .target(name: "CombineCloudKit")
+    .target(name: "CombineCloudKit"),
+    .testTarget(
+      name: "CombineCloudKitTests",
+      dependencies: [
+        "CombineCloudKit",
+        "CombineExpectations",
+      ]
+    ),
   ],
   swiftLanguageVersions: [.v5]
 )
+
+// Used by script/lint. Assumes current Swift tools.
+#if swift(>=5.4)
+  package.dependencies += [
+    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))
+  ]
+#endif
+

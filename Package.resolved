@@ -5,9 +5,9 @@
         "package": "CombineExpectations",
         "repositoryURL": "https://github.com/groue/CombineExpectations.git",
         "state": {
-          "branch": null,
-          "revision": "5118f805bdeac7e81dc8e92c78b7ce475201dec8",
-          "version": "0.9.0"
+          "branch": "linker",
+          "revision": "2171001154af98ba376ff9bb984eec518cbe4c6d",
+          "version": null
         }
       },
       {
