@@ -12,5 +12,4 @@ extension CKDatabaseOperation: CCKDatabaseOperation {
 }
 
 protocol CCKDatabaseOperation: CCKOperation {
-  var database: CKDatabase? { get set }
 }
