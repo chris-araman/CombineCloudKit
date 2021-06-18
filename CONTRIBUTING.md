@@ -42,7 +42,7 @@ swift build
 
 Unit testing is accomplished using mock CloudKit types.
 
-[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
+[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square&color=informational)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
 
 > 🚧 Integration testing against the CloudKit API and service will require app entitlements. Some work
 remains to wire this up automatically to `swift test`.
