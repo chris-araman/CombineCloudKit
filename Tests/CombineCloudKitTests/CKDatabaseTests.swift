@@ -390,24 +390,6 @@
       XCTAssertEqual(Set(results), Set())
     }
 
-    func testQueryWithAllQualitiesOfService() throws {
-      let save = database.save(record: CKRecord(recordType: "Test"))
-      try wait(for: \.finished, from: save)
-
-      for qos in [
-        QualityOfService.userInteractive,
-        QualityOfService.userInitiated,
-        QualityOfService.utility,
-        QualityOfService.background,
-        QualityOfService.default,
-      ] {
-        let configuration = CKOperation.Configuration()
-        configuration.qualityOfService = qos
-        let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
-        try wait(for: \.finished, from: query)
-      }
-    }
-
     func testQueryReturnsExpectedResults() throws {
       let configuration = CKOperation.Configuration()
       let records = (0...9).map {
