@@ -55,22 +55,7 @@ internal class QueryPublisher: Publisher {
     internal init(_ publisher: QueryPublisher, _ subscriber: Downstream) {
       self.publisher = publisher
       self.subscriber = subscriber
-
-      let qos: DispatchQoS
-      switch publisher.configuration?.qualityOfService {
-      case .userInteractive:
-        qos = .userInteractive
-      case .userInitiated:
-        qos = .userInitiated
-      case .utility:
-        qos = .utility
-      case .background:
-        qos = .background
-      default:
-        qos = .default
-      }
-
-      queue = DispatchQueue(label: String(describing: type(of: self)), qos: qos)
+      queue = DispatchQueue(label: String(describing: type(of: self)))
       operation = operationFactory.createQueryOperation()
       operation.query = publisher.query
       prepareOperation()
