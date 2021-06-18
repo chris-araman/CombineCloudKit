@@ -426,6 +426,7 @@
       typealias Input = CKRecord
       typealias Failure = Error
 
+      private let queue = DispatchQueue(label: "Paginator")
       private var subscription: Subscription?
       private var records = [CKRecord]()
       private var error: Error?
@@ -437,44 +438,57 @@
       }
 
       func receive(subscription: Subscription) {
-        self.subscription = subscription
+        queue.sync {
+          self.subscription = subscription
+        }
       }
 
       func receive(_ input: CKRecord) -> Subscribers.Demand {
-        records.append(input)
-        return .none
+        queue.sync {
+          records.append(input)
+          return .none
+        }
       }
 
       func receive(completion: Subscribers.Completion<Error>) {
-        if case .failure(let error) = completion {
-          self.error = error
-        }
+        queue.sync {
+          if case .failure(let error) = completion {
+            self.error = error
+          }
 
-        expectation?.fulfill()
-        expectation = nil
+          expectation?.fulfill()
+          expectation = nil
+        }
       }
 
       func cancel() {
-        subscription?.cancel()
-        subscription = nil
-        expectation?.fulfill()
-        expectation = nil
+        queue.sync {
+          subscription?.cancel()
+          subscription = nil
+          expectation?.fulfill()
+          expectation = nil
+        }
       }
 
       func next(_ pageSize: Int) throws -> [CKRecord] {
-        records.removeAll()
-        assert(expectation == nil)
-        expectation = testCase.expectation(description: "Paginator")
-        defer { expectation = nil }
+        var expect: XCTestExpectation?
+        queue.sync {
+          records.removeAll()
+          assert(expectation == nil)
+          expectation = testCase.expectation(description: "Paginator")
 
-        subscription?.request(.max(pageSize))
+          subscription?.request(.max(pageSize))
 
-        if subscription == nil || pageSize == 0 {
-          expectation?.fulfill()
+          if subscription == nil || pageSize == 0 {
+            expectation?.fulfill()
+          }
+
+          expect = expectation
         }
 
-        if let expectation = expectation {
-          testCase.wait(for: [expectation], timeout: 1)
+        if let expect = expect {
+          testCase.wait(for: [expect], timeout: 30)
+          expectation = nil
         }
 
         if let error = error {
