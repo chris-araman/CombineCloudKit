@@ -2,14 +2,6 @@
 
 import PackageDescription
 
-#if swift(>=5.4)
-  let swiftBranch = "swift-5.4-branch"
-#elseif swift(>=5.3)
-  let swiftBranch = "swift-5.3-branch"
-#elseif swift(>=5.2)
-  let swiftBranch = "swift-5.2-branch"
-#endif
-
 let package = Package(
   name: "CombineCloudKit",
   platforms: [
@@ -23,9 +15,6 @@ let package = Package(
       name: "CombineCloudKit",
       targets: ["CombineCloudKit"]
     )
-  ],
-  dependencies: [
-    .package(url: "https://github.com/apple/swift-format", .branch(swiftBranch)),
   ],
   targets: [
     .target(name: "CombineCloudKit"),
@@ -48,6 +37,13 @@ let package = Package(
 #else
   package.dependencies += [
     .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.9.0")
+  ]
+#endif
+
+// Used by script/lint. Assumes current Swift tools.
+#if swift(>=5.4)
+  package.dependencies += [
+    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))
   ]
 #endif
 
