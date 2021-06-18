@@ -8,7 +8,7 @@ Swift Combine extensions for asynchronous CloudKit record processing. Designed f
 [![Release](https://img.shields.io/github/v/tag/chris-araman/CombineCloudKit?style=flat-square&color=informational&label=release&sort=semver)](https://github.com/chris-araman/CombineCloudKit/releases)
 
 [![Lint | Build | Test](https://img.shields.io/github/workflow/status/chris-araman/CombineCloudKit/Continuous%20Integration/main?style=flat-square&logo=github&label=lint%20%7C%20build%20%7C%20test)](https://github.com/chris-araman/CombineCloudKit/actions/workflows/ci.yml?query=branch%3Amain)
-[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
+[![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square&color=informational)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
 
 CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/cloudkit) operations as
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
