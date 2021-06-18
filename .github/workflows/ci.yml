@@ -50,7 +50,7 @@ jobs:
     - name: Clone
       uses: actions/checkout@v2
     - name: ${{ matrix.name || 'Build & Test' }}
-      uses: chris-araman/xcodebuild@swift-version
+      uses: mxcl/xcodebuild@v1
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
