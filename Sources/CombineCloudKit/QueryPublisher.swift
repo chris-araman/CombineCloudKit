@@ -98,6 +98,7 @@ internal class QueryPublisher: Publisher {
         self.demand += demand
 
         if !self.operationIsQueued {
+          self.operation.resultsLimit = self.demand.max ?? CKQueryOperation.maximumResults
           self.operationQueue.addOperation(self.operation)
           self.operationIsQueued = true
         }

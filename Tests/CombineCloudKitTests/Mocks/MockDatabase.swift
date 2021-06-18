@@ -175,10 +175,16 @@ public class MockDatabase: CCKDatabase {
         return
       }
 
-      // Our simulated queries will return only records of matching type.
+      // Our simulated queries will return every second record of matching type, sorted by ID.recordName.
       // We will ignore the predicate and other CKQuery fields.
-      let results = self.records.compactMap { key, value in
+      var index = 0
+      let results = self.records.sorted {
+        $0.key.recordName.compare($1.key.recordName) == .orderedAscending
+      }.compactMap { key, value in
         value.recordType == query.recordType ? value : nil
+      }.filter { _ in
+        index += 1
+        return index % 2 == 0
       }
 
       completionHandler(results, nil)

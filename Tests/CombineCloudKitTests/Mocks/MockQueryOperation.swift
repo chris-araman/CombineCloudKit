@@ -24,7 +24,7 @@ public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
 
   public var zoneID: CKRecordZone.ID?
 
-  public var resultsLimit: Int = 10
+  public var resultsLimit: Int = CKQueryOperation.maximumResults
 
   public var recordFetchedBlock: ((CKRecord) -> Void)?
 
@@ -46,7 +46,17 @@ public class MockQueryOperation: MockDatabaseOperation, CCKQueryOperation {
           return
         }
 
+        var resultsReturned = 0
         for record in results {
+          guard self.resultsLimit == CKQueryOperation.maximumResults ||
+            resultsReturned < self.resultsLimit
+          else {
+            // FIXME: We can't actually create a Cursor.
+            completion(nil, nil)
+            return
+          }
+
+          resultsReturned += 1
           fetched(record)
         }
 

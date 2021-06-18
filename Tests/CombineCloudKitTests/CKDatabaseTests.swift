@@ -99,8 +99,7 @@
     func testFetchRecordsIncludesOnlyRequestedRecords() throws {
       let records = (1...3).map { CKRecord(recordType: "Test\($0)") }
       let save = database.save(records: records)
-      let saved = try wait(for: \.elements, from: save)
-      XCTAssertEqual(Set(saved), Set(records[0...2]))
+      try wait(for: \.finished, from: save)
 
       let fetch = database.fetch(recordIDs: [records[0].recordID, records[1].recordID])
       let fetched = try wait(for: \.elements, from: fetch)
@@ -110,8 +109,7 @@
     func testFetchRecordZonesIncludesOnlyRequestedRecordZones() throws {
       let zones = (1...3).map { CKRecordZone(zoneName: "Test\($0)") }
       let save = database.save(recordZones: zones)
-      let saved = try wait(for: \.elements, from: save)
-      XCTAssertEqual(Set(saved), Set(zones[0...2]))
+      try wait(for: \.finished, from: save)
 
       let fetch = database.fetch(recordZoneIDs: [zones[0].zoneID, zones[1].zoneID])
       let fetched = try wait(for: \.elements, from: fetch)
@@ -336,8 +334,7 @@
       let userRecord = CKRecord(
         recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
       let save = database.save(record: userRecord)
-      let saved = try wait(for: \.single, from: save)
-      XCTAssertEqual(saved, userRecord)
+      try wait(for: \.finished, from: save)
 
       let configuration = CKOperation.Configuration()
       let desiredKeys = ["Key"]
@@ -371,8 +368,7 @@
     ) throws where T: Hashable {
       let configuration = CKOperation.Configuration()
       let save = save(items, configuration)
-      let saved = try wait(for: \.elements, from: save)
-      XCTAssertEqual(Set(saved), Set(items))
+      try wait(for: \.finished, from: save)
 
       let fetch = fetch()
       let fetched = try wait(for: \.elements, from: fetch)
@@ -381,14 +377,78 @@
 
     func testQueryReturnsExpectedResults() throws {
       let configuration = CKOperation.Configuration()
-      let records = (1...3).map { CKRecord(recordType: "Test\($0)") }
+      let records = (0...9).map { CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)")) }
       let save = database.save(records: records, withConfiguration: configuration)
-      let saved = try wait(for: \.elements, from: save)
-      XCTAssertEqual(Set(saved), Set(records))
+      try wait(for: \.finished, from: save)
 
-      let query = database.performQuery(ofType: "Test2", withConfiguration: configuration)
-      let queried = try wait(for: \.single, from: query)
-      XCTAssertEqual(queried, records[1])
+      // MockQueryOperation returns every second record of matching type, sorted by ID.recordName.
+      let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
+      let results = try wait(for: \.elements, from: query)
+      XCTAssertEqual(Set(results), Set(stride(from: 0, to: 9, by: 2).map { records[$0 + 1] }))
+    }
+
+    private class Paginator: Subscriber {
+      typealias Input = CKRecord
+      typealias Failure = Error
+
+      private let pageSize: Int
+      private var subscription: Subscription?
+      private var records = [CKRecord]()
+      private let testCase: XCTestCase
+      private var expectation: XCTestExpectation?
+
+      init(testCase: XCTestCase, pageSize: Int) {
+        self.testCase = testCase
+        self.pageSize = pageSize
+      }
+
+      func receive(subscription: Subscription) {
+        self.subscription = subscription
+      }
+
+      func receive(_ input: CKRecord) -> Subscribers.Demand {
+        records.append(input)
+        if records.count == pageSize {
+          expectation!.fulfill()
+        }
+
+        return .none
+      }
+
+      func receive(completion: Subscribers.Completion<Error>) {
+        if case .failure(let error) = completion {
+          XCTFail("Unexpected error from Publisher: \(error.localizedDescription)")
+        }
+
+        self.subscription = nil
+      }
+
+      func nextPage() -> [CKRecord] {
+        records.removeAll()
+        assert(expectation == nil)
+        expectation = testCase.expectation(description: "Paginator")
+
+        self.subscription!.request(.max(self.pageSize))
+
+        testCase.wait(for: [expectation!], timeout: 1)
+        expectation = nil
+        return records
+      }
+    }
+
+    func testQueryWithPaginationReturnsExpectedResults() throws {
+      let records = (0...9).map { CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)")) }
+      let save = database.save(records: records)
+      try wait(for: \.finished, from: save)
+
+      // MockQueryOperation returns every second record of matching type, sorted by ID.recordName.
+      let paginator = Paginator(testCase: self, pageSize: 2)
+      let query = database.performQuery(ofType: "Test")
+      query.receive(subscriber: paginator)
+      XCTAssertEqual(paginator.nextPage(), [records[1], records[3]])
+
+      // TODO: Test that a second page picks up where the first left off.
+      // XCTAssertEqual(paginator.nextPage(), [records[5], records[7]])
     }
   }
 
