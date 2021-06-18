@@ -8,7 +8,8 @@ let package = Package(
     .iOS(.v13),
     .macOS(.v10_15),
     .tvOS(.v13),
-    .watchOS(.v6),
+    // XCTest requires watchOS 7.4.
+    .watchOS("7.4"),
   ],
   products: [
     .library(
