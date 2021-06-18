@@ -480,15 +480,18 @@
           subscription?.request(.max(pageSize))
 
           if subscription == nil || pageSize == 0 {
-            expectation?.fulfill()
+            if let expect = expectation {
+              expect.fulfill()
+              testCase.wait(for: [expect], timeout: 0)
+              expectation = nil
+            }
           }
 
           expect = expectation
         }
 
         if let expect = expect {
-          testCase.wait(for: [expect], timeout: 30)
-          expectation = nil
+          testCase.wait(for: [expect], timeout: 1)
         }
 
         if let error = error {
