@@ -390,6 +390,24 @@
       XCTAssertEqual(Set(results), Set())
     }
 
+    func testQueryWithAllQualitiesOfService() throws {
+      let save = database.save(record: CKRecord(recordType: "Test"))
+      try wait(for: \.finished, from: save)
+
+      for qos in [
+        QualityOfService.userInteractive,
+        QualityOfService.userInitiated,
+        QualityOfService.utility,
+        QualityOfService.background,
+        QualityOfService.default,
+      ] {
+        let configuration = CKOperation.Configuration()
+        configuration.qualityOfService = qos
+        let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
+        try wait(for: \.finished, from: query)
+      }
+    }
+
     func testQueryReturnsExpectedResults() throws {
       let configuration = CKOperation.Configuration()
       let records = (0...9).map { CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)")) }
@@ -409,6 +427,7 @@
       private var pageSize = 0
       private var subscription: Subscription?
       private var records = [CKRecord]()
+      private var error: Error?
       private let testCase: XCTestCase
       private var expectation: XCTestExpectation?
 
@@ -427,7 +446,7 @@
 
       func receive(completion: Subscribers.Completion<Error>) {
         if case .failure(let error) = completion {
-          XCTFail("Unexpected error from Publisher: \(error.localizedDescription)")
+          self.error = error
         }
 
         expectation!.fulfill()
@@ -439,10 +458,11 @@
         self.subscription = nil
       }
 
-      func next(_ pageSize: Int) -> [CKRecord] {
+      func next(_ pageSize: Int) throws -> [CKRecord] {
         records.removeAll()
         assert(expectation == nil)
         expectation = testCase.expectation(description: "Paginator")
+        defer { expectation = nil }
 
         self.pageSize = pageSize
         self.subscription!.request(.max(pageSize))
@@ -452,7 +472,10 @@
         }
 
         testCase.wait(for: [expectation!], timeout: 1)
-        expectation = nil
+        if let error = self.error {
+          throw error
+        }
+
         return records
       }
     }
@@ -466,7 +489,7 @@
       let paginator = Paginator(testCase: self)
       let query = database.performQuery(ofType: "Test")
       query.receive(subscriber: paginator)
-      XCTAssertEqual(paginator.next(2), [records[1], records[3]])
+      XCTAssertEqual(try paginator.next(2), [records[1], records[3]])
 
       // TODO: Test that a second page picks up where the first left off.
       // XCTAssertEqual(paginator.nextPage(), [records[5], records[7]])
@@ -476,7 +499,7 @@
       let paginator = Paginator(testCase: self)
       let query = database.performQuery(ofType: "Test")
       query.receive(subscriber: paginator)
-      XCTAssertEqual(paginator.next(0), [])
+      XCTAssertEqual(try paginator.next(0), [])
     }
 
     func testQueryAfterCancellationReturnsNoRecords() throws {
@@ -484,7 +507,7 @@
       let query = database.performQuery(ofType: "Test")
       paginator.cancel()
       query.receive(subscriber: paginator)
-      XCTAssertEqual(paginator.next(1), [])
+      XCTAssertEqual(try paginator.next(1), [])
     }
   }
 
