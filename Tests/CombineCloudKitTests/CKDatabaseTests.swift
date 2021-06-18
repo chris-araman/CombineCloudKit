@@ -451,13 +451,16 @@
           self.error = error
         }
 
-        expectation!.fulfill()
-        self.subscription = nil
+        subscription = nil
+        expectation?.fulfill()
+        expectation = nil
       }
 
       func cancel() {
-        self.subscription?.cancel()
-        self.subscription = nil
+        subscription?.cancel()
+        subscription = nil
+        expectation?.fulfill()
+        expectation = nil
       }
 
       func next(_ pageSize: Int) throws -> [CKRecord] {
@@ -467,14 +470,17 @@
         defer { expectation = nil }
 
         self.pageSize = pageSize
-        self.subscription?.request(.max(pageSize))
+        subscription?.request(.max(pageSize))
 
-        if self.subscription == nil || self.pageSize == 0 {
-          expectation!.fulfill()
+        if subscription == nil || pageSize == 0 {
+          expectation?.fulfill()
         }
 
-        testCase.wait(for: [expectation!], timeout: 1)
-        if let error = self.error {
+        if let expectation = expectation {
+          testCase.wait(for: [expectation], timeout: 1)
+        }
+
+        if let error = error {
           throw error
         }
 
