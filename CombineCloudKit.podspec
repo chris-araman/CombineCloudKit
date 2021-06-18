@@ -20,16 +20,4 @@ Pod::Spec.new do |spec|
   spec.swift_versions             = ['5.1', '5.2', '5.3', '5.4', '5.5']
 
   spec.source_files   = 'Sources/**/*.swift'
-  spec.test_spec 'Tests' do |test_spec|
-    test_spec.compiler_flags = '-DCOCOAPODS'
-    test_spec.source_files = 'Tests/**/*.swift'
-    test_spec.dependency 'CombineExpectations', '~> 0.9'
-    test_spec.ios.deployment_target      = '13.0'
-    test_spec.osx.deployment_target      = '10.15'
-    test_spec.tvos.deployment_target     = '13.0'
-    # XCTest was not available for watchOS until Swift 5.4 and watchOS 7.4.
-    test_spec.watchos.deployment_target  = '7.4'
-    # CombineCloudKitTests require Swift 5.2.
-    test_spec.swift_versions             = ['5.2', '5.3', '5.4', '5.5']
-  end
 end
