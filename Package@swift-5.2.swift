@@ -25,7 +25,6 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
     .package(url: "https://github.com/apple/swift-format", .branch(swiftBranch)),
   ],
   targets: [
@@ -40,3 +39,15 @@ let package = Package(
   ],
   swiftLanguageVersions: [.v5]
 )
+
+#if swift(>=5.5)
+  // Test improvements for Xcode 13 beta.
+  package.dependencies += [
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
+  ]
+#else
+  package.dependencies += [
+    .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.9.0")
+  ]
+#endif
+
