@@ -426,7 +426,6 @@
       typealias Input = CKRecord
       typealias Failure = Error
 
-      private var pageSize = 0
       private var subscription: Subscription?
       private var records = [CKRecord]()
       private var error: Error?
@@ -451,7 +450,6 @@
           self.error = error
         }
 
-        subscription = nil
         expectation?.fulfill()
         expectation = nil
       }
@@ -469,7 +467,6 @@
         expectation = testCase.expectation(description: "Paginator")
         defer { expectation = nil }
 
-        self.pageSize = pageSize
         subscription?.request(.max(pageSize))
 
         if subscription == nil || pageSize == 0 {
