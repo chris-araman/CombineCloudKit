@@ -87,7 +87,6 @@ internal class QueryPublisher: Publisher {
     }
 
     private func prepareOperation() {
-      operation.database = publisher.database as? CKDatabase
       operation.desiredKeys = publisher.desiredKeys
       operation.zoneID = publisher.zoneID
       operation.resultsLimit = demand.max ?? CKQueryOperation.maximumResults
