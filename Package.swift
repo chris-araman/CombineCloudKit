@@ -23,14 +23,21 @@ let package = Package(
 )
 
 #if swift(>=5.4)
+  // XCTest for watchOS requires watchOS 7.4 and Swift 5.4.
   package.platforms! += [
-    // XCTest requires watchOS 7.4.
     .watchOS("7.4")
   ]
 #else
   // Combine requires watchOS 6.
   package.platforms! += [
     .watchOS(.v6)
+  ]
+#endif
+
+#if swift(>=5.5)
+  // Mac Catalyst requires Swift 5.5.
+  package.platforms! += [
+    .macCatalyst(.v13)
   ]
 #endif
 

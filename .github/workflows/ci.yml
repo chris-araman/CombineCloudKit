@@ -46,6 +46,10 @@ jobs:
             macos: '11'
           - swift: '5.5'
             macos: '11'
+          # TODO: Enable this once this is resolved:
+          # https://github.com/mxcl/xcodebuild/issues/31
+          # - swift: '5.5'
+          #   platform: macCatalyst
     steps:
     - name: Clone
       uses: actions/checkout@v2
