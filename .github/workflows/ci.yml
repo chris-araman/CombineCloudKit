@@ -29,7 +29,7 @@ jobs:
           - swift: '5.1'
             # The macOS 11 environment no longer includes Swift 5.1.
             macos: '10.15'
-            # CombineExpectations requires Swift 5.2.
+            # CombineCloudKitTests require Swift 5.2.
             action: build
             name: Build
           # XCTest for watchOS requires Swift 5.4.
