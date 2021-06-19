@@ -54,6 +54,6 @@ let package = Package(
 // Used by script/lint. Assumes current Swift tools.
 #if swift(>=5.4)
   package.dependencies += [
-    .package(url: "https://github.com/apple/swift-format", .branch("swift-5.4-branch"))
+    .package(url: "https://github.com/apple/swift-format.git", .branch("swift-5.4-branch"))
   ]
 #endif
