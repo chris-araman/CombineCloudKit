@@ -45,6 +45,7 @@ jobs:
             platform: mac-catalyst
             platform-name: Mac Catalyst
           # TODO: Remove this once macos-latest >= 11.
+            macos: '11'
           - swift: '5.4'
             macos: '11'
           - swift: '5.5'
