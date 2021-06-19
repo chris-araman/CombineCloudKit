@@ -29,7 +29,7 @@ public class MockModifyRecordsOperation:
       recordsToSave,
       recordIDsToDelete
     )
-    super.perItemCompletionBlock = { record, error in
+    super.perItemCompletionBlock = { [unowned self] record, error in
       if let perRecordProgressBlock = self.perRecordProgressBlock, error == nil {
         perRecordProgressBlock(record, 0.7)
         perRecordProgressBlock(record, 1.0)
@@ -39,7 +39,7 @@ public class MockModifyRecordsOperation:
         perRecordCompletionBlock(record, error)
       }
     }
-    super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
+    super.modifyItemsCompletionBlock = { [unowned self] itemsToSave, itemIDsToDelete, error in
       let completion = try! XCTUnwrap(self.modifyRecordsCompletionBlock)
       completion(itemsToSave, itemIDsToDelete, error)
     }

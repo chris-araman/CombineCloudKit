@@ -25,7 +25,7 @@ public class MockFetchSubscriptionsOperation: MockFetchOperation<CKSubscription,
       { database, operation in operation(&database.subscriptions) },
       subscriptionIDs
     )
-    super.fetchItemsCompletionBlock = { items, error in
+    super.fetchItemsCompletionBlock = { [unowned self] items, error in
       let completion = try! XCTUnwrap(self.fetchSubscriptionCompletionBlock)
       completion(items, error)
     }

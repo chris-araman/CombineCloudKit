@@ -25,17 +25,17 @@ public class MockFetchRecordsOperation: MockFetchOperation<CKRecord, CKRecord.ID
       { database, operation in operation(&database.records) },
       recordIDs
     )
-    super.perItemProgressBlock = { itemID, progress in
+    super.perItemProgressBlock = { [unowned self] itemID, progress in
       if let update = self.perRecordProgressBlock {
         update(itemID, progress)
       }
     }
-    super.perItemCompletionBlock = { item, itemID, error in
+    super.perItemCompletionBlock = { [unowned self] item, itemID, error in
       if let completion = self.perRecordCompletionBlock {
         completion(item, itemID, error)
       }
     }
-    super.fetchItemsCompletionBlock = { items, error in
+    super.fetchItemsCompletionBlock = { [unowned self] items, error in
       let completion = try! XCTUnwrap(self.fetchRecordsCompletionBlock)
       completion(items, error)
     }

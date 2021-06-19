@@ -95,48 +95,56 @@ internal class QueryPublisher: Publisher {
         operation.configuration = publisher.configuration
       }
 
-      operation.recordFetchedBlock = { record in
-        self.queue.async {
-          assert(self.demand != Subscribers.Demand.none)
+      operation.recordFetchedBlock = { [weak self] record in
+        guard let publisher = self else {
+          return
+        }
 
-          guard let subscriber = self.subscriber else {
+        publisher.queue.async {
+          assert(publisher.demand != Subscribers.Demand.none)
+
+          guard let subscriber = publisher.subscriber else {
             // Ignore any remaining results.
             return
           }
 
-          self.demand -= 1
-          self.demand += subscriber.receive(record)
+          publisher.demand -= 1
+          publisher.demand += subscriber.receive(record)
         }
       }
 
-      operation.queryCompletionBlock = { cursor, error in
-        self.queue.async {
-          guard let subscriber = self.subscriber else {
+      operation.queryCompletionBlock = { [weak self] cursor, error in
+        guard let publisher = self else {
+          return
+        }
+
+        publisher.queue.async {
+          guard let subscriber = publisher.subscriber else {
             return
           }
 
           guard error == nil else {
             subscriber.receive(completion: .failure(error!))
-            self.subscriber = nil
+            publisher.subscriber = nil
             return
           }
 
           guard let cursor = cursor else {
             // We've fetched all the results.
             subscriber.receive(completion: .finished)
-            self.subscriber = nil
+            publisher.subscriber = nil
             return
           }
 
           // Prepare to fetch the next page of results.
-          self.operation = operationFactory.createQueryOperation()
-          self.operation.cursor = cursor
-          self.prepareOperation()
-          if self.demand == Subscribers.Demand.none {
-            self.operationIsQueued = false
+          publisher.operation = operationFactory.createQueryOperation()
+          publisher.operation.cursor = cursor
+          publisher.prepareOperation()
+          if publisher.demand == Subscribers.Demand.none {
+            publisher.operationIsQueued = false
           } else {
-            self.publisher.database.add(self.operation)
-            self.operationIsQueued = true
+            publisher.publisher.database.add(publisher.operation)
+            publisher.operationIsQueued = true
           }
         }
       }

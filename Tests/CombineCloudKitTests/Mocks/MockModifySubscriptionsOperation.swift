@@ -32,7 +32,7 @@ public class MockModifySubscriptionsOperation:
       subscriptionsToSave,
       subscriptionIDsToDelete
     )
-    super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
+    super.modifyItemsCompletionBlock = { [unowned self] itemsToSave, itemIDsToDelete, error in
       let completion = try! XCTUnwrap(self.modifySubscriptionsCompletionBlock)
       completion(itemsToSave, itemIDsToDelete, error)
     }

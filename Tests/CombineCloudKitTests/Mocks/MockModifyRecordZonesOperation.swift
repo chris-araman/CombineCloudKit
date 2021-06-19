@@ -32,7 +32,7 @@ public class MockModifyRecordZonesOperation:
       recordZonesToSave,
       recordZoneIDsToDelete
     )
-    super.modifyItemsCompletionBlock = { itemsToSave, itemIDsToDelete, error in
+    super.modifyItemsCompletionBlock = { [unowned self] itemsToSave, itemIDsToDelete, error in
       let completion = try! XCTUnwrap(self.modifyRecordZonesCompletionBlock)
       completion(itemsToSave, itemIDsToDelete, error)
     }

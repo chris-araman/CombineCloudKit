@@ -25,7 +25,7 @@ public class MockFetchRecordZonesOperation: MockFetchOperation<CKRecordZone, CKR
       { database, operation in operation(&database.recordZones) },
       recordZoneIDs
     )
-    super.fetchItemsCompletionBlock = { items, error in
+    super.fetchItemsCompletionBlock = { [unowned self] items, error in
       let completion = try! XCTUnwrap(self.fetchRecordZonesCompletionBlock)
       completion(items, error)
     }
