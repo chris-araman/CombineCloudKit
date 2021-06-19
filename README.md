@@ -134,7 +134,11 @@ func queryDueItems(database: CKDatabase, due: Date) {
 }
 ```
 
-### Cancellation
+### Queueing and Cancellation
+
+Just creating a `Publisher` does not queue a CloudKit operation. An operation is queued only once a `Subscriber`
+subscribes to the `Publisher` and indicates
+[`Demand`](https://developer.apple.com/documentation/combine/subscribers/demand).
 
 Note that the [`Cancellable`](https://developer.apple.com/documentation/combine/cancellable) subscriber from
 [`sink`](https://developer.apple.com/documentation/combine/fail/sink\(receivevalue:\)) will cancel the upstream publishers
