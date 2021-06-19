@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          CombineCloudKit 0.5.1-55-ge827f7b Docs
+          CombineCloudKit 0.5.1-57-g0adb260 Docs
         </a>
          (100% documented)
       </p>
@@ -198,6 +198,7 @@ final values are processed.</p>
   <span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre>
+<h3 id='cancellation' class='heading'>Cancellation</h3>
 
 <p>Note that the <a href="https://developer.apple.com/documentation/combine/cancellable"><code>Cancellable</code></a> subscriber from
 <a href="https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)"><code>sink</code></a> will cancel the upstream publishers
@@ -206,6 +207,36 @@ CombineCloudKit publisher is cancelled before it is finished emitting values, th
 <a href="https://developer.apple.com/documentation/cloudkit/ckoperation"><code>CKOperation</code></a> will be cancelled. This may be desirable
 when performing a query and processing only the first few results. However, failing to wait for completion of a <code>save</code>,
 <code>delete</code>, or <code>modify</code> operation may result in undesirable cancellation.</p>
+
+<p>Note that because the <code>atBackgroundPriority</code> publishers are built on <code>CKDatabase</code> methods that do not provide means of
+cancellation, they will not respond to requests for cancellation. If you need the publishers to respond to requests for
+cooperative cancellation, please use the publishers that do not have <code>atBackgroundPriority</code> in their names. You can
+still specify
+<a href="https://developer.apple.com/documentation/foundation/qualityofservice/background"><code>QualityOfService.background</code></a>
+by passing in a
+<a href="https://developer.apple.com/documentation/cloudkit/ckoperation/configuration"><code>CKOperation.Configuration</code></a>.</p>
+<h3 id='sharing-publishers-among-multiple-subscribers' class='heading'>Sharing Publishers among Multiple Subscribers</h3>
+
+<p>If two or more <code>Subscriber</code>s subscribe to the same CombineCloudKit <code>Publisher</code>, the operation will be queued twice.
+This may be surprising if you&rsquo;re new to Combine! Queueing the same database operation twice could be inefficient or
+potentially harmful. If you need to subscribe to a <code>Publisher</code> twice, use the
+<a href="https://developer.apple.com/documentation/combine/publisher/share()"><code>share</code></a> and
+<a href="https://developer.apple.com/documentation/combine/publisher/makeconnectable()"><code>makeConnectable</code></a>
+operators. This will ensure the operation is queued only once.</p>
+
+<p>I considered making the <code>Publisher</code>s all conform to
+<a href="https://developer.apple.com/documentation/combine/connectablepublisher"><code>ConnectablePublisher</code></a>
+by default, but that would require all callers to call
+<a href="https://developer.apple.com/documentation/combine/connectablepublisher/connect()"><code>connect</code></a>
+explicitly or to use the
+<a href="https://developer.apple.com/documentation/combine/connectablepublisher/autoconnect()"><code>autoconnect</code></a>
+operator, even if they did not intend to share the <code>Publisher</code>.</p>
+
+<p>For more on this topic, please review:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/documentation/combine/controlling-publishing-with-connectable-publishers">Controlling Publishing with Connectable Publishers</a></li>
+</ul>
 <h2 id='documentation' class='heading'>📘 Documentation</h2>
 
 <p>💯% <a href="https://combinecloudkit.hiddenplace.dev">documented</a> using <a href="https://github.com/realm/jazzy">Jazzy</a>.
