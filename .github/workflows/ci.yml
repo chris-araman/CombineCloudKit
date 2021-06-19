@@ -18,7 +18,7 @@ jobs:
     - name: Lint
       run: script/lint
   build-test:
-    name: ${{ matrix.name || 'Build & Test' }} (Swift ${{ matrix.swift }}, ${{ matrix.platform }})
+    name: ${{ matrix.name || 'Build & Test' }} (Swift ${{ matrix.swift }}, ${{ matrix.platform-name || matrix.platform }})
     runs-on: macos-${{ matrix.macos || 'latest' }}
     strategy:
       fail-fast: false
@@ -41,6 +41,9 @@ jobs:
             platform: watchOS
             action: build
             name: Build
+          - swift: '5.5'
+            platform: mac-catalyst
+            platform-name: Mac Catalyst
           # TODO: Remove this once macos-latest >= 11.
           - swift: '5.4'
             macos: '11'
@@ -50,7 +53,7 @@ jobs:
     - name: Clone
       uses: actions/checkout@v2
     - name: ${{ matrix.name || 'Build & Test' }}
-      uses: mxcl/xcodebuild@v1
+      uses: mxcl/xcodebuild@catalyst-driver-kit
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
