@@ -18,6 +18,7 @@ extension CCKDatabase {
   /// happen immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKRecordZone`](https://developer.apple.com/documentation/cloudkit/ckrecordzone), or an error if CombineCloudKit can't save it.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save)
   public func saveAtBackgroundPriority(
     recordZone: CKRecordZone
@@ -68,6 +69,7 @@ extension CCKDatabase {
   /// to happen immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKRecordZone.ID`](https://developer.apple.com/documentation/cloudkit/ckrecordzone/id), or an error if CombineCloudKit can't save it.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete)
   public func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
@@ -146,6 +148,7 @@ extension CCKDatabase {
   /// zone immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
   /// [`CKRecordZone`](https://developer.apple.com/documentation/cloudkit/ckrecordzone), or an error if CombineCloudKit can't fetch it.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch)
   public func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID

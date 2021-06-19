@@ -18,6 +18,7 @@ extension CCKDatabase {
   /// happen immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't save it.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
   public func saveAtBackgroundPriority(
     subscription: CKSubscription
@@ -146,6 +147,7 @@ extension CCKDatabase {
   /// subscription immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
   /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't fetch it.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   public func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
@@ -195,6 +197,7 @@ extension CCKDatabase {
   /// subscriptions immediately.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
   /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s, or an error if CombineCloudKit can't fetch them.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
   public func fetchAllSubscriptionsAtBackgroundPriority()
     -> AnyPublisher<CKSubscription, Error>

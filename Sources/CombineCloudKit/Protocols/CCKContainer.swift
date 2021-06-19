@@ -56,6 +56,7 @@ extension CCKContainer {
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits a single
   /// [`CKAccountStatus`](https://developer.apple.com/documentation/cloudkit/ckaccountstatus), or an error if
   /// CombineCloudKit is unable to determine the account status.
+  /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
   public func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
     publisherFrom(accountStatus)
