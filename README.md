@@ -104,10 +104,10 @@ Combine allows you to chain value processing [Publishers](https://developer.appl
 for one or more [Subscribers](https://developer.apple.com/documentation/combine/subscriber). Here, we perform a query on
 our [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase), then process the results
 asynchronously. As each [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord) is read from the
-database, it is passed to the [`map`](https://developer.apple.com/documentation/combine/publishers/merge/map(_:)-6v8fv)
+database, it is passed to the [`map`](https://developer.apple.com/documentation/combine/publishers/merge/map\(_:\)-6v8fv)
 publisher which publishes the value of the record's name field. Any errors in the chain so far can be handled in the
 catch publisher, which passes [`CKRecordValue`](https://developer.apple.com/documentation/cloudkit/ckrecordvalue) values
-along to our [`sink`](https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)) subscriber where the
+along to our [`sink`](https://developer.apple.com/documentation/combine/fail/sink\(receivevalue:\)) subscriber where the
 final values are processed.
 
 ```swift
@@ -134,13 +134,44 @@ func queryDueItems(database: CKDatabase, due: Date) {
 }
 ```
 
+### Cancellation
+
 Note that the [`Cancellable`](https://developer.apple.com/documentation/combine/cancellable) subscriber from
-[`sink`](https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)) will cancel the upstream publishers
+[`sink`](https://developer.apple.com/documentation/combine/fail/sink\(receivevalue:\)) will cancel the upstream publishers
 when it is deinitialized. Take care to ensure that your subscribers live long enough to process values. If a
 CombineCloudKit publisher is cancelled before it is finished emitting values, the underlying
 [`CKOperation`](https://developer.apple.com/documentation/cloudkit/ckoperation) will be cancelled. This may be desirable
 when performing a query and processing only the first few results. However, failing to wait for completion of a `save`,
 `delete`, or `modify` operation may result in undesirable cancellation.
+
+Note that because the `atBackgroundPriority` publishers are built on `CKDatabase` methods that do not provide means of
+cancellation, they will not respond to requests for cancellation. If you need the publishers to respond to requests for
+cooperative cancellation, please use the publishers that do not have `atBackgroundPriority` in their names. You can
+still specify
+[`QualityOfService.background`](https://developer.apple.com/documentation/foundation/qualityofservice/background)
+by passing in a
+[`CKOperation.Configuration`](https://developer.apple.com/documentation/cloudkit/ckoperation/configuration).
+
+### Sharing Publishers among Multiple Subscribers
+
+If two or more `Subscriber`s subscribe to the same CombineCloudKit `Publisher`, the operation will be queued twice.
+This may be surprising if you're new to Combine! Queueing the same database operation twice could be inefficient or
+potentially harmful. If you need to subscribe to a `Publisher` twice, use the
+[`share`](https://developer.apple.com/documentation/combine/publisher/share\(\)) and
+[`makeConnectable`](https://developer.apple.com/documentation/combine/publisher/makeconnectable\(\))
+operators. This will ensure the operation is queued only once.
+
+I considered making the `Publisher`s all conform to
+[`ConnectablePublisher`](https://developer.apple.com/documentation/combine/connectablepublisher)
+by default, but that would require all callers to call
+[`connect`](https://developer.apple.com/documentation/combine/connectablepublisher/connect\(\))
+explicitly or to use the
+[`autoconnect`](https://developer.apple.com/documentation/combine/connectablepublisher/autoconnect\(\))
+operator, even if they did not intend to share the `Publisher`.
+
+For more on this topic, please review:
+
+- [Controlling Publishing with Connectable Publishers](https://developer.apple.com/documentation/combine/controlling-publishing-with-connectable-publishers)
 
 ## 📘 Documentation
 
@@ -155,14 +186,14 @@ Hosted by [GitHub Pages](https://pages.github.com).
 
 To learn more about Combine and CloudKit, watch these videos from WWDC:
 
-* [Introducing Combine](https://developer.apple.com/videos/play/wwdc2019/722)
-* [Combine in Practice](https://developer.apple.com/videos/play/wwdc2019/721)
+- [Introducing Combine](https://developer.apple.com/videos/play/wwdc2019/722)
+- [Combine in Practice](https://developer.apple.com/videos/play/wwdc2019/721)
 
 ...or review Apple's documentation:
 
-* [CloudKit Overview](https://developer.apple.com/icloud/cloudkit/)
-* [CloudKit Documentation](https://developer.apple.com/documentation/cloudkit)
-* [Combine Documentation](https://developer.apple.com/documentation/combine)
+- [CloudKit Overview](https://developer.apple.com/icloud/cloudkit/)
+- [CloudKit Documentation](https://developer.apple.com/documentation/cloudkit)
+- [Combine Documentation](https://developer.apple.com/documentation/combine)
 
 ## 📜 License
 
