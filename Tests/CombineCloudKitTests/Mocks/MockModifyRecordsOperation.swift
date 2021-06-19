@@ -49,6 +49,8 @@ public class MockModifyRecordsOperation:
 
   public var savePolicy = CKModifyRecordsOperation.RecordSavePolicy.ifServerRecordUnchanged
 
+  public var clientChangeTokenData: Data?
+
   public var perRecordProgressBlock: ((CKRecord, Double) -> Void)?
 
   public var perRecordCompletionBlock: ((CKRecord, Error?) -> Void)?

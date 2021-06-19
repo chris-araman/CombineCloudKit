@@ -17,15 +17,21 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func save(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<CKRecord, Error> {
-    save(records: [record], withConfiguration: configuration, savePolicy: savePolicy)
+    save(
+      records: [record],
+      withConfiguration: configuration,
+      savePolicy: savePolicy,
+      clientChangeTokenData: clientChangeTokenData)
   }
 
   /// Saves multiple records.
@@ -37,6 +43,7 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
@@ -44,14 +51,16 @@ extension CCKDatabase {
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<CKRecord, Error> {
     modify(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration,
-      savePolicy: savePolicy
+      savePolicy: savePolicy,
+      clientChangeTokenData: clientChangeTokenData
     ).compactMap { saved, _ in
       saved
     }.eraseToAnyPublisher()
@@ -80,15 +89,21 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func saveWithProgress(
     record: CKRecord,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<(CKRecord, Progress), Error> {
-    saveWithProgress(records: [record], withConfiguration: configuration, savePolicy: savePolicy)
+    saveWithProgress(
+      records: [record],
+      withConfiguration: configuration,
+      savePolicy: savePolicy,
+      clientChangeTokenData: clientChangeTokenData)
   }
 
   /// Saves multiple records.
@@ -100,6 +115,7 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
@@ -107,14 +123,16 @@ extension CCKDatabase {
     records: [CKRecord],
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<(CKRecord, Progress), Error> {
     modifyWithProgress(
       recordsToSave: records,
       recordIDsToDelete: nil,
       atomically: isAtomic,
       withConfiguration: configuration,
-      savePolicy: savePolicy
+      savePolicy: savePolicy,
+      clientChangeTokenData: clientChangeTokenData
     ).compactMap { progress, _ in
       progress
     }.eraseToAnyPublisher()
@@ -190,6 +208,7 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s and the deleted
   /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s.
@@ -199,14 +218,16 @@ extension CCKDatabase {
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<(CKRecord?, CKRecord.ID?), Error> {
     modifyWithProgress(
       recordsToSave: recordsToSave,
       recordIDsToDelete: recordIDsToDelete,
       atomically: isAtomic,
       withConfiguration: configuration,
-      savePolicy: savePolicy
+      savePolicy: savePolicy,
+      clientChangeTokenData: clientChangeTokenData
     ).compactMap { saved, deleted in
       if let deleted = deleted {
         return (nil, deleted)
@@ -233,6 +254,7 @@ extension CCKDatabase {
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
+  ///   - clientChangeTokenData: A token that tracks local changes to records.
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, and the deleted
   /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s.
@@ -242,7 +264,8 @@ extension CCKDatabase {
     recordIDsToDelete: [CKRecord.ID]? = nil,
     atomically isAtomic: Bool = true,
     withConfiguration configuration: CKOperation.Configuration? = nil,
-    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged
+    savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
+    clientChangeTokenData: Data? = nil
   ) -> AnyPublisher<((CKRecord, Progress)?, CKRecord.ID?), Error> {
     let subject = PassthroughSubject<((CKRecord, Progress)?, CKRecord.ID?), Error>()
     let operation = operationFactory.createModifyRecordsOperation(
@@ -252,6 +275,7 @@ extension CCKDatabase {
       operation.configuration = configuration
     }
     operation.savePolicy = savePolicy
+    operation.clientChangeTokenData = clientChangeTokenData
     operation.isAtomic = isAtomic
     operation.perRecordProgressBlock = { record, rawProgress in
       let progress = Progress(rawValue: rawProgress)
