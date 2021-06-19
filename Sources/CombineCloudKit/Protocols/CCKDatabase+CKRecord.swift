@@ -16,7 +16,8 @@ extension CCKDatabase {
   ///   - record: The record to save to the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func save(
     record: CKRecord,
@@ -33,7 +34,8 @@ extension CCKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func save(
     records: [CKRecord],
@@ -58,7 +60,8 @@ extension CCKDatabase {
   ///     the operation will use a default configuration.
   /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
   /// happen immediately.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save)
   public func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
     publisherAtBackgroundPriorityFrom(save, with: record)
@@ -70,7 +73,8 @@ extension CCKDatabase {
   ///   - record: The record to save to the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func saveWithProgress(
     record: CKRecord,
@@ -87,7 +91,8 @@ extension CCKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, or an error if CombineCloudKit can't save them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func saveWithProgress(
     records: [CKRecord],
@@ -110,7 +115,8 @@ extension CCKDatabase {
   ///   - recordID: The ID of the record to delete permanently from the database.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the deleted `CKRecord.ID`, or an error if CombineCloudKit can't delete
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id), or an error if CombineCloudKit can't delete
   /// it.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func delete(
@@ -128,7 +134,8 @@ extension CCKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the deleted `CKRecord.ID`s, or an error if CombineCloudKit can't delete
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s, or an error if CombineCloudKit can't delete
   /// them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func delete(
@@ -152,7 +159,8 @@ extension CCKDatabase {
   ///   - recordID: The ID of the record to delete permanently from the database.
   /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
   /// to happen immediately.
-  /// - Returns: A `Publisher` that emits the saved `CKRecord.ID`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
   public func deleteAtBackgroundPriority(recordID: CKRecord.ID)
     -> AnyPublisher<CKRecord.ID, Error>
@@ -169,7 +177,9 @@ extension CCKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that the saved `CKRecord`s and the deleted `CKRecord.ID`s.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s and the deleted
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func modify(
     recordsToSave: [CKRecord]? = nil,
@@ -207,7 +217,9 @@ extension CCKDatabase {
   ///     more records in a record zone.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `Progress` of the saved `CKRecord`s, and the deleted `CKRecord.ID`s.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the saved
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, and the deleted
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func modifyWithProgress(
     recordsToSave: [CKRecord]? = nil,
@@ -271,7 +283,8 @@ extension CCKDatabase {
   ///     the record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the fetched `CKRecord`, or an error if CombineCloudKit can't fetch it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the fetched
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public func fetch(
     recordID: CKRecord.ID,
@@ -291,7 +304,8 @@ extension CCKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the fetched `CKRecord`s, or an error if CombineCloudKit can't fetch them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the fetched
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public func fetch(
     recordIDs: [CKRecord.ID],
@@ -313,7 +327,8 @@ extension CCKDatabase {
   ///   - recordID: The record ID of the record to fetch.
   /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the record
   /// immediately.
-  /// - Returns: A `Publisher` that emits the `CKRecord`, or an error if CombineCloudKit can't fetch it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch)
   public func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
@@ -331,7 +346,8 @@ extension CCKDatabase {
   ///     the record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits `Progress` and the fetched `CKRecord` on completion, or an error if
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits ``Progress`` and the fetched
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord) on completion, or an error if
   ///   CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public func fetchWithProgress(
@@ -356,7 +372,9 @@ extension CCKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `Progress` of the fetched `CKRecord.ID`s and the fetched `CKRecord`s, or an error if
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the ``Progress`` of the fetched
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s and the fetched
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if
   ///   CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchRecordsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation)
   public func fetchWithProgress(
@@ -410,8 +428,11 @@ extension CCKDatabase {
   ///     the record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `CKRecord`, or an error if CombineCloudKit can't fetch it.
-  /// - SeeAlso: [fetchCurrentUserRecordOperation](https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation/1476070-fetchcurrentuserrecordoperation)
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't fetch it.
+  /// - SeeAlso:
+  /// [fetchCurrentUserRecordOperation]
+  /// (https://developer.apple.com/documentation/cloudkit/ckfetchrecordsoperation/1476070-fetchcurrentuserrecordoperation)
   public func fetchCurrentUserRecord(
     desiredKeys _: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
@@ -437,7 +458,8 @@ extension CCKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits any matching `CKRecord`s, or an error if CombineCloudKit can't perform the query.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits any matching
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't perform the query.
   /// - SeeAlso: [CKQuery](https://developer.apple.com/documentation/cloudkit/ckquery)
   /// - SeeAlso: [CKQueryOperation](https://developer.apple.com/documentation/cloudkit/ckqueryoperation)
   /// - SeeAlso: [NSPredicate](https://developer.apple.com/documentation/foundation/nspredicate)
@@ -473,7 +495,8 @@ extension CCKDatabase {
   ///     a record’s keys.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits any matching `CKRecord`s, or an error if CombineCloudKit can't perform the query.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits any matching
+  /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't perform the query.
   /// - SeeAlso: [CKQuery](https://developer.apple.com/documentation/cloudkit/ckquery)
   /// - SeeAlso: [CKQueryOperation](https://developer.apple.com/documentation/cloudkit/ckqueryoperation)
   /// - SeeAlso: [NSPredicate](https://developer.apple.com/documentation/foundation/nspredicate)

@@ -16,7 +16,8 @@ extension CCKDatabase {
   ///   - subscription: The subscription to save.
   /// - Note: CombineCloudKit executes the save with a low priority. Use this method when you don’t require the save to
   /// happen immediately.
-  /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
   public func saveAtBackgroundPriority(
     subscription: CKSubscription
@@ -30,7 +31,8 @@ extension CCKDatabase {
   ///   - subscription: The subscription to save.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKSubscription`, or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't save it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public func save(
     subscription: CKSubscription,
@@ -45,7 +47,8 @@ extension CCKDatabase {
   ///   - subscriptions: The subscriptions to save.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKSubscription`s, or an error if CombineCloudKit can't save them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public func save(
     subscriptions: [CKSubscription],
@@ -63,7 +66,8 @@ extension CCKDatabase {
   ///   - subscriptionID: The ID of the subscription to delete.
   /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
   /// to happen immediately.
-  /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKSubscription.ID`](https://developer.apple.com/documentation/cloudkit/cksubscription/id), or an error if CombineCloudKit can't delete it.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
   public func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
@@ -77,7 +81,8 @@ extension CCKDatabase {
   ///   - subscriptionID: The ID of the subscription to delete.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`, or an error if CombineCloudKit can't delete
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKSubscription.ID`](https://developer.apple.com/documentation/cloudkit/cksubscription/id), or an error if CombineCloudKit can't delete
   /// it.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public func delete(
@@ -93,7 +98,8 @@ extension CCKDatabase {
   ///   - subscriptionIDs: The IDs of the subscriptions to delete.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the deleted `CKSubscriptionID`s, or an error if CombineCloudKit can't delete
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKSubscription.ID`](https://developer.apple.com/documentation/cloudkit/cksubscription/id)s, or an error if CombineCloudKit can't delete
   /// them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public func delete(
@@ -113,7 +119,9 @@ extension CCKDatabase {
   ///   - subscriptionsToDelete: The IDs of the subscriptions to delete.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the saved `CKSubscription`s and the deleted `CKRecordZone.ID`s, or an
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s and the deleted
+  /// [`CKSubscription.ID`](https://developer.apple.com/documentation/cloudkit/cksubscription/id)s, or an
   ///   error if CombineCloudKit can't modify them.
   /// - SeeAlso: [`CKModifySubscriptionsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifysubscriptionsoperation)
   public func modify(
@@ -136,7 +144,8 @@ extension CCKDatabase {
   ///   - subscriptionID: The ID of the subscription to fetch.
   /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
   /// subscription immediately.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   public func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
@@ -150,7 +159,8 @@ extension CCKDatabase {
   ///   - subscriptionID: The ID of the subscription to fetch.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`, or an error if CombineCloudKit can't fetch it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription), or an error if CombineCloudKit can't fetch it.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
   public func fetch(
     subscriptionID: CKSubscription.ID,
@@ -165,7 +175,8 @@ extension CCKDatabase {
   ///   - subscriptionIDs: The IDs of the subscriptions to fetch.
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [CKFetchSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation)
   public func fetch(
     subscriptionIDs: [CKSubscription.ID],
@@ -182,7 +193,8 @@ extension CCKDatabase {
   ///
   /// - Note: CombineCloudKit executes the fetch with a low priority. Use this method when you don’t require the
   /// subscriptions immediately.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s, or an error if CombineCloudKit can't fetch them.
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
   public func fetchAllSubscriptionsAtBackgroundPriority()
     -> AnyPublisher<CKSubscription, Error>
@@ -195,8 +207,11 @@ extension CCKDatabase {
   /// - Parameters:
   ///   - configuration: The configuration to use for the underlying operation. If you don't specify a configuration,
   ///     the operation will use a default configuration.
-  /// - Returns: A `Publisher` that emits the `CKSubscription`s, or an error if CombineCloudKit can't fetch them.
-  /// - SeeAlso: [fetchAllSubscriptionsOperation](https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation/1515282-fetchallsubscriptionsoperation)
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the
+  /// [`CKSubscription`](https://developer.apple.com/documentation/cloudkit/cksubscription)s, or an error if CombineCloudKit can't fetch them.
+  /// - SeeAlso:
+  /// [fetchAllSubscriptionsOperation]
+  /// (https://developer.apple.com/documentation/cloudkit/ckfetchsubscriptionsoperation/1515282-fetchallsubscriptionsoperation)
   public func fetchAllSubscriptions(
     withConfiguration configuration: CKOperation.Configuration? = nil
   ) -> AnyPublisher<CKSubscription, Error> {

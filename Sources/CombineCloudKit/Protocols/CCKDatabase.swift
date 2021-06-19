@@ -9,64 +9,93 @@
 import CloudKit
 import Combine
 
-/// An extension that declares `CKDatabase` conforms to the `CCKDatabase` protocol provided by CombineCloudKit.
-/// - SeeAlso: [`CCKDatabase`](../Protocols/CCKDatabase.html)
-/// - SeeAlso: [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
+/// An extension that declares [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
+/// conforms to the ``CCKDatabase`` protocol provided by CombineCloudKit.
+///
+/// - SeeAlso: [`CloudKit`](https://developer.apple.com/documentation/cloudkit)
 /// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 extension CKDatabase: CCKDatabase {
 }
 
-/// A protocol used to abstract a `CKDatabase`. Invoke the extension methods on your `CKDatabase` instances in order to create `Publisher`s.
-/// - SeeAlso: [`CKDatabase`](../Extensions.html#/c:objc\(cs\)CKDatabase)
-/// - SeeAlso: [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
+/// A protocol used to abstract a [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase).
+///
+/// Invoke the extension methods on your
+/// [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
+/// instances in order to create [`Publishers`](https://developer.apple.com/documentation/combine/publishers).
+///
+/// - SeeAlso: [`CloudKit`](https://developer.apple.com/documentation/cloudkit)
 /// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 public protocol CCKDatabase {
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
   func delete(
     withRecordID recordID: CKRecord.ID, completionHandler: @escaping (CKRecord.ID?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete)
   func delete(
     withRecordZoneID zoneID: CKRecordZone.ID,
     completionHandler: @escaping (CKRecordZone.ID?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
   func delete(
     withSubscriptionID subscriptionID: CKSubscription.ID,
     completionHandler: @escaping (String?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch)
   func fetch(
     withRecordID recordID: CKRecord.ID, completionHandler: @escaping (CKRecord?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch)
   func fetch(
     withRecordZoneID zoneID: CKRecordZone.ID,
     completionHandler: @escaping (CKRecordZone?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   func fetch(
     withSubscriptionID subscriptionID: CKSubscription.ID,
     completionHandler: @escaping (CKSubscription?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetchAllRecordZones](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449112-fetchallrecordzones)
   func fetchAllRecordZones(completionHandler: @escaping ([CKRecordZone]?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449110-fetchallsubscriptions)
   func fetchAllSubscriptions(completionHandler: @escaping ([CKSubscription]?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [fetchAllSubscriptions](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449127-perform)
   func perform(
     _ query: CKQuery,
     inZoneWith zoneID: CKRecordZone.ID?,
     completionHandler: @escaping ([CKRecord]?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save)
   func save(_ record: CKRecord, completionHandler: @escaping (CKRecord?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save)
   func save(_ zone: CKRecordZone, completionHandler: @escaping (CKRecordZone?, Error?) -> Void)
 
+  /// Implemented by `CKDatabase`.
+  ///
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
   func save(
     _ subscription: CKSubscription, completionHandler: @escaping (CKSubscription?, Error?) -> Void)

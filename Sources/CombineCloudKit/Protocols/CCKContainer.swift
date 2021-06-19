@@ -9,18 +9,24 @@
 import CloudKit
 import Combine
 
-/// An extension that declares `CKContainer` conforms to the `CCKContainer` protocol provided by CombineCloudKit.
-/// - SeeAlso: [`CCKContainer`](../Protocols/CCKContainer.html)
-/// - SeeAlso: [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
-/// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
+/// An extension that declares [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
+/// conforms to the ``CCKContainer`` protocol provided by CombineCloudKit.
+///
+/// - SeeAlso:[`CloudKit`](https://developer.apple.com/documentation/cloudkit)
+/// - SeeAlso:[`Combine`](https://developer.apple.com/documentation/combine)
 extension CKContainer: CCKContainer {
 }
 
-/// A protocol used to abstract a `CKContainer`. Invoke the extension methods on your `CKContainer` instances in order to create `Publisher`s.
-/// - SeeAlso: [`CKContainer`](../Extensions.html#/c:objc\(cs\)CKContainer)
-/// - SeeAlso: [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
+/// A protocol used to abstract a [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer).
+///
+/// Invoke the extension methods on your [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
+/// instances in order to create [`Publishers`](https://developer.apple.com/documentation/combine/publishers).
+///
+/// - SeeAlso: [`CloudKit`](https://developer.apple.com/documentation/cloudkit)
 /// - SeeAlso: [`Combine`](https://developer.apple.com/documentation/combine)
 public protocol CCKContainer {
+  /// Implemented by `CKContainer`.
+  ///
   /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
   func accountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void)
 }
@@ -46,9 +52,10 @@ extension CCKContainer {
   }
 
   /// Determines whether the system can access the user’s iCloud account.
-  ///
-  /// - Returns: A `Publisher` that emits a single `CKAccountStatus`, or an error if CombineCloudKit is unable to
-  /// determine the account status.
+  /// 
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits a single
+  /// [`CKAccountStatus`](https://developer.apple.com/documentation/cloudkit/ckaccountstatus), or an error if
+  /// CombineCloudKit is unable to determine the account status.
   /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
   public func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
     publisherFrom(accountStatus)
