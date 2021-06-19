@@ -1,18 +1,9 @@
 #!/bin/bash -e
 
-bundle install
+# Clean docs
+rm -rf docs/CombineCloudKit.doccarchive/
 
-jazzy \
-  --author 'Chris Araman' \
-  --author_url https://github.com/chris-araman \
-  --clean \
-  --github_url https://github.com/chris-araman/CombineCloudKit \
-  --github-file-prefix https://github.com/chris-araman/CombineCloudKit/tree/"$(git describe --abbrev=0 --tags)" \
-  --module CombineCloudKit \
-  --module-version "$(git describe --abbrev=0 --tags)" \
-  --output docs \
-  --theme fullwidth
-
-# Restore GitHub Pages CNAME file
-# https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages#cname-errors
-git checkout -- docs/CNAME
+# Build documentation using Xcode 13's DocC
+# https://developer.apple.com/documentation/docc
+xcodebuild docbuild -scheme CombineCloudKit -destination 'platform=macOS,arch=arm64' -derivedDataPath .build/docs/ -quiet
+ditto .build/docs/Build/Products/Debug/CombineCloudKit.doccarchive/ docs/CombineCloudKit.doccarchive/
