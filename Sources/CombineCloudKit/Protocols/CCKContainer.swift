@@ -52,7 +52,7 @@ extension CCKContainer {
   }
 
   /// Determines whether the system can access the user’s iCloud account.
-  /// 
+  ///
   /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits a single
   /// [`CKAccountStatus`](https://developer.apple.com/documentation/cloudkit/ckaccountstatus), or an error if
   /// CombineCloudKit is unable to determine the account status.
