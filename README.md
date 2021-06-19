@@ -179,7 +179,7 @@ For more on this topic, please review:
 
 ## 📘 Documentation
 
-💯% [documented](https://combinecloudkit.hiddenplace.dev) using [Jazzy](https://github.com/realm/jazzy).
+💯% [documented](https://combinecloudkit.hiddenplace.dev) using [DocC](https://developer.apple.com/documentation/docc).
 Hosted by [GitHub Pages](https://pages.github.com).
 
 ## ❤️ Contributing

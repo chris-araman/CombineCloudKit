@@ -66,10 +66,12 @@ script/lint
 
 ### 📘 Documentation
 
-CombineCloudKit is 💯% [documented](https://combinecloudkit.hiddenplace.dev). Please include documentation for any new
+CombineCloudKit is 💯% [documented](https://combinecloudkit.hiddenplace.dev) using
+[DocC](https://developer.apple.com/documentation/docc). Please include documentation for any new
 public types or functions using
-[markup](https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_markup_formatting_ref/) with
-appropriate [syntax](https://github.com/apple/swift/blob/main/docs/DocumentationComments.md).
+[markup](https://developer.apple.com/documentation/Xcode/writing-symbol-documentation-in-your-source-files)
+with appropriate
+[formatting](https://developer.apple.com/documentation/Xcode/formatting-your-documentation-content).
 
 Generate new documentation pages:
 
