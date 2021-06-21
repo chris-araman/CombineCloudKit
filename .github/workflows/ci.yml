@@ -55,7 +55,7 @@ jobs:
     - name: Clone
       uses: actions/checkout@v2
     - name: ${{ matrix.name || 'Build & Test' }}
-      uses: mxcl/xcodebuild@0fdf692470bb67ae91616eaf09f787cf0fbca3a9
+      uses: mxcl/xcodebuild@catalyst-driver-kit
       with:
         action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
