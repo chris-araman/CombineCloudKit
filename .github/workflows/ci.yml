@@ -44,6 +44,8 @@ jobs:
           - swift: '5.5'
             platform: mac-catalyst
             platform-name: Mac Catalyst
+            action: build
+            name: Build
             # TODO: Remove this once macos-latest >= 11.
             macos: '11'
           # TODO: Remove this once macos-latest >= 11.
