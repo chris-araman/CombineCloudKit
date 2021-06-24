@@ -20,113 +20,113 @@
     func testDeleteRecordFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let delete = database.delete(recordID: record.recordID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testDeleteRecordZoneFailsWhenDoesNotExist() throws {
       let zone = CKRecordZone(zoneName: "Test")
       let delete = database.delete(recordZoneID: zone.zoneID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testDeleteSubscriptionFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
       let delete = database.delete(subscriptionID: subscription.subscriptionID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testDeleteRecordAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let delete = database.deleteAtBackgroundPriority(recordID: record.recordID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testDeleteRecordZoneAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let zone = CKRecordZone(zoneName: "Test")
       let delete = database.deleteAtBackgroundPriority(recordZoneID: zone.zoneID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testDeleteSubscriptionAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
       let delete = database.deleteAtBackgroundPriority(subscriptionID: subscription.subscriptionID)
-      XCTAssertThrowsError(try wait(for: \.single, from: delete))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: delete))
     }
 
     func testFetchRecordFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let fetch = database.fetch(recordID: record.recordID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchRecordWithProgressFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let fetch = database.fetchWithProgress(recordID: record.recordID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchRecordZoneFailsWhenDoesNotExist() throws {
       let zone = CKRecordZone(zoneName: "Test")
       let fetch = database.fetch(recordZoneID: zone.zoneID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchSubscriptionFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
       let fetch = database.fetch(subscriptionID: subscription.subscriptionID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchRecordAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let record = CKRecord(recordType: "Test")
       let fetch = database.fetchAtBackgroundPriority(withRecordID: record.recordID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchRecordZoneAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let zone = CKRecordZone(zoneName: "Test")
       let fetch = database.fetchAtBackgroundPriority(withRecordZoneID: zone.zoneID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchSubscriptionAtBackgroundPriorityFailsWhenDoesNotExist() throws {
       let subscription = CKDatabaseSubscription(subscriptionID: "Test")
       let fetch = database.fetchAtBackgroundPriority(
         withSubscriptionID: subscription.subscriptionID)
-      XCTAssertThrowsError(try wait(for: \.single, from: fetch))
+      XCTAssertThrowsError(try wait(for: { $0.single }, from: fetch))
     }
 
     func testFetchRecordsIncludesOnlyRequestedRecords() throws {
       let records = (1...3).map { CKRecord(recordType: "Test\($0)") }
       let save = database.save(records: records)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let fetch = database.fetch(recordIDs: [records[0].recordID, records[1].recordID])
-      let fetched = try wait(for: \.elements, from: fetch)
+      let fetched = try wait(for: { $0.elements }, from: fetch)
       XCTAssertEqual(Set(fetched), Set(records[0...1]))
     }
 
     func testFetchRecordZonesIncludesOnlyRequestedRecordZones() throws {
       let zones = (1...3).map { CKRecordZone(zoneName: "Test\($0)") }
       let save = database.save(recordZones: zones)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let fetch = database.fetch(recordZoneIDs: [zones[0].zoneID, zones[1].zoneID])
-      let fetched = try wait(for: \.elements, from: fetch)
+      let fetched = try wait(for: { $0.elements }, from: fetch)
       XCTAssertEqual(Set(fetched), Set(zones[0...1]))
     }
 
     func testFetchSubscriptionsIncludesOnlyRequestedSubscriptions() throws {
       let subscriptions = (1...3).map { CKDatabaseSubscription(subscriptionID: "Test\($0)") }
       let save = database.save(subscriptions: subscriptions)
-      let saved = try wait(for: \.elements, from: save)
+      let saved = try wait(for: { $0.elements }, from: save)
       XCTAssertEqual(Set(saved), Set(subscriptions[0...2]))
 
       let fetch = database.fetch(subscriptionIDs: [
         subscriptions[0].subscriptionID,
         subscriptions[1].subscriptionID,
       ])
-      let fetched = try wait(for: \.elements, from: fetch)
+      let fetched = try wait(for: { $0.elements }, from: fetch)
       XCTAssertEqual(Set(fetched), Set(subscriptions[0...1]))
     }
 
@@ -143,7 +143,7 @@
     func testSaveFetchAndDeleteRecordAtBackgroundPriority() throws {
       try validateSaveFetchAndDelete(
         { CKRecord(recordType: "Test") },
-        \.recordID,
+        { $0.recordID },
         database.saveAtBackgroundPriority,
         database.fetchAtBackgroundPriority,
         database.deleteAtBackgroundPriority)
@@ -162,14 +162,14 @@
       XCTAssertEqual(fetched.recordID, record.recordID)
 
       let delete = database.delete(recordID: saved.recordID, withConfiguration: configuration)
-      let deleted = try wait(for: \.single, from: delete)
+      let deleted = try wait(for: { $0.single }, from: delete)
       XCTAssertEqual(deleted, record.recordID)
     }
 
     func testSaveFetchAndDeleteRecordZone() throws {
       try validateSaveFetchAndDelete(
         { CKRecordZone(zoneName: "Test") },
-        \.zoneID,
+        { $0.zoneID },
         database.save,
         database.fetch,
         database.delete)
@@ -178,7 +178,7 @@
     func testSaveFetchAndDeleteRecordZoneAtBackgroundPriority() throws {
       try validateSaveFetchAndDelete(
         { CKRecordZone(zoneName: "Test") },
-        \.zoneID,
+        { $0.zoneID },
         database.saveAtBackgroundPriority,
         database.fetchAtBackgroundPriority,
         database.deleteAtBackgroundPriority)
@@ -187,7 +187,7 @@
     func testSaveFetchAndDeleteSubscription() throws {
       try validateSaveFetchAndDelete(
         { CKDatabaseSubscription(subscriptionID: "Test") },
-        \.subscriptionID,
+        { $0.subscriptionID },
         database.save,
         database.fetch,
         database.delete)
@@ -196,7 +196,7 @@
     func testSaveFetchAndDeleteSubscriptionAtBackgroundPriority() throws {
       try validateSaveFetchAndDelete(
         { CKDatabaseSubscription(subscriptionID: "Test") },
-        \.subscriptionID,
+        { $0.subscriptionID },
         database.saveAtBackgroundPriority,
         database.fetchAtBackgroundPriority,
         database.deleteAtBackgroundPriority)
@@ -222,7 +222,7 @@
       throws -> [T] where P: Publisher, T: Hashable, P.Output == (T, Progress)
     {
       var recordProgress: [T: Progress] = [:]
-      let elements = try wait(for: \.elements, from: publisher)
+      let elements = try wait(for: { $0.elements }, from: publisher)
       for (recordID, progress) in elements {
         if let latest = recordProgress[recordID] {
           XCTAssertGreaterThan(
@@ -245,7 +245,7 @@
     {
       var records: [CKRecord] = []
       var recordProgress: [CKRecord.ID: Progress] = [:]
-      let elements = try wait(for: \.elements, from: publisher)
+      let elements = try wait(for: { $0.elements }, from: publisher)
       for (update, record) in elements {
         guard let record = record else {
           let (recordID, progress) = try XCTUnwrap(update)
@@ -267,7 +267,7 @@
       }
 
       XCTAssertEqual(
-        Set(records.map(\.recordID)),
+        Set(records.map({ $0.recordID })),
         Set(recordProgress.keys),
         "Progress was reported for a different set of records than was output.")
 
@@ -301,15 +301,15 @@
       let item = create()
       let itemID = id(item)
       let save = save(item)
-      let saved = try wait(for: \.single, from: save)
+      let saved = try wait(for: { $0.single }, from: save)
       XCTAssertEqual(id(saved), itemID)
 
       let fetch = fetch(itemID)
-      let fetched = try wait(for: \.single, from: fetch)
+      let fetched = try wait(for: { $0.single }, from: fetch)
       XCTAssertEqual(id(fetched), itemID)
 
       let delete = delete(itemID)
-      let deleted = try wait(for: \.single, from: delete)
+      let deleted = try wait(for: { $0.single }, from: delete)
       XCTAssertEqual(deleted, itemID)
     }
 
@@ -334,13 +334,13 @@
       let userRecord = CKRecord(
         recordType: "CurrentUserRecord", recordID: MockOperationFactory.currentUserRecordID)
       let save = database.save(record: userRecord)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let configuration = CKOperation.Configuration()
       let desiredKeys = ["Key"]
       let fetch = database.fetchCurrentUserRecord(
         desiredKeys: desiredKeys, withConfiguration: configuration)
-      let fetched = try wait(for: \.single, from: fetch)
+      let fetched = try wait(for: { $0.single }, from: fetch)
       XCTAssertEqual(fetched, userRecord)
     }
 
@@ -368,25 +368,25 @@
     ) throws where T: Hashable {
       let configuration = CKOperation.Configuration()
       let save = save(items, configuration)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let fetch = fetch()
-      let fetched = try wait(for: \.elements, from: fetch)
+      let fetched = try wait(for: { $0.elements }, from: fetch)
       XCTAssertEqual(Set(fetched), Set(items))
     }
 
     func testQueryWithNoRecordsReturnsNoResults() throws {
       let query = database.performQuery(ofType: "Test")
-      let results = try wait(for: \.elements, from: query)
+      let results = try wait(for: { $0.elements }, from: query)
       XCTAssertEqual(Set(results), Set())
     }
 
     func testQueryWithNoMatchingRecordsReturnsNoResults() throws {
       let save = database.save(record: CKRecord(recordType: "Test"))
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let query = database.performQuery(ofType: "NonMatching")
-      let results = try wait(for: \.elements, from: query)
+      let results = try wait(for: { $0.elements }, from: query)
       XCTAssertEqual(Set(results), Set())
     }
 
@@ -396,11 +396,11 @@
         CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)"))
       }
       let save = database.save(records: records, withConfiguration: configuration)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       // MockQueryOperation returns every second record of matching type, sorted by ID.recordName.
       let query = database.performQuery(ofType: "Test", withConfiguration: configuration)
-      let results = try wait(for: \.elements, from: query)
+      let results = try wait(for: { $0.elements }, from: query)
       XCTAssertEqual(Set(results), Set(stride(from: 0, to: 9, by: 2).map { records[$0 + 1] }))
     }
 
@@ -486,7 +486,7 @@
         CKRecord(recordType: "Test", recordID: CKRecord.ID(recordName: "\($0)"))
       }
       let save = database.save(records: records)
-      try wait(for: \.finished, from: save)
+      try wait(for: { $0.finished }, from: save)
 
       // MockQueryOperation returns every second record of matching type, sorted by ID.recordName.
       let paginator = Paginator(testCase: self)

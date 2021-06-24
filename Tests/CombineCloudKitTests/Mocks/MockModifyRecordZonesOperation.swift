@@ -28,7 +28,7 @@ public class MockModifyRecordZonesOperation:
       database,
       space,
       { mockDatabase, operation in operation(&mockDatabase.recordZones) },
-      \.zoneID,
+      { $0.zoneID },
       recordZonesToSave,
       recordZoneIDsToDelete
     )

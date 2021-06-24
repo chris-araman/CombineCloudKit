@@ -16,8 +16,19 @@ let package = Package(
       targets: ["CombineCloudKit"]
     )
   ],
+  dependencies: [
+    // Test improvements for Xcode 13 beta.
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
+  ],
   targets: [
-    .target(name: "CombineCloudKit")
+    .target(name: "CombineCloudKit"),
+    .testTarget(
+      name: "CombineCloudKitTests",
+      dependencies: [
+        "CombineCloudKit",
+        "CombineExpectations",
+      ]
+    ),
   ],
   swiftLanguageVersions: [.v5]
 )
@@ -31,23 +42,6 @@ let package = Package(
   // Combine requires watchOS 6.
   package.platforms! += [
     .watchOS(.v6)
-  ]
-#endif
-
-// CombineCloudKitTests require Swift 5.2.
-#if swift(>=5.2)
-  package.dependencies += [
-    // Test improvements for Xcode 13 beta.
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
-  ]
-  package.targets += [
-    .testTarget(
-      name: "CombineCloudKitTests",
-      dependencies: [
-        "CombineCloudKit",
-        "CombineExpectations",
-      ]
-    )
   ]
 #endif
 

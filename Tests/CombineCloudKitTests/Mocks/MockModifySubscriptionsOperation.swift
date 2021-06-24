@@ -28,7 +28,7 @@ public class MockModifySubscriptionsOperation:
       database,
       space,
       { mockDatabase, operation in operation(&mockDatabase.subscriptions) },
-      \.subscriptionID,
+      { $0.subscriptionID },
       subscriptionsToSave,
       subscriptionIDsToDelete
     )

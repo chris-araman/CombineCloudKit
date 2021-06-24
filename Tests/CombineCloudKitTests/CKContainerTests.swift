@@ -18,7 +18,7 @@
   final class CKContainerTests: CombineCloudKitTests {
     func testAccountStatusIsAvailable() throws {
       let publisher = container.accountStatus()
-      let status = try wait(for: \.single, from: publisher)
+      let status = try wait(for: { $0.single }, from: publisher)
       XCTAssertEqual(status, .available)
     }
   }
