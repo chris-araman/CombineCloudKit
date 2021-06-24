@@ -56,7 +56,6 @@ jobs:
         platform: ${{ matrix.platform }}
         swift: ~${{ matrix.swift }}
         code-coverage: true
-        quiet: false
         warnings-as-errors: true
     - name: Coverage
       if: ${{ matrix.action != 'build' }}
