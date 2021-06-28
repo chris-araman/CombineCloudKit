@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 
 /// An extension that declares [`CKContainer`](https://developer.apple.com/documentation/cloudkit/ckcontainer)
 /// conforms to the ``CCKContainer`` protocol provided by CombineCloudKit.
@@ -34,7 +35,7 @@ public protocol CCKContainer {
 extension CCKContainer {
   private func publisherFrom<Output>(
     _ method: @escaping (@escaping (Output, Error?) -> Void) -> Void
-  ) -> AnyPublisher<Output, Error> {
+  ) -> AnySinglePublisher<Output, Error> {
     Deferred {
       Future { promise in
         DispatchQueue.main.async {
@@ -48,7 +49,7 @@ extension CCKContainer {
           }
         }
       }
-    }.eraseToAnyPublisher()
+    }.eraseToAnySinglePublisher()
   }
 
   /// Determines whether the system can access the user’s iCloud account.
@@ -58,7 +59,7 @@ extension CCKContainer {
   /// CombineCloudKit is unable to determine the account status.
   /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`accountStatus`](https://developer.apple.com/documentation/cloudkit/ckcontainer/1399180-accountstatus)
-  public func accountStatus() -> AnyPublisher<CKAccountStatus, Error> {
+  public func accountStatus() -> AnySinglePublisher<CKAccountStatus, Error> {
     publisherFrom(accountStatus)
   }
 }

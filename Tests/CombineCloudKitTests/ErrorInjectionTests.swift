@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 import XCTest
 
 @testable import CombineCloudKit
@@ -83,9 +84,9 @@ class ErrorInjectionTests: CombineCloudKitTests {
   private func validateSaveFetchAndDelete<T, ID>(
     _ create: () -> T,
     _ id: (T) -> ID,
-    _ save: (CCKDatabase) -> ((T) -> AnyPublisher<T, Error>),
-    _ fetch: (CCKDatabase) -> ((ID) -> AnyPublisher<T, Error>),
-    _ delete: (CCKDatabase) -> ((ID) -> AnyPublisher<ID, Error>)
+    _ save: (CCKDatabase) -> ((T) -> AnySinglePublisher<T, Error>),
+    _ fetch: (CCKDatabase) -> ((ID) -> AnySinglePublisher<T, Error>),
+    _ delete: (CCKDatabase) -> ((ID) -> AnySinglePublisher<ID, Error>)
   ) throws where ID: Equatable {
     try verifyErrorPropagation { _, database in
       let item = create()

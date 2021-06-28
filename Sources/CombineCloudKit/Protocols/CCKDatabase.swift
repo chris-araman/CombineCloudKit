@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 
 /// An extension that declares [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase)
 /// conforms to the ``CCKDatabase`` protocol provided by CombineCloudKit.
@@ -116,7 +117,7 @@ extension CCKDatabase {
   func publisherAtBackgroundPriorityFrom<Input, Output>(
     _ method: @escaping (Input, @escaping (Output?, Error?) -> Void) -> Void,
     with input: Input
-  ) -> AnyPublisher<Output, Error> {
+  ) -> AnySinglePublisher<Output, Error> {
     Deferred {
       Future { promise in
         DispatchQueue.main.async {
@@ -130,7 +131,7 @@ extension CCKDatabase {
           }
         }
       }
-    }.eraseToAnyPublisher()
+    }.eraseToAnySinglePublisher()
   }
 
   func publisherFromFetch<Output, Ignored>(

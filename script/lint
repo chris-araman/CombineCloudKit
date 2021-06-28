@@ -17,8 +17,9 @@ markdownlint --config .markdownlint.json --fix .github .
 echo "  🧹 periphery"
 periphery scan --quiet
 
-echo "  🧹 pod"
-pod lib lint --silent CombineCloudKit.podspec
+# TODO: Uncomment this once CombineTraits has been released as a CocoaPod.
+# echo "  🧹 pod"
+# pod lib lint --silent CombineCloudKit.podspec
 
 echo "  🧹 prettier"
 prettier --loglevel warn --write .

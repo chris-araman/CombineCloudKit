@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 
 extension CCKDatabase {
   /// Saves a single record.
@@ -26,12 +27,14 @@ extension CCKDatabase {
     withConfiguration configuration: CKOperation.Configuration? = nil,
     savePolicy: CKModifyRecordsOperation.RecordSavePolicy = .ifServerRecordUnchanged,
     clientChangeTokenData: Data? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
+  ) -> AnySinglePublisher<CKRecord, Error> {
     save(
       records: [record],
       withConfiguration: configuration,
       savePolicy: savePolicy,
-      clientChangeTokenData: clientChangeTokenData)
+      clientChangeTokenData: clientChangeTokenData
+    )
+    .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Saves multiple records.
@@ -78,7 +81,7 @@ extension CCKDatabase {
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord), or an error if CombineCloudKit can't save it.
   /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449114-save)
-  public func saveAtBackgroundPriority(record: CKRecord) -> AnyPublisher<CKRecord, Error> {
+  public func saveAtBackgroundPriority(record: CKRecord) -> AnySinglePublisher<CKRecord, Error> {
     publisherAtBackgroundPriorityFrom(save, with: record)
   }
 
@@ -151,8 +154,9 @@ extension CCKDatabase {
   public func delete(
     recordID: CKRecord.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord.ID, Error> {
+  ) -> AnySinglePublisher<CKRecord.ID, Error> {
     delete(recordIDs: [recordID], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Deletes multiple records.
@@ -193,7 +197,7 @@ extension CCKDatabase {
   /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
   public func deleteAtBackgroundPriority(recordID: CKRecord.ID)
-    -> AnyPublisher<CKRecord.ID, Error>
+    -> AnySinglePublisher<CKRecord.ID, Error>
   {
     publisherAtBackgroundPriorityFrom(delete, with: recordID)
   }
@@ -332,8 +336,9 @@ extension CCKDatabase {
     recordID: CKRecord.ID,
     desiredKeys: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
+  ) -> AnySinglePublisher<CKRecord, Error> {
     fetch(recordIDs: [recordID], desiredKeys: desiredKeys, withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Fetches multiple records.
@@ -375,7 +380,7 @@ extension CCKDatabase {
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449126-fetch)
   public func fetchAtBackgroundPriority(
     withRecordID recordID: CKRecord.ID
-  ) -> AnyPublisher<CKRecord, Error> {
+  ) -> AnySinglePublisher<CKRecord, Error> {
     publisherAtBackgroundPriorityFrom(fetch, with: recordID)
   }
 
@@ -479,11 +484,11 @@ extension CCKDatabase {
   public func fetchCurrentUserRecord(
     desiredKeys _: [CKRecord.FieldKey]? = nil,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecord, Error> {
+  ) -> AnySinglePublisher<CKRecord, Error> {
     let operation = operationFactory.createFetchCurrentUserRecordOperation()
     return publisherFromFetch(operation, configuration) { completion in
       operation.fetchRecordsCompletionBlock = completion
-    }
+    }.assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Fetches records that match the specified query.
