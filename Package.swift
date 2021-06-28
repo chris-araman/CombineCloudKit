@@ -18,10 +18,16 @@ let package = Package(
   ],
   dependencies: [
     // https://github.com/groue/CombineExpectations/pull/17
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
+    .package(url: "https://github.com/groue/CombineTraits.git", .branch("main")),
   ],
   targets: [
-    .target(name: "CombineCloudKit"),
+    .target(
+      name: "CombineCloudKit",
+      dependencies: [
+        "CombineTraits",
+      ]
+    ),
     .testTarget(
       name: "CombineCloudKitTests",
       dependencies: [

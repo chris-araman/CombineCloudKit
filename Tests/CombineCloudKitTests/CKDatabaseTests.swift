@@ -11,6 +11,7 @@
   import CloudKit
   import Combine
   import CombineExpectations
+  import CombineTraits
   import XCTest
 
   @testable import CombineCloudKit
@@ -277,9 +278,9 @@
     private func validateSaveFetchAndDelete<T, ID>(
       _ create: () -> T,
       _ id: (T) -> ID,
-      _ save: (T, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
-      _ fetch: (ID, CKOperation.Configuration?) -> AnyPublisher<T, Error>,
-      _ delete: (ID, CKOperation.Configuration?) -> AnyPublisher<ID, Error>
+      _ save: (T, CKOperation.Configuration?) -> AnySinglePublisher<T, Error>,
+      _ fetch: (ID, CKOperation.Configuration?) -> AnySinglePublisher<T, Error>,
+      _ delete: (ID, CKOperation.Configuration?) -> AnySinglePublisher<ID, Error>
     ) throws where ID: Equatable {
       let configuration = CKOperation.Configuration()
       try validateSaveFetchAndDelete(
@@ -294,9 +295,9 @@
     private func validateSaveFetchAndDelete<T, ID>(
       _ create: () -> T,
       _ id: (T) -> ID,
-      _ save: (T) -> AnyPublisher<T, Error>,
-      _ fetch: (ID) -> AnyPublisher<T, Error>,
-      _ delete: (ID) -> AnyPublisher<ID, Error>
+      _ save: (T) -> AnySinglePublisher<T, Error>,
+      _ fetch: (ID) -> AnySinglePublisher<T, Error>,
+      _ delete: (ID) -> AnySinglePublisher<ID, Error>
     ) throws where ID: Equatable {
       let item = create()
       let itemID = id(item)
