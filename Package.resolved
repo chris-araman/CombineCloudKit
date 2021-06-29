@@ -12,10 +12,10 @@
       },
       {
         "package": "CombineTraits",
-        "repositoryURL": "https://github.com/groue/CombineTraits.git",
+        "repositoryURL": "https://github.com/chris-araman/CombineTraits.git",
         "state": {
-          "branch": "main",
-          "revision": "f974210caf0a577b8e7b24f89033e36639b60dd0",
+          "branch": "support",
+          "revision": "28c2c53f70d4af15f5fb17b39c27cd9189ab1694",
           "version": null
         }
       },

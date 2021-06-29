@@ -19,7 +19,8 @@ let package = Package(
   dependencies: [
     // https://github.com/groue/CombineExpectations/pull/17
     .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
-    .package(url: "https://github.com/groue/CombineTraits.git", .branch("main")),
+    // https://github.com/groue/CombineTraits/pull/5
+    .package(url: "https://github.com/chris-araman/CombineTraits.git", .branch("support")),
   ],
   targets: [
     .target(
