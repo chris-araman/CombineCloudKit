@@ -17,7 +17,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    // Test improvements for Xcode 13 beta.
+    // https://github.com/groue/CombineExpectations/pull/17
     .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
   ],
   targets: [
