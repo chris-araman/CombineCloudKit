@@ -1,6 +1,6 @@
 # ⛅️ CombineCloudKit
 
-Swift Combine extensions for asynchronous CloudKit record processing. Designed for simplicity.
+Swift Combine extensions for reactive CloudKit record processing. Designed for simplicity.
 
 [![Swift](https://img.shields.io/endpoint?label=swift&logo=swift&style=flat-square&url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fchris-araman%2FCombineCloudKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/chris-araman/CombineCloudKit)
 [![Platforms](https://img.shields.io/endpoint?label=platforms&logo=apple&style=flat-square&url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fchris-araman%2FCombineCloudKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/chris-araman/CombineCloudKit)
