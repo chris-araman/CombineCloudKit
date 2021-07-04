@@ -33,15 +33,12 @@ jobs:
           # XCTest for watchOS requires Swift 5.4.
           - swift: '5.1'
             platform: watchOS
-            action: build
             name: Build
           - swift: '5.2'
             platform: watchOS
-            action: build
             name: Build
           - swift: '5.3'
             platform: watchOS
-            action: build
             name: Build
           - swift: '5.5'
             platform: mac-catalyst
@@ -52,13 +49,12 @@ jobs:
     - name: ${{ matrix.name || 'Build & Test' }}
       uses: mxcl/xcodebuild@v1
       with:
-        action: ${{ matrix.action }}
         platform: ${{ matrix.platform }}
         swift: ~${{ matrix.swift }}
         code-coverage: true
         warnings-as-errors: true
     - name: Coverage
-      if: ${{ matrix.action != 'build' }}
+      if: ${{ matrix.name != 'Build' }}
       uses: codecov/codecov-action@v1
       with:
         flags: ${{ matrix.platform }},swift${{ matrix.swift }}
