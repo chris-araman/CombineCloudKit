@@ -25,9 +25,15 @@
       }
     #else
       // Integration tests with CloudKit
-      let container: CCKContainer = CKContainer(
-        identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
-      let database: CCKDatabase = container.privateCloudDatabase
+      let container: CCKContainer
+      let database: CCKDatabase
+      override init() {
+        let container = CKContainer(
+          identifier: "iCloud.dev.hiddenplace.CombineCloudKit.Tests")
+        self.container = container
+        self.database = container.privateCloudDatabase
+        super.init()
+      }
     #endif
 
     func wait<P, R>(
