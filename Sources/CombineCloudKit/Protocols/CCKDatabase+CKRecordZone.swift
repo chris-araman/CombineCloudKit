@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 
 extension CCKDatabase {
   /// Saves a single record zone.
@@ -22,7 +23,7 @@ extension CCKDatabase {
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449108-save)
   public func saveAtBackgroundPriority(
     recordZone: CKRecordZone
-  ) -> AnyPublisher<CKRecordZone, Error> {
+  ) -> AnySinglePublisher<CKRecordZone, Error> {
     publisherAtBackgroundPriorityFrom(save, with: recordZone)
   }
 
@@ -38,8 +39,9 @@ extension CCKDatabase {
   public func save(
     recordZone: CKRecordZone,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecordZone, Error> {
+  ) -> AnySinglePublisher<CKRecordZone, Error> {
     save(recordZones: [recordZone], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Saves multiple record zones.
@@ -73,7 +75,7 @@ extension CCKDatabase {
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete)
   public func deleteAtBackgroundPriority(
     recordZoneID: CKRecordZone.ID
-  ) -> AnyPublisher<CKRecordZone.ID, Error> {
+  ) -> AnySinglePublisher<CKRecordZone.ID, Error> {
     publisherAtBackgroundPriorityFrom(delete, with: recordZoneID)
   }
 
@@ -90,8 +92,9 @@ extension CCKDatabase {
   public func delete(
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecordZone.ID, Error> {
+  ) -> AnySinglePublisher<CKRecordZone.ID, Error> {
     delete(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Deletes multiple record zones.
@@ -152,7 +155,7 @@ extension CCKDatabase {
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449104-fetch)
   public func fetchAtBackgroundPriority(
     withRecordZoneID recordZoneID: CKRecordZone.ID
-  ) -> AnyPublisher<CKRecordZone, Error> {
+  ) -> AnySinglePublisher<CKRecordZone, Error> {
     publisherAtBackgroundPriorityFrom(fetch, with: recordZoneID)
   }
 
@@ -168,8 +171,9 @@ extension CCKDatabase {
   public func fetch(
     recordZoneID: CKRecordZone.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKRecordZone, Error> {
+  ) -> AnySinglePublisher<CKRecordZone, Error> {
     fetch(recordZoneIDs: [recordZoneID], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Fetches multiple record zones.

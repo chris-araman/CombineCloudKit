@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "CombineTraits",
+        "repositoryURL": "https://github.com/chris-araman/CombineTraits.git",
+        "state": {
+          "branch": "support",
+          "revision": "28c2c53f70d4af15f5fb17b39c27cd9189ab1694",
+          "version": null
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
         "state": {

@@ -8,6 +8,7 @@
 
 import CloudKit
 import Combine
+import CombineTraits
 
 extension CCKDatabase {
   /// Saves a single subscription.
@@ -22,7 +23,7 @@ extension CCKDatabase {
   /// - SeeAlso: [`save`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449102-save)
   public func saveAtBackgroundPriority(
     subscription: CKSubscription
-  ) -> AnyPublisher<CKSubscription, Error> {
+  ) -> AnySinglePublisher<CKSubscription, Error> {
     publisherAtBackgroundPriorityFrom(save, with: subscription)
   }
 
@@ -38,8 +39,9 @@ extension CCKDatabase {
   public func save(
     subscription: CKSubscription,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKSubscription, Error> {
+  ) -> AnySinglePublisher<CKSubscription, Error> {
     save(subscriptions: [subscription], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Saves multiple subscriptions.
@@ -72,7 +74,7 @@ extension CCKDatabase {
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003590-delete)
   public func deleteAtBackgroundPriority(
     subscriptionID: CKSubscription.ID
-  ) -> AnyPublisher<CKSubscription.ID, Error> {
+  ) -> AnySinglePublisher<CKSubscription.ID, Error> {
     publisherAtBackgroundPriorityFrom(delete, with: subscriptionID)
   }
 
@@ -89,8 +91,9 @@ extension CCKDatabase {
   public func delete(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKSubscription.ID, Error> {
+  ) -> AnySinglePublisher<CKSubscription.ID, Error> {
     delete(subscriptionIDs: [subscriptionID], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Deletes multiple subscriptions.
@@ -151,7 +154,7 @@ extension CCKDatabase {
   /// - SeeAlso: [fetch](https://developer.apple.com/documentation/cloudkit/ckdatabase/3003591-fetch)
   public func fetchAtBackgroundPriority(
     withSubscriptionID subscriptionID: CKSubscription.ID
-  ) -> AnyPublisher<CKSubscription, Error> {
+  ) -> AnySinglePublisher<CKSubscription, Error> {
     publisherAtBackgroundPriorityFrom(fetch, with: subscriptionID)
   }
 
@@ -167,8 +170,9 @@ extension CCKDatabase {
   public func fetch(
     subscriptionID: CKSubscription.ID,
     withConfiguration configuration: CKOperation.Configuration? = nil
-  ) -> AnyPublisher<CKSubscription, Error> {
+  ) -> AnySinglePublisher<CKSubscription, Error> {
     fetch(subscriptionIDs: [subscriptionID], withConfiguration: configuration)
+      .assertSingle().eraseToAnySinglePublisher()
   }
 
   /// Fetches multiple subscriptions.
