@@ -55,7 +55,7 @@ jobs:
         warnings-as-errors: true
     - name: Coverage
       if: ${{ matrix.name != 'Build' }}
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         flags: ${{ matrix.platform }},swift${{ matrix.swift }}
         token: ${{ secrets.CODECOV_TOKEN }}
