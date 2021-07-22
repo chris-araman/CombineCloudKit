@@ -68,13 +68,19 @@ jobs:
         swift: ~${{ matrix.swift }}
         code-coverage: true
         warnings-as-errors: true
+    - name: Prepare for Code Coverage
+      if: ${{ matrix.name != 'Build' }}
+      uses: sersoft-gmbh/xcode-coverage-action@v1
+      with:
+        output: ./.xcodecov
     - name: Coverage
       if: ${{ matrix.name != 'Build' }}
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         flags: ${{ matrix.platform }},swift${{ matrix.swift }}
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
+        directory: ./.xcodecov
   sanitize:
     name: ${{ matrix.name }} Sanitizer
     runs-on: macos-latest
