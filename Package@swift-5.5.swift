@@ -21,7 +21,9 @@ let package = Package(
   ],
   dependencies: [
     // https://github.com/groue/CombineExpectations/pull/17
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
+    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
+    // Used by script/lint. Assumes current Swift tools.
+    .package(url: "https://github.com/apple/swift-format.git", .branch("main")),
   ],
   targets: [
     .target(name: "CombineCloudKit"),
