@@ -80,7 +80,7 @@ jobs:
         flags: ${{ matrix.platform }},swift${{ matrix.swift }}
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
-        directory: ./.xcodecov
+        files: .xcodecov/CombineCloudKit.framework.coverage.txt,.xcodecov/CombineCloudKitTests.xctest.coverage.txt
   sanitize:
     name: ${{ matrix.name }} Sanitizer
     runs-on: macos-latest
