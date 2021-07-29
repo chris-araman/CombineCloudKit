@@ -70,9 +70,11 @@ jobs:
         warnings-as-errors: true
     - name: Prepare for Code Coverage
       if: ${{ matrix.name != 'Build' }}
-      uses: sersoft-gmbh/xcode-coverage-action@v1
+      uses: sersoft-gmbh/xcode-coverage-action@v2
       with:
-        output: ./.xcodecov
+        fail-on-empty-output: true
+        output: .xcodecov
+        target-name-filter: CombineCloudKit
     - name: Coverage
       if: ${{ matrix.name != 'Build' }}
       uses: codecov/codecov-action@v2
@@ -80,7 +82,7 @@ jobs:
         flags: ${{ matrix.platform }},swift${{ matrix.swift }}
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
-        files: .xcodecov/CombineCloudKit.framework.coverage.txt,.xcodecov/CombineCloudKitTests.xctest.coverage.txt
+        directory: .xcodecov
   sanitize:
     name: ${{ matrix.name }} Sanitizer
     runs-on: macos-latest
