@@ -7,7 +7,6 @@
 //
 
 import CloudKit
-import XCTest
 
 @testable import CombineCloudKit
 
