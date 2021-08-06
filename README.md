@@ -84,7 +84,7 @@ Because Carthage assumes dependencies are provided as shared frameworks, but Swi
 or executables, we have to generate an `.xcodeproj` for Carthage to use.
 
 > ⚠️ The `generate-xcodeproj` command has been deprecated. This solution may stop working in a future release of the Swift
-Package Manager.
+> Package Manager.
 
 ```bash
 carthage bootstrap --no-build
@@ -104,10 +104,10 @@ Combine allows you to chain value processing [Publishers](https://developer.appl
 for one or more [Subscribers](https://developer.apple.com/documentation/combine/subscriber). Here, we perform a query on
 our [`CKDatabase`](https://developer.apple.com/documentation/cloudkit/ckdatabase), then process the results
 asynchronously. As each [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord) is read from the
-database, it is passed to the [`map`](https://developer.apple.com/documentation/combine/publishers/merge/map\(_:\)-6v8fv)
+database, it is passed to the [`map`](<https://developer.apple.com/documentation/combine/publishers/merge/map(_:)-6v8fv>)
 publisher which publishes the value of the record's name field. Any errors in the chain so far can be handled in the
 catch publisher, which passes [`CKRecordValue`](https://developer.apple.com/documentation/cloudkit/ckrecordvalue) values
-along to our [`sink`](https://developer.apple.com/documentation/combine/fail/sink\(receivevalue:\)) subscriber where the
+along to our [`sink`](<https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)>) subscriber where the
 final values are processed.
 
 ```swift
@@ -141,7 +141,7 @@ subscribes to the `Publisher` and indicates
 [`Demand`](https://developer.apple.com/documentation/combine/subscribers/demand).
 
 Note that the [`Cancellable`](https://developer.apple.com/documentation/combine/cancellable) subscriber from
-[`sink`](https://developer.apple.com/documentation/combine/fail/sink\(receivevalue:\)) will cancel the upstream publishers
+[`sink`](<https://developer.apple.com/documentation/combine/fail/sink(receivevalue:)>) will cancel the upstream publishers
 when it is deinitialized. Take care to ensure that your subscribers live long enough to process values. If a
 CombineCloudKit publisher is cancelled before it is finished emitting values, the underlying
 [`CKOperation`](https://developer.apple.com/documentation/cloudkit/ckoperation) will be cancelled. This may be desirable
@@ -161,16 +161,16 @@ by passing in a
 If two or more `Subscriber`s subscribe to the same CombineCloudKit `Publisher`, the operation will be queued twice.
 This may be surprising if you're new to Combine! Queueing the same database operation twice could be inefficient or
 potentially harmful. If you need to subscribe to a `Publisher` twice, use the
-[`share`](https://developer.apple.com/documentation/combine/publisher/share\(\)) and
-[`makeConnectable`](https://developer.apple.com/documentation/combine/publisher/makeconnectable\(\))
+[`share`](<https://developer.apple.com/documentation/combine/publisher/share()>) and
+[`makeConnectable`](<https://developer.apple.com/documentation/combine/publisher/makeconnectable()>)
 operators. This will ensure the operation is queued only once.
 
 I considered making the `Publisher`s all conform to
 [`ConnectablePublisher`](https://developer.apple.com/documentation/combine/connectablepublisher)
 by default, but that would require all callers to call
-[`connect`](https://developer.apple.com/documentation/combine/connectablepublisher/connect\(\))
+[`connect`](<https://developer.apple.com/documentation/combine/connectablepublisher/connect()>)
 explicitly or to use the
-[`autoconnect`](https://developer.apple.com/documentation/combine/connectablepublisher/autoconnect\(\))
+[`autoconnect`](<https://developer.apple.com/documentation/combine/connectablepublisher/autoconnect()>)
 operator, even if they did not intend to share the `Publisher`.
 
 For more on this topic, please review:
