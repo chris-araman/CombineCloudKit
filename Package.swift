@@ -16,18 +16,11 @@ let package = Package(
       targets: ["CombineCloudKit"]
     )
   ],
-  dependencies: [
-    // https://github.com/groue/CombineExpectations/pull/17
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker"))
-  ],
   targets: [
     .target(name: "CombineCloudKit"),
     .testTarget(
       name: "CombineCloudKitTests",
-      dependencies: [
-        "CombineCloudKit",
-        "CombineExpectations",
-      ]
+      dependencies: ["CombineCloudKit"]
     ),
   ],
   swiftLanguageVersions: [.v5]

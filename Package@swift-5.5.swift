@@ -20,8 +20,6 @@ let package = Package(
     )
   ],
   dependencies: [
-    // https://github.com/groue/CombineExpectations/pull/17
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
     // Used by script/lint. Assumes current Swift tools.
     .package(url: "https://github.com/apple/swift-format.git", .branch("swift-5.5-branch")),
   ],
@@ -29,10 +27,7 @@ let package = Package(
     .target(name: "CombineCloudKit"),
     .testTarget(
       name: "CombineCloudKitTests",
-      dependencies: [
-        "CombineCloudKit",
-        "CombineExpectations",
-      ]
+      dependencies: ["CombineCloudKit"]
     ),
   ],
   swiftLanguageVersions: [.v5]

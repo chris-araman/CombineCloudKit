@@ -7,8 +7,6 @@
 //
 
 import CloudKit
-import Combine
-import CombineExpectations
 import XCTest
 
 @testable import CombineCloudKit
@@ -33,12 +31,4 @@ class CombineCloudKitTests: XCTestCase {
       super.init()
     }
   #endif
-
-  func wait<P, R>(
-    for selector: (Recorder<P.Output, P.Failure>) -> R,
-    from publisher: P,
-    timeout: TimeInterval = 1
-  ) throws -> R.Output where P: Publisher, R: PublisherExpectation {
-    try wait(for: selector(publisher.record()), timeout: timeout)
-  }
 }
