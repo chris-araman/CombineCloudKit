@@ -1,9 +1,9 @@
 name: Continuous Integration
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,17 +15,17 @@ jobs:
     # TODO: Use macos-latest once it is >= 11.
     runs-on: macos-11
     steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Cache Swift Dependencies
-      uses: actions/cache@v2
-      with:
-        path: .build
-        key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
-        restore-keys: |
-          spm-${{ runner.os }}-
-    - name: Lint
-      run: script/lint
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Cache Swift Dependencies
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+      - name: Lint
+        run: script/lint
   build-test:
     name: ${{ matrix.name || 'Build & Test' }} (Swift ${{ matrix.swift }}, ${{ matrix.platform-name || matrix.platform }})
     runs-on: macos-${{ matrix.macos || '11' }}
@@ -52,38 +52,38 @@ jobs:
             platform: mac-catalyst
             platform-name: Mac Catalyst
     steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Cache Swift Dependencies
-      uses: actions/cache@v2
-      with:
-        path: .build
-        key: spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-${{ hashFiles('Package.resolved') }}
-        restore-keys: |
-          spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-
-          spm-${{ runner.os }}-
-    - name: ${{ matrix.name || 'Build & Test' }}
-      uses: mxcl/xcodebuild@v1
-      with:
-        platform: ${{ matrix.platform }}
-        swift: ~${{ matrix.swift }}
-        code-coverage: true
-        warnings-as-errors: true
-    - name: Prepare for Code Coverage
-      if: ${{ matrix.name != 'Build' }}
-      uses: sersoft-gmbh/xcode-coverage-action@v2
-      with:
-        fail-on-empty-output: true
-        output: .xcodecov
-        target-name-filter: CombineCloudKit
-    - name: Coverage
-      if: ${{ matrix.name != 'Build' }}
-      uses: codecov/codecov-action@v2
-      with:
-        flags: ${{ matrix.platform }},swift${{ matrix.swift }}
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true
-        directory: .xcodecov
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Cache Swift Dependencies
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-
+            spm-${{ runner.os }}-
+      - name: ${{ matrix.name || 'Build & Test' }}
+        uses: mxcl/xcodebuild@v1
+        with:
+          platform: ${{ matrix.platform }}
+          swift: ~${{ matrix.swift }}
+          code-coverage: true
+          warnings-as-errors: true
+      - name: Prepare for Code Coverage
+        if: ${{ matrix.name != 'Build' }}
+        uses: sersoft-gmbh/xcode-coverage-action@v2
+        with:
+          fail-on-empty-output: true
+          output: .xcodecov
+          target-name-filter: CombineCloudKit
+      - name: Coverage
+        if: ${{ matrix.name != 'Build' }}
+        uses: codecov/codecov-action@v2
+        with:
+          flags: ${{ matrix.platform }},swift${{ matrix.swift }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          directory: .xcodecov
   sanitize:
     name: ${{ matrix.name }} Sanitizer
     runs-on: macos-latest
@@ -100,14 +100,14 @@ jobs:
           - sanitizer: undefined
             name: Undefined Behavior
     steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Cache Swift Dependencies
-      uses: actions/cache@v2
-      with:
-        path: .build
-        key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
-        restore-keys: |
-          spm-${{ runner.os }}-
-    - name: Sanitize
-      run: swift test --sanitize=${{ matrix.sanitizer }}
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Cache Swift Dependencies
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+      - name: Sanitize
+        run: swift test --sanitize=${{ matrix.sanitizer }}

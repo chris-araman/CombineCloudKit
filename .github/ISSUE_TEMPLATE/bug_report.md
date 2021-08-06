@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help improve CombineCloudKit
-title: ":bug: "
+title: ':bug: '
 labels: bug
 assignees: chris-araman
 ---
@@ -31,11 +31,13 @@ Please include sample code that reproduces the problem.
 ## Unexpected behavior
 
 A clear and concise description of what happened that you did not expect to happen.
+
 > CombineCloudKit does not return any `CKRecord` results. The assertion fails.
 
 ## Expected behavior
 
 A clear and concise description of what you expected to happen.
+
 > I expect to receive at least one `CKRecord` in `sink`.
 
 ## Environment

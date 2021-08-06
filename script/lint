@@ -20,6 +20,9 @@ periphery scan --quiet
 echo "  🧹 pod"
 pod lib lint --silent CombineCloudKit.podspec
 
+echo "  🧹 prettier"
+prettier --loglevel warn --write .
+
 echo "  🧹 shellcheck"
 shellcheck --shell=bash script/*
 

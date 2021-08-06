@@ -1,4 +1,5 @@
 brew "markdownlint-cli"
+brew "prettier"
 brew "shellcheck"
 brew "shfmt"
 tap "peripheryapp/periphery"

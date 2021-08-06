@@ -24,11 +24,11 @@ Pull requests are preferred over bug reports and feature requests. ✨
 Submit [pull requests](https://github.com/chris-araman/CombineCloudKit/compare) from your fork of the repository. I may
 suggest some changes or improvements or alternatives. To increase the chance that your pull request is accepted:
 
-* Ensure your changes build, test, and lint successfully.
-* Document any new public types or functions and include the generated documentation with your changes.
-* Write tests for any new functionality and backfill tests to improve code coverage.
-* Write clear, concise commit messages.
-* Follow the surrounding code style.
+- Ensure your changes build, test, and lint successfully.
+- Document any new public types or functions and include the generated documentation with your changes.
+- Write tests for any new functionality and backfill tests to improve code coverage.
+- Write clear, concise commit messages.
+- Follow the surrounding code style.
 
 ### 🛠 Building CombineCloudKit
 
@@ -45,7 +45,7 @@ Unit testing is accomplished using mock CloudKit types.
 [![Coverage](https://img.shields.io/codecov/c/github/chris-araman/CombineCloudKit/main?style=flat-square&color=informational)](https://app.codecov.io/gh/chris-araman/CombineCloudKit/)
 
 > 🚧 Integration testing against the CloudKit API and service will require app entitlements. Some work
-remains to wire this up automatically to `swift test`.
+> remains to wire this up automatically to `swift test`.
 
 Use the Swift Package Manager to test:
 
