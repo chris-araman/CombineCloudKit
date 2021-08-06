@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "CombineExpectations",
-        "repositoryURL": "https://github.com/groue/CombineExpectations.git",
-        "state": {
-          "branch": "linker",
-          "revision": "3e51ec8092153668cdd1cc1b92d119e04cc20e87",
-          "version": null
-        }
-      },
-      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
         "state": {
