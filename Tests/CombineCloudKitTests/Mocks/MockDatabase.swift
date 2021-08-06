@@ -7,7 +7,6 @@
 //
 
 import CloudKit
-import Foundation
 
 @testable import CombineCloudKit
 
