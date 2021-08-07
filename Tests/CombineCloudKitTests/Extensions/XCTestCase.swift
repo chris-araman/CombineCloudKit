@@ -42,7 +42,7 @@ extension XCTestCase {
 
   private func waitFor<P>(
     _ publisher: P,
-    _ timeout: TimeInterval = 1
+    _ timeout: TimeInterval
   ) throws -> Recorder<P> where P: Publisher {
     let recorder = Recorder(publisher)
     wait(for: [recorder.finished], timeout: timeout)
