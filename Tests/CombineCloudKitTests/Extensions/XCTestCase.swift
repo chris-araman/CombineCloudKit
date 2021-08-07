@@ -9,6 +9,10 @@
 import Combine
 import XCTest
 
+enum PublisherTestError: Error {
+  case unexpectedElementCount
+}
+
 extension XCTestCase {
   func waitForFinished<P>(
     from publisher: P,
@@ -30,7 +34,7 @@ extension XCTestCase {
   ) throws -> P.Output where P: Publisher {
     let elements = try waitFor(publisher, timeout).elements
     guard elements.count == 1 else {
-      throw RecorderError.UnexpectedElementCount
+      throw PublisherTestError.unexpectedElementCount
     }
 
     return elements[0]
