@@ -20,6 +20,7 @@ class Recorder<P>: Subscriber where P: Publisher {
   public let finished = XCTestExpectation()
 
   init(_ publisher: P) {
+    finished.assertForOverFulfill = true
     publisher.receive(subscriber: self)
   }
 
@@ -33,9 +34,8 @@ class Recorder<P>: Subscriber where P: Publisher {
   }
 
   func receive(_ input: Input) -> Subscribers.Demand {
-    guard completion == nil else {
+    if completion != nil {
       XCTFail("Element received after completion.")
-      return .unlimited
     }
 
     elements.append(input)
@@ -43,9 +43,8 @@ class Recorder<P>: Subscriber where P: Publisher {
   }
 
   func receive(completion: Subscribers.Completion<Failure>) {
-    guard self.completion == nil else {
+    if self.completion != nil {
       XCTFail("Another completion received after initial completion.")
-      return
     }
 
     self.completion = completion
