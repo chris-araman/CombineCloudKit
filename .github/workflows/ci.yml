@@ -17,13 +17,6 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-      - name: Cache Swift Dependencies
-        uses: actions/cache@v2
-        with:
-          path: .build
-          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            spm-${{ runner.os }}-
       - name: Lint
         run: script/lint
   build-test:
@@ -54,14 +47,6 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-      - name: Cache Swift Dependencies
-        uses: actions/cache@v2
-        with:
-          path: .build
-          key: spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            spm-${{ runner.os }}-swift${{ matrix.swift }}-${{ matrix.platform }}-
-            spm-${{ runner.os }}-
       - name: ${{ matrix.name || 'Build & Test' }}
         uses: mxcl/xcodebuild@v1
         with:
@@ -102,12 +87,5 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-      - name: Cache Swift Dependencies
-        uses: actions/cache@v2
-        with:
-          path: .build
-          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
-          restore-keys: |
-            spm-${{ runner.os }}-
       - name: Sanitize
         run: swift test --sanitize=${{ matrix.sanitizer }}
