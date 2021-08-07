@@ -14,31 +14,38 @@ extension XCTestCase {
     from publisher: P,
     timeout: TimeInterval = 1
   ) throws where P: Publisher {
-    let recorder = Recorder(publisher)
-    wait(for: [recorder.finished], timeout: timeout)
-    if case .failure(let error) = recorder.completion {
-      throw error
-    }
+    _ = try waitFor(publisher, timeout)
   }
 
   func waitForElements<P>(
     from publisher: P,
     timeout: TimeInterval = 1
   ) throws -> [P.Output] where P: Publisher {
-    let recorder = Recorder(publisher)
-    wait(for: [recorder.finished], timeout: timeout)
-    return recorder.elements
+    try waitFor(publisher, timeout).elements
   }
 
   func waitForSingle<P>(
     from publisher: P,
     timeout: TimeInterval = 1
   ) throws -> P.Output where P: Publisher {
-    let elements = try waitForElements(from: publisher, timeout: timeout)
+    let elements = try waitFor(publisher, timeout).elements
     guard elements.count == 1 else {
       throw RecorderError.UnexpectedElementCount
     }
 
     return elements[0]
+  }
+
+  private func waitFor<P>(
+    _ publisher: P,
+    _ timeout: TimeInterval = 1
+  ) throws -> Recorder<P> where P: Publisher {
+    let recorder = Recorder(publisher)
+    wait(for: [recorder.finished], timeout: timeout)
+    if case .failure(let error) = recorder.completion {
+      throw error
+    }
+
+    return recorder
   }
 }
