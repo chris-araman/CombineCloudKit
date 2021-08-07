@@ -9,10 +9,6 @@
 import Combine
 import XCTest
 
-enum RecorderError: Error {
-  case UnexpectedElementCount
-}
-
 class Recorder<P>: Subscriber where P: Publisher {
   typealias Input = P.Output
   typealias Failure = P.Failure
@@ -25,6 +21,10 @@ class Recorder<P>: Subscriber where P: Publisher {
 
   init(_ publisher: P) {
     publisher.receive(subscriber: self)
+  }
+
+  deinit {
+    subscription?.cancel()
   }
 
   func receive(subscription: Subscription) {
