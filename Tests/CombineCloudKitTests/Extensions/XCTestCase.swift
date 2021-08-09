@@ -44,8 +44,9 @@ extension XCTestCase {
     _ publisher: P,
     _ timeout: TimeInterval
   ) throws -> Recorder<P> where P: Publisher {
-    let recorder = Recorder(publisher)
-    wait(for: [recorder.finished], timeout: timeout)
+    let finished = expectation(description: "Publisher finished")
+    let recorder = Recorder(publisher, finished)
+    wait(for: [finished], timeout: timeout)
     if case .failure(let error) = recorder.completion {
       throw error
     }

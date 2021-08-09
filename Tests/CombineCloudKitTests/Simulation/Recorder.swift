@@ -17,10 +17,10 @@ class Recorder<P>: Subscriber where P: Publisher {
 
   public var elements = [Input]()
   public var completion: Subscribers.Completion<Failure>?
-  public let finished = XCTestExpectation()
+  public let finished: XCTestExpectation
 
-  init(_ publisher: P) {
-    finished.assertForOverFulfill = true
+  init(_ publisher: P, _ finished: XCTestExpectation) {
+    self.finished = finished
     publisher.receive(subscriber: self)
   }
 
