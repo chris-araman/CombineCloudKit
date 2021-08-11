@@ -7,50 +7,15 @@
 //
 
 import Combine
+import CombineExpectations
 import XCTest
 
-enum PublisherTestError: Error {
-  case unexpectedElementCount
-}
-
 extension XCTestCase {
-  func waitForFinished<P>(
+  func wait<P, R>(
+    for selector: (Recorder<P.Output, P.Failure>) -> R,
     from publisher: P,
     timeout: TimeInterval = 1
-  ) throws where P: Publisher {
-    _ = try waitFor(publisher, timeout)
-  }
-
-  func waitForElements<P>(
-    from publisher: P,
-    timeout: TimeInterval = 1
-  ) throws -> [P.Output] where P: Publisher {
-    try waitFor(publisher, timeout).elements
-  }
-
-  func waitForSingle<P>(
-    from publisher: P,
-    timeout: TimeInterval = 1
-  ) throws -> P.Output where P: Publisher {
-    let elements = try waitFor(publisher, timeout).elements
-    guard elements.count == 1 else {
-      throw PublisherTestError.unexpectedElementCount
-    }
-
-    return elements[0]
-  }
-
-  private func waitFor<P>(
-    _ publisher: P,
-    _ timeout: TimeInterval
-  ) throws -> Recorder<P> where P: Publisher {
-    let finished = expectation(description: "Publisher finished")
-    let recorder = Recorder(publisher, finished)
-    wait(for: [finished], timeout: timeout)
-    if case .failure(let error) = recorder.completion {
-      throw error
-    }
-
-    return recorder
+  ) throws -> R.Output where P: Publisher, R: PublisherExpectation {
+    try wait(for: selector(publisher.record()), timeout: timeout)
   }
 }

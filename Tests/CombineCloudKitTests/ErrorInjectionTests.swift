@@ -17,7 +17,7 @@ class ErrorInjectionTests: CombineCloudKitTests {
   func testAccountStatusPropagatesErrors() throws {
     try verifyErrorPropagation { container, _ in
       let publisher = container.accountStatus()
-      try waitForFinished(from: publisher)
+      try wait(for: { $0.finished }, from: publisher)
     }
   }
 
@@ -92,13 +92,13 @@ class ErrorInjectionTests: CombineCloudKitTests {
       let item = create()
       let itemID = id(item)
       let save = save(database)(item)
-      try waitForFinished(from: save)
+      try wait(for: { $0.finished }, from: save)
 
       let fetch = fetch(database)(itemID)
-      try waitForFinished(from: fetch)
+      try wait(for: { $0.finished }, from: fetch)
 
       let delete = delete(database)(itemID)
-      try waitForFinished(from: delete)
+      try wait(for: { $0.finished }, from: delete)
     }
   }
 
@@ -124,11 +124,11 @@ class ErrorInjectionTests: CombineCloudKitTests {
         let userRecord = CKRecord(
           recordType: "Test", recordID: MockOperationFactory.currentUserRecordID)
         let save = database.save(record: userRecord)
-        try waitForFinished(from: save)
+        try wait(for: { $0.finished }, from: save)
       },
       simulation: { _, database in
         let fetch = database.fetchCurrentUserRecord()
-        try waitForFinished(from: fetch)
+        try wait(for: { $0.finished }, from: fetch)
       }
     )
   }
@@ -157,11 +157,11 @@ class ErrorInjectionTests: CombineCloudKitTests {
     try verifyErrorPropagation(
       prepare: { _, database in
         let save = save(database)(items, nil)
-        try waitForFinished(from: save)
+        try wait(for: { $0.finished }, from: save)
       },
       simulation: { _, database in
         let fetch = fetch(database)()
-        try waitForFinished(from: fetch)
+        try wait(for: { $0.finished }, from: fetch)
       }
     )
   }
@@ -171,11 +171,11 @@ class ErrorInjectionTests: CombineCloudKitTests {
       prepare: { _, database in
         let record = CKRecord(recordType: "Test")
         let save = database.save(record: record)
-        try waitForFinished(from: save)
+        try wait(for: { $0.finished }, from: save)
       },
       simulation: { _, database in
         let query = database.performQuery(ofType: "Test")
-        try waitForFinished(from: query)
+        try wait(for: { $0.finished }, from: query)
       }
     )
   }

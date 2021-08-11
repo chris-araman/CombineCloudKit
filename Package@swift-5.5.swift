@@ -22,9 +22,7 @@ let package = Package(
   dependencies: [
     // Used by script/lint. Assumes current Swift tools.
     .package(url: "https://github.com/apple/swift-format.git", .branch("swift-5.5-branch")),
-    // TODO: Remove this package once both PRs have been accepted.
-    // https://github.com/groue/CombineExpectations/pull/17
-    .package(url: "https://github.com/groue/CombineExpectations.git", .branch("linker")),
+    .package(url: "https://github.com/groue/CombineExpectations.git", from: "0.10.0"),
     // https://github.com/groue/CombineTraits/pull/5
     .package(url: "https://github.com/chris-araman/CombineTraits.git", .branch("support")),
   ],
@@ -35,7 +33,7 @@ let package = Package(
     ),
     .testTarget(
       name: "CombineCloudKitTests",
-      dependencies: ["CombineCloudKit"]
+      dependencies: ["CombineCloudKit", "CombineExpectations"]
     ),
   ],
   swiftLanguageVersions: [.v5]

@@ -5,9 +5,9 @@
         "package": "CombineExpectations",
         "repositoryURL": "https://github.com/groue/CombineExpectations.git",
         "state": {
-          "branch": "linker",
-          "revision": "3e51ec8092153668cdd1cc1b92d119e04cc20e87",
-          "version": null
+          "branch": null,
+          "revision": "04d4e4b21c9e8361925f03f64a7ecda89ef9974f",
+          "version": "0.10.0"
         }
       },
       {
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/chris-araman/CombineTraits.git",
         "state": {
           "branch": "support",
-          "revision": "28c2c53f70d4af15f5fb17b39c27cd9189ab1694",
+          "revision": "e6412e5141b8edd8c47176e5006d3062aacfed05",
           "version": null
         }
       },
