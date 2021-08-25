@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "docc2html",
+        "repositoryURL": "https://github.com/DoccZz/docc2html.git",
+        "state": {
+          "branch": null,
+          "revision": "ee9a7e3f94f6f3ec273572062fa621bff6ad17ce",
+          "version": "0.5.0"
+        }
+      },
+      {
+        "package": "DocCArchive",
+        "repositoryURL": "https://github.com/DoccZz/DocCArchive.git",
+        "state": {
+          "branch": null,
+          "revision": "6b4c38228b389ba047725dee71dc71dbb2f776c7",
+          "version": "0.3.2"
+        }
+      },
+      {
+        "package": "mustache",
+        "repositoryURL": "https://github.com/AlwaysRightInstitute/mustache.git",
+        "state": {
+          "branch": null,
+          "revision": "880e0eeb5c42f088cbdb6fa6aa313fa41c15bca8",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
+          "version": "1.4.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

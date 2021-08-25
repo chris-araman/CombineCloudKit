@@ -2,10 +2,10 @@
 .DS_Store
 
 # Swift Package Manager
-/.build/
-/.swiftpm/
+.build/
+.swiftpm/
 /Packages
-/*.xcodeproj
+*.xcodeproj
 xcuserdata/
 
 # Xcode

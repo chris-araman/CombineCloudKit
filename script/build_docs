@@ -1,9 +1,18 @@
 #!/bin/bash -e
 
 # Clean docs
-rm -rf docs/CombineCloudKit.doccarchive/
+rm -rf docs/
 
 # Build documentation using Xcode 13's DocC
 # https://developer.apple.com/documentation/docc
 xcodebuild docbuild -scheme CombineCloudKit -destination 'platform=macOS,arch=arm64' -derivedDataPath .build/docs/ -quiet
-ditto .build/docs/Build/Products/Debug/CombineCloudKit.doccarchive/ docs/CombineCloudKit.doccarchive/
+
+# Flatten .doccarchive to static HTML/CSS/JS
+pushd script
+swift build --product docc2html >/dev/null
+swift run docc2html ../.build/docs/Build/Products/Debug/CombineCloudKit.doccarchive/ ../docs/
+popd
+
+# Write CNAME for GitHub Pages
+# https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages#using-a-subdomain-for-your-github-pages-site
+echo 'combinecloudkit.hiddenplace.dev' >docs/CNAME
