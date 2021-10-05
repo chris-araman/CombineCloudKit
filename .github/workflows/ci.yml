@@ -11,12 +11,16 @@ concurrency:
 jobs:
   lint:
     name: Lint
-    # CocoaPods requires Xcode 12.5, which is currently only available on macos-11, in order to validate watchOS tests.
     # TODO: Use macos-latest once it is >= 11.
     runs-on: macos-11
     steps:
       - name: Clone
         uses: actions/checkout@v2
+      - name: Select Current Swift
+        uses: mxcl/xcodebuild@v1
+        with:
+          action: none
+          swift: ^5
       - name: Lint
         run: script/lint
   build-test:
