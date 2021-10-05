@@ -37,10 +37,3 @@ let package = Package(
     .watchOS(.v6)
   ]
 #endif
-
-// Used by script/lint. Assumes current Swift tools.
-#if swift(>=5.4)
-  package.dependencies += [
-    .package(url: "https://github.com/apple/swift-format.git", .branch("swift-5.4-branch"))
-  ]
-#endif
