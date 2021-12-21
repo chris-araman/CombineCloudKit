@@ -199,6 +199,9 @@ To learn more about Combine and CloudKit, watch these videos from WWDC:
 - [CloudKit Documentation](https://developer.apple.com/documentation/cloudkit)
 - [Combine Documentation](https://developer.apple.com/documentation/combine)
 
+If you're looking for Swift concurrency extensions for CloudKit using `async`, `await`,
+and `AsyncSequence`, take a look at [AsyncCloudKit](https://github.com/chris-araman/AsyncCloudKit)!
+
 ## 📜 License
 
 CombineCloudKit was created by [Chris Araman](https://github.com/chris-araman). It is published under the
