@@ -192,7 +192,7 @@ extension CCKDatabase {
   func publisherFromModify<Output, OutputID>(
     _ operation: CCKDatabaseOperation,
     _ configuration: CKOperation.Configuration? = nil,
-    setCompletion: (@escaping ([Output]?, [OutputID]?, Error?) -> Void) -> Void
+    _ setCompletion: (@escaping ([Output]?, [OutputID]?, Error?) -> Void) -> Void
   ) -> AnyPublisher<(Output?, OutputID?), Error> {
     let subject = PassthroughSubject<(Output?, OutputID?), Error>()
     if configuration != nil {

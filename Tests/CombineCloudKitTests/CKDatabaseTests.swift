@@ -199,8 +199,8 @@ final class CKDatabaseTests: CombineCloudKitTests {
       database.deleteAtBackgroundPriority)
   }
 
-  private func validateSaveProgressOfSingleRecord<P, T>(from publisher: P)
-    throws -> T where P: Publisher, T: Hashable, P.Output == (T, Progress)
+  private func validateSaveProgressOfSingleRecord<P>(from publisher: P)
+    throws -> CKRecord where P: Publisher, P.Output == (CKRecord, Progress)
   {
     let records = try validateSaveProgress(from: publisher)
     XCTAssertEqual(records.count, 1)
@@ -502,7 +502,11 @@ final class CKDatabaseTests: CombineCloudKitTests {
     XCTAssertEqual(try paginator.next(0), [])
   }
 
-  func testQueryAfterCancellationReturnsNoRecords() {
+  func testQueryAfterCancellationReturnsNoRecords() throws {
+    let record = CKRecord(recordType: "Test")
+    let save = database.save(record: record)
+    try waitForFinished(from: save)
+
     let paginator = Paginator(testCase: self)
     let query = database.performQuery(ofType: "Test")
     query.receive(subscriber: paginator)

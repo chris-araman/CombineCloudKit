@@ -51,9 +51,7 @@ public class MockOperationFactory: OperationFactory {
 
   public func createModifyRecordsOperation(
     recordsToSave: [CKRecord]?, recordIDsToDelete: [CKRecord.ID]?
-  )
-    -> CCKModifyRecordsOperation
-  {
+  ) -> CCKModifyRecordsOperation {
     MockModifyRecordsOperation(database, space, recordsToSave, recordIDsToDelete)
   }
 
