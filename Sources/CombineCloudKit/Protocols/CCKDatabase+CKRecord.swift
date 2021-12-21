@@ -44,7 +44,7 @@ extension CCKDatabase {
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
   ///   - clientChangeTokenData: A token that tracks local changes to records.
-  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s, or an error if CombineCloudKit can't save them.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)
   public func save(
@@ -188,8 +188,8 @@ extension CCKDatabase {
   ///   - recordID: The ID of the record to delete permanently from the database.
   /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
   /// to happen immediately.
-  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
-  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id), or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id), or an error if CombineCloudKit can't delete it.
   /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449122-delete)
   public func deleteAtBackgroundPriority(recordID: CKRecord.ID)
@@ -209,7 +209,7 @@ extension CCKDatabase {
   ///     the operation will use a default configuration.
   ///   - savePolicy: The policy to apply when the server contains a newer version of a specific record.
   ///   - clientChangeTokenData: A token that tracks local changes to records.
-  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that the saved
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
   /// [`CKRecord`](https://developer.apple.com/documentation/cloudkit/ckrecord)s and the deleted
   /// [`CKRecord.ID`](https://developer.apple.com/documentation/cloudkit/ckrecord/id)s.
   /// - SeeAlso: [`CKModifyRecordsOperation`](https://developer.apple.com/documentation/cloudkit/ckmodifyrecordsoperation)

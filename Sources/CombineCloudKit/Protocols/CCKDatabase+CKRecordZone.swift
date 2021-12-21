@@ -67,8 +67,8 @@ extension CCKDatabase {
   ///   - recordZoneID: The ID of the record zone to delete.
   /// - Note: CombineCloudKit executes the delete with a low priority. Use this method when you don’t require the delete
   /// to happen immediately.
-  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the saved
-  /// [`CKRecordZone.ID`](https://developer.apple.com/documentation/cloudkit/ckrecordzone/id), or an error if CombineCloudKit can't save it.
+  /// - Returns: A [`Publisher`](https://developer.apple.com/documentation/combine/publisher) that emits the deleted
+  /// [`CKRecordZone.ID`](https://developer.apple.com/documentation/cloudkit/ckrecordzone/id), or an error if CombineCloudKit can't delete it.
   /// The publisher ignores requests for cooperative cancellation.
   /// - SeeAlso: [`delete`](https://developer.apple.com/documentation/cloudkit/ckdatabase/1449118-delete)
   public func deleteAtBackgroundPriority(
