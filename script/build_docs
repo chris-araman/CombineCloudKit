@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+bundle install
+
 jazzy \
   --author 'Chris Araman' \
   --author_url https://github.com/chris-araman \
