@@ -16,3 +16,6 @@ Brewfile.lock.json
 
 # Jazzy
 /docs/docsets/
+
+# Visual Studio Code
+/.vscode/
