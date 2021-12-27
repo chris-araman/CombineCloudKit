@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+bundle install
+
 echo "⚙️  Releasing CombineCloudKit CocoaPod..."
 
 pod trunk push CombineCloudKit.podspec
