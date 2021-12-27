@@ -16,7 +16,7 @@ public class MockDatabase: CCKDatabase {
 
   init(_ space: DecisionSpace? = nil) {
     self.space = space
-    self.queue = DispatchQueue(label: String(describing: type(of: self)), attributes: [.concurrent])
+    self.queue = DispatchQueue(label: String(describing: type(of: self)))
   }
 
   var records = [CKRecord.ID: CKRecord]()
@@ -26,7 +26,7 @@ public class MockDatabase: CCKDatabase {
   public func delete(
     withRecordID recordID: CKRecord.ID, completionHandler: @escaping (CKRecord.ID?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return
@@ -46,7 +46,7 @@ public class MockDatabase: CCKDatabase {
     withRecordZoneID zoneID: CKRecordZone.ID,
     completionHandler: @escaping (CKRecordZone.ID?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return
@@ -66,7 +66,7 @@ public class MockDatabase: CCKDatabase {
     withSubscriptionID subscriptionID: CKSubscription.ID,
     completionHandler: @escaping (String?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return
@@ -193,7 +193,7 @@ public class MockDatabase: CCKDatabase {
   public func save(
     _ record: CKRecord, completionHandler: @escaping (CKRecord?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return
@@ -207,7 +207,7 @@ public class MockDatabase: CCKDatabase {
   public func save(
     _ zone: CKRecordZone, completionHandler: @escaping (CKRecordZone?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return
@@ -221,7 +221,7 @@ public class MockDatabase: CCKDatabase {
   public func save(
     _ subscription: CKSubscription, completionHandler: @escaping (CKSubscription?, Error?) -> Void
   ) {
-    queue.async(flags: .barrier) {
+    queue.async {
       if let space = self.space, space.decide() {
         completionHandler(nil, MockError.simulated)
         return

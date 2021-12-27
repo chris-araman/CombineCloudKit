@@ -38,7 +38,7 @@ public class MockModifyOperation<T, ID>: MockDatabaseOperation where ID: Hashabl
   // TODO: Support atomicity.
   public override func start() {
     let completion = try! XCTUnwrap(self.modifyItemsCompletionBlock)
-    mockDatabase.queue.async(flags: .barrier) {
+    mockDatabase.queue.async {
       if let space = self.space, space.decide() {
         completion(nil, nil, MockError.simulated)
         return
