@@ -202,8 +202,10 @@ class ErrorInjectionTests: CombineCloudKitTests {
       // An error thrown here should have been injected or else the test has failed.
       do {
         try simulation(container, database)
-        XCTAssertFalse(
-          space.hasDecidedAffirmatively(), "Simulation was expected to fail with injected error.")
+        guard !space.hasDecidedAffirmatively() else {
+          XCTFail("Simulation was expected to fail with injected error.")
+          break
+        }
       } catch {
         guard let mockError = error as? MockError,
           case MockError.simulated = mockError,
