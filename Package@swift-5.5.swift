@@ -19,10 +19,6 @@ let package = Package(
       targets: ["CombineCloudKit"]
     )
   ],
-  dependencies: [
-    // Used by script/lint. Assumes current Swift tools.
-    .package(url: "https://github.com/apple/swift-format.git", .branch("swift-5.5-branch"))
-  ],
   targets: [
     .target(name: "CombineCloudKit"),
     .testTarget(

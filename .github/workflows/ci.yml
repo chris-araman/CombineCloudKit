@@ -16,11 +16,12 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-      - name: Select Latest Swift
+      - name: Select Swift for swift-format
         uses: mxcl/xcodebuild@v1
         with:
           action: none
-          swift: ^5
+          # Keep in sync with Homebrew's swift-format formula.
+          swift: ~5.5
       - name: Lint
         run: script/lint
   build-test:

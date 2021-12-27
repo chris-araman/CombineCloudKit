@@ -30,13 +30,12 @@ echo "  🧹 shfmt"
 shfmt -d -i 2 -l -w script/
 
 echo "  🧹 swift-format"
-swift build --product swift-format >/dev/null
 SOURCES=(
   Package*.swift
   Sources
   Tests
 )
-swift run --skip-build swift-format format --in-place --recursive "${SOURCES[@]}"
-swift run --skip-build swift-format lint --recursive "${SOURCES[@]}"
+swift format format --in-place --recursive "${SOURCES[@]}"
+swift format lint --recursive "${SOURCES[@]}"
 
 echo "✅ CombineCloudKit is free of lint!"
