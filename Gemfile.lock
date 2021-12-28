@@ -3,7 +3,7 @@ GEM
   specs:
     CFPropertyList (3.0.5)
       rexml
-    activesupport (6.1.4.2)
+    activesupport (6.1.4.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -77,7 +77,7 @@ GEM
       xcinvoke (~> 0.3.0)
     json (2.6.1)
     liferaft (0.0.6)
-    minitest (5.14.4)
+    minitest (5.15.0)
     molinillo (0.8.0)
     mustache (1.1.1)
     nanaimo (0.3.0)
@@ -87,7 +87,7 @@ GEM
     public_suffix (4.0.6)
     redcarpet (3.5.1)
     rexml (3.2.5)
-    rouge (3.26.1)
+    rouge (3.27.0)
     ruby-macho (2.5.1)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -105,12 +105,10 @@ GEM
       colored2 (~> 3.1)
       nanaimo (~> 0.3.0)
       rexml (~> 3.2.4)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.2)
 
 PLATFORMS
-  arm64-darwin-20
   arm64-darwin-21
-  x86_64-linux
 
 DEPENDENCIES
   cocoapods
