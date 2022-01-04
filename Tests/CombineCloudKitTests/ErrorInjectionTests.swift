@@ -86,7 +86,7 @@ class ErrorInjectionTests: CombineCloudKitTests {
     _ save: (CCKDatabase) -> ((T) -> AnyPublisher<T, Error>),
     _ fetch: (CCKDatabase) -> ((ID) -> AnyPublisher<T, Error>),
     _ delete: (CCKDatabase) -> ((ID) -> AnyPublisher<ID, Error>)
-  ) throws where ID: Equatable {
+  ) throws {
     try verifyErrorPropagation { _, database in
       let item = create()
       let itemID = id(item)
