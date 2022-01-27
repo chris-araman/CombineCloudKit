@@ -11,8 +11,7 @@ concurrency:
 jobs:
   lint:
     name: Lint
-    # TODO: Use macos-latest once it is >= 11.
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
       - name: Clone
         uses: actions/checkout@v2
@@ -26,7 +25,7 @@ jobs:
         run: script/lint
   build-test:
     name: ${{ matrix.name || 'Build & Test' }} (Swift ${{ matrix.swift }}, ${{ matrix.platform-name || matrix.platform }})
-    runs-on: macos-${{ matrix.macos || '11' }}
+    runs-on: ${{ matrix.macos || 'macos-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -35,7 +34,7 @@ jobs:
         include:
           # The macOS 11 environment no longer includes Swift 5.1.
           - swift: '5.1'
-            macos: '10.15'
+            macos: 'macos-10.15'
           # XCTest for watchOS requires Swift 5.4.
           - swift: '5.1'
             platform: watchOS
@@ -76,8 +75,7 @@ jobs:
           directory: .xcodecov
   sanitize:
     name: ${{ matrix.name }} Sanitizer
-    # TODO: Use macos-latest once it is >= 11.
-    runs-on: macos-11
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
