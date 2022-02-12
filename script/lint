@@ -24,10 +24,14 @@ echo "  🧹 prettier"
 prettier --loglevel warn --write .
 
 echo "  🧹 shellcheck"
-shellcheck --shell=bash script/*
+SCRIPTS=(
+  script/build_docs
+  script/lint
+)
+shellcheck --shell=bash "${SCRIPTS[@]}"
 
 echo "  🧹 shfmt"
-shfmt -d -i 2 -l -w script/
+shfmt -d -i 2 -l -w "${SCRIPTS[@]}"
 
 echo "  🧹 swift-format"
 SOURCES=(
