@@ -67,7 +67,7 @@ jobs:
           target-name-filter: CombineCloudKit
       - name: Coverage
         if: ${{ matrix.name != 'Build' }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           flags: ${{ matrix.platform }},swift${{ matrix.swift }}
           token: ${{ secrets.CODECOV_TOKEN }}
