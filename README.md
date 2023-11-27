@@ -14,6 +14,12 @@ CombineCloudKit exposes [CloudKit](https://developer.apple.com/documentation/clo
 [Combine](https://developer.apple.com/documentation/combine) publishers. Publishers can be used to process values over
 time, using Combine's declarative API.
 
+## ⚠️ Deprecated
+
+I am unfortunately unable to maintain this project moving forward. If you would like to fork and maintain it, please reach out.
+
+Please consider making use of the new async functionality in CloudKit and SwiftData.
+
 ## 📦 Adding CombineCloudKit to Your Project
 
 CombineCloudKit supports [Swift Package Manager](https://developer.apple.com/documentation/swift_packages),
